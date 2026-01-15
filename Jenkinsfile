@@ -1,7 +1,8 @@
 pipeline {
 
     // Indique que Jenkins peut utiliser n'importe quel agent disponible
-    agent any
+    // ⚠️ Si On veut forcer un agent Windows, on remplace `agent any` par : agent { label 'windows' }
+    agent { label 'windows' }
 
     // Variables d'environnement utilisables dans le pipeline
     environment {
@@ -42,19 +43,21 @@ pipeline {
                 // Construit l'image Docker à partir du Dockerfile
                 // -t : nom de l'image
                 // .  : contexte = dossier du projet
-                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
+                // NOTE: sur Windows, les variables d'agent Jenkins s'utilisent via %VAR%
+                bat 'docker build -t %IMAGE_NAME%:%IMAGE_TAG% .'
             }
         }
 
         stage('Docker Run - Lancer le conteneur') {
             steps {
                 // Supprime le conteneur s’il existe déjà (évite les conflits)
-                bat 'docker rm -f demo-app || exit 0'
+                // On ne veut pas faire échouer le job si le conteneur n'existe pas
+                bat 'docker rm -f demo-app || echo no_container_to_remove'
 
                 // Lance un nouveau conteneur
                 // -d : détaché
                 // -p 8080:8080 : expose le port de l’application
-                bat "docker run -d -p 8080:8080 --name demo-app %IMAGE_NAME%:%IMAGE_TAG%"
+                bat 'docker run -d -p 8080:8080 --name demo-app %IMAGE_NAME%:%IMAGE_TAG%'
             }
         }
     }
