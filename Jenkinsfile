@@ -15,7 +15,7 @@ pipeline {
 
         stage('Checkout - Récupération du code') {
             steps {
-                // Récupère le code depuis ton dépôt GitHub
+                // Récupère le code depuis le dépôt GitHub
                 // Jenkins sait automatiquement cloner le repo configuré dans le job
                 checkout scm
             }
