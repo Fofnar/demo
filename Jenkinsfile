@@ -5,7 +5,7 @@ pipeline {
 
     // Variables d'environnement utilisables dans le pipeline
     environment {
-        // Nom de l'image Docker de ton application
+        // Nom de l'image Docker de mon application
         IMAGE_NAME = "demo-app"
         // Tag de version (ici: latest)
         IMAGE_TAG = "latest"
@@ -67,7 +67,7 @@ pipeline {
 
         failure {
             // Message si une étape échoue
-            echo '❌ Erreur dans le pipeline. Vérifie les logs.'
+            echo '❌ Erreur dans le pipeline. Vérifiez les logs.'
         }
     }
 }
