@@ -14,25 +14,40 @@ pipeline {
             }
         }
 
-        stage('Build - Compilation avec Gradle (docker CLI)') {
-            steps {
-                // On build dans un conteneur gradle pour éviter les soucis de Java
-                script {
-                    // On utilise le même UID/GID que l'utilisateur Jenkins pour éviter les problèmes de droits
-                    sh '''
-                        UID=$(id -u)
-                        GID=$(id -g)
-                        echo "Running Gradle build as UID:GID = $UID:$GID"
+        stage('Build - Compilation avec Gradle (via docker CLI)') {
+          steps {
+            script {
+              // debug : montrer le contenu du workspace côté Jenkins (pour savoir où est gradlew)
+              sh 'echo "=== WORKSPACE = $WORKSPACE ==="; ls -la "$WORKSPACE" || true'
 
-                        docker run --rm -u $UID:$GID \
-                          -v "$WORKSPACE":/home/gradle/project \
-                          -w /home/gradle/project \
-                          gradle:8.14.2-jdk17 \
-                          bash -c "chmod +x gradlew && ./gradlew clean build -x test"
-                    '''
-                }
+              // Lance le conteneur gradle et choisi la bonne commande selon si gradlew existe
+              sh '''
+                UID=$(id -u)
+                GID=$(id -g)
+                echo "Running Gradle build as UID:GID = $UID:$GID"
+
+                # commande à exécuter DANS le conteneur : teste gradlew d'abord, sinon utilise gradle CLI
+                docker run --rm -u $UID:$GID \
+                  -v "$WORKSPACE":/home/gradle/project \
+                  -w /home/gradle/project \
+                  gradle:8.14.2-jdk17 \
+                  bash -lc '
+                    echo "Inside container, pwd=$(pwd)"
+                    echo "Listing project dir:"; ls -la .
+                    if [ -f ./gradlew ]; then
+                      echo "Found gradlew -> using wrapper"
+                      chmod +x ./gradlew
+                      ./gradlew clean build -x test
+                    else
+                      echo "No gradlew found -> using gradle CLI directly"
+                      gradle clean build -x test
+                    fi
+                  '
+              '''
             }
+          }
         }
+
 
         stage('Docker Build - Création de l’image') {
             steps {
