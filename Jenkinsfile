@@ -19,12 +19,11 @@ pipeline {
             script {
               sh '''
                 echo "=== WORKSPACE = $WORKSPACE ==="
-                ls -la "$WORKSPACE" || true
+                ls -la "$WORKSPACE"
 
-                # On lance le conteneur gradle en tant qu'utilisateur par défaut
                 docker run --rm \
-                  -v "$WORKSPACE":/home/gradle/project \
-                  -w /home/gradle/project \
+                  --volumes-from jenkins \
+                  -w "$WORKSPACE" \
                   gradle:8.14.2-jdk17 \
                   bash -lc '
                     echo "Inside container, pwd=$(pwd)"
@@ -36,6 +35,7 @@ pipeline {
             }
           }
         }
+
 
 
 
@@ -64,4 +64,3 @@ pipeline {
         }
     }
 }
-
