@@ -44,6 +44,7 @@ pipeline {
             }
         }
 
+        /*
         stage('Docker Run - Lancer le conteneur') {
             steps {
                 // Stoppe et supprime le conteneur existant avant de relancer
@@ -51,6 +52,7 @@ pipeline {
                 sh "docker run -d -p 8080:8080 --name demo-app ${IMAGE_NAME}:${IMAGE_TAG}"
             }
         }
+        */
     }
 
     post {
