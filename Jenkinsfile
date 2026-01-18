@@ -14,27 +14,25 @@ pipeline {
             }
         }
 
-        stage('Build - Compilation avec Gradle (via docker CLI)') {
-          steps {
-            script {
-              sh '''
-                echo "=== WORKSPACE = $WORKSPACE ==="
-                ls -la "$WORKSPACE"
-
-                docker run --rm \
-                  --volumes-from jenkins \
-                  -w "$WORKSPACE" \
-                  gradle:8.14.2-jdk17 \
-                  bash -lc '
-                    echo "Inside container, pwd=$(pwd)"
-                    echo "Listing project dir:"; ls -la .
-                    chmod +x ./gradlew
-                    ./gradlew clean build -x test
-                  '
-              '''
+        stage('Build - Compilation avec Gradle (Docker Agent)') {
+          agent {
+            docker {
+              image 'gradle:8.14.2-jdk17'
+              args '-u gradle:gradle'
             }
           }
+          steps {
+            sh '''
+              echo "=== WORKSPACE = $WORKSPACE ==="
+              pwd
+              ls -la
+
+              chmod +x gradlew
+              ./gradlew clean build -x test
+            '''
+          }
         }
+
 
 
 
