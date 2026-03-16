@@ -87,7 +87,7 @@ Microservice IA (analyse & prédiction)
 ## Microservice IA & API — workflow exemple
 
 1. L’utilisateur interagit avec le dashboard (frontend).
-2. Le frontend appelle un endpoint API (ex. `/api/sales`).
+2. Le frontend appelle un endpoint API (ex. `/api/analysis`).
 3. Le backend récupère les données depuis la base, transforme en JSON et appelle le microservice IA.
 4. Le microservice IA renvoie : analyses, anomalies, prédictions, recommandations et alertes stock.
 5. Le backend renvoie au frontend un JSON uniforme prêt à l’affichage.
