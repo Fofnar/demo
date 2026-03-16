@@ -3,7 +3,8 @@ package com.fof.demo.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fof.demo.model.User;
+import com.fof.demo.dto.UserDTO;
+import com.fof.demo.enums.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,14 +29,26 @@ class UserControllerTest {
     void testRegisterUser_Succes() throws Exception {
 
         //Créer un utilisateur à enregistrer
-        User user = new User("Alpha", 30);
+        UserDTO user = new UserDTO(null,
+                "alpha@gmail.com",
+                "Diallo",
+                "Alpha",
+                30,
+                "060606060000",
+                Role.USER
+        );
 
         mockMvc. perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON) //précise qu’on envoie du JSON
                         .content(objectMapper.writeValueAsString(user))) //met le corps de la requête
                 .andExpect(status().isOk()) //Code 200 OK
-                .andExpect(jsonPath("$.name").value("Alpha")) //JSON renvoyé contient bien name = Alpha
-                .andExpect(jsonPath("$.age").value(30));
+                .andExpect(jsonPath("$.email").value("alpha@gmail.com")) //JSON renvoyé contient bien email = alpha@gmail.com
+                .andExpect(jsonPath("$.lastName").value("Diallo"))
+                .andExpect(jsonPath("$.firstName").value("Alpha"))
+                .andExpect(jsonPath("$.age").value(30))
+                .andExpect(jsonPath("$.phone").value("060606060000"))
+                .andExpect(jsonPath("$.role").value("USER"));
+
 
     }
 
@@ -51,7 +64,14 @@ class UserControllerTest {
     @Test
     void testUpdateUser() throws Exception {
         // On crée un user d’abord
-        User user = new User("Beta", 22);
+        UserDTO user = new UserDTO(null,
+                "beta@gmail.com",
+                "Diallo",
+                "Beta",
+                30,
+                "0606060120",
+                Role.USER
+        );
         String userJson = objectMapper.writeValueAsString(user);
 
         // POST → crée un user
@@ -62,27 +82,35 @@ class UserControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         // Extraire l'ID du user créé
-        User createdUser = objectMapper.readValue(response, User.class);
+        UserDTO createdUser = objectMapper.readValue(response, UserDTO.class);
 
         // ACT : mettre à jour son nom
-        createdUser.setName("BetaUpdated");
+        createdUser.setEmail("betaUpdated@gmail.com");
 
         mockMvc.perform(put("/api/users/" + createdUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createdUser)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("BetaUpdated"));
+                .andExpect(jsonPath("$.email").value("betaUpdated@gmail.com"));
     }
     @Test
     void testDeleteUser() throws Exception {
         // On crée un user d’abord
-        User user = new User("Gamma", 25);
+        UserDTO user = new UserDTO(
+                null,
+                "gamma@gmail.com",
+                "Diallo",
+                "Gamma",
+                25,
+                "06060600300",
+                Role.USER
+        );
         String response = mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
                 .andReturn().getResponse().getContentAsString();
 
-        User createdUser = objectMapper.readValue(response, User.class);
+        UserDTO createdUser = objectMapper.readValue(response, UserDTO.class);
 
         // ACT : suppression
         mockMvc.perform(delete("/api/users/" + createdUser.getId()))

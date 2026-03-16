@@ -1,9 +1,8 @@
 package com.fof.demo.service;
 
 import com.fof.demo.entity.AppUser;
-import com.fof.demo.model.User;
+import com.fof.demo.enums.Role;
 import com.fof.demo.repository.AppUserRepository;
-import com.fof.demo.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -32,28 +31,38 @@ class UserServiceTest {
 
     @Test
     void testFindByUsername_Found(){
+
         // ARRANGE : créer un faux utilisateur
-        AppUser fakeUser = new AppUser(1L, "fof", "pwd123", "USER");
+        AppUser fakeUser = new AppUser(
+                1L,
+                "fof123@gmail.com",
+                "Fof",
+                "Fofnar",
+                20,
+                "Fofnar12345",
+                "0700001000000",
+                Role.USER
+        );
 
         // Simuler : si on appelle userRepository.findByUsername(...) → renvoyer fakeUser
-        when(appUserRepository.findByUsername("fof")).thenReturn(Optional.of(fakeUser));
+        when(appUserRepository.findByEmail("fof123@gmail.com")).thenReturn(Optional.of(fakeUser));
 
         // ACT : appeler le service
-        AppUser result = appUserService.loadUserByUsername("fof");
+        AppUser result = appUserService.loadUserByUsername("fof123@gmail.com");
 
         // Assert: verifier les resultats
         assertNotNull(result); // l'utilisateur doit exister
-        assertEquals("fof", result.getUsername());
+        assertEquals("fof123@gmail.com", result.getEmail());
 
     }
 
     @Test
     void testFindByUsername_NotFound(){
         // Arrange: aucun utilisateur
-        when(appUserRepository.findByUsername("ghost")).thenReturn(Optional.empty());
+        when(appUserRepository.findByEmail("ghost@gmail.com")).thenReturn(Optional.empty());
 
         //ACT
-        AppUser result = appUserService.loadUserByUsername("ghost");
+        AppUser result = appUserService.loadUserByUsername("ghost@gmail.com");
 
         //ASSERT
         assertNull(result);
@@ -62,16 +71,33 @@ class UserServiceTest {
 
     @Test
     void testSaveAppUser(){
-        AppUser newUser = new AppUser(null, "newuser", "pwd123", "USER");
-        when(appUserRepository.save(newUser)).thenReturn(newUser);
 
-        AppUser saved = appUserService.saveUser("newuser", "pwd123");
+        AppUser newUser = new AppUser(
+                null,
+                "newuser@gmail.com",
+                "Lnewuser",
+                "Fnewuser",
+                25,
+                "pwd12345",
+                "070101010000",
+                Role.USER
+        );
+        when(appUserRepository.save(any(AppUser.class))).thenReturn(newUser);
+
+        AppUser saved = appUserService.saveUser(
+                "newuser@gmail.com",
+                "Lnewuser",
+                "Fnewuser",
+                25,
+                "pwd12345",
+                "070101010000"
+        );
 
         //ASSERT
         assertNotNull(saved);
-        assertEquals("newuser", saved.getUsername());
+        assertEquals("newuser@gmail.com", saved.getEmail());
 
         // Vérifier que userRepository.save a bien été appelé UNE fois
-        verify(appUserRepository, times(1)).save(newUser);
+        verify(appUserRepository, times(1)).save(any(AppUser.class));
     }
 }

@@ -17,7 +17,14 @@ public class DemoApplication {
 	public CommandLineRunner run(AppUserService userService) {
 		return args -> {
 			// Cette ligne s'exécutera au démarrage de l'appli
-			userService.saveUser("fodeba", "1234");
+			userService.saveUser(
+					"fofnar@gmail.com",
+					"Fofana",
+					"Fodeba",
+					20,
+					"Fodeba123",
+					"0600000000"
+			);
 		};
 	}
 }

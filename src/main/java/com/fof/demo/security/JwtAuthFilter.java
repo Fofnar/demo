@@ -1,6 +1,7 @@
 package com.fof.demo.security;
 
 import com.fof.demo.entity.AppUser;                               // Notre entité utilisateur
+import com.fof.demo.enums.Role;
 import com.fof.demo.service.AppUserService;                       // Service pour charger un user par username
 import jakarta.servlet.FilterChain;                               // Chaîne de filtres (middleware)
 import jakarta.servlet.ServletException;                          // Exception servlet
@@ -46,7 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {  // ➜ Filtre qui s�
             return;
         }
 
-        // ➜ Récupère le username contenu dans le token ("sub")
+        // ➜ Récupère le username (email) contenu dans le token ("sub")
         String username = jwtUtils.getUserNameFromJwtToken(token);
 
         // ➜ Si déjà authentifié sur ce thread, inutile de refaire
@@ -56,8 +57,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {  // ➜ Filtre qui s�
             AppUser user = userService.loadUserByUsername(username);
             if (user != null) {
                 // ➜ Prépare la liste d’autorisations (Spring attend "ROLE_...")
-                String role = user.getRole();                                // ex: "USER" ou "ROLE_USER"
-                String springRole = role.startsWith("ROLE_") ? role : "ROLE_" + role.toUpperCase();
+                Role role = user.getRole();                                // ex: "USER"
+                String springRole = "ROLE_" + role.name();                // ex: ROLE_USER
                 List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(springRole));
 
                 // ➜ Crée un "utilisateur authentifié" pour Spring (pas besoin du mot de passe ici)
