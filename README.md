@@ -1,6 +1,6 @@
 Intelligent SME Analytics — Dashboard (AI & Data Platform) 
 
-License: Apache License 2.0 
+License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
 Projet : Tableau de bord d’analyse opérationnelle pour PME 
 
@@ -545,17 +545,13 @@ API REST ouverte pour intégration avec ERP / CRM
 
  
 
-Parfait poto 😎, alors pour la partie Licence, tu peux la mettre tout à la fin du README après la roadmap. On va faire propre et clair, façon pro SaaS. Voici comment tu peux la rédiger : 
-
- 
-
 Licence 
 
 © 2026 Fodeba Fofana 
 
 Ce projet est licencié sous la Apache License 2.0. 
 
-Vous pouvez consulter le texte complet de la licence ici. 
+Vous pouvez consulter le texte complet de la licence ici: http://www.apache.org/licenses/LICENSE-2.0 
 
 Copyright 2026 Fodeba Fofana 
  
@@ -570,6 +566,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
 See the License for the specific language governing permissions and 
 limitations under the License. 
- 
-
- 
