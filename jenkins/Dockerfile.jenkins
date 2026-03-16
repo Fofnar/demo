@@ -1,0 +1,20 @@
+# Image officielle Jenkins
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Installer Docker CLI uniquement (Java déjà présent dans Jenkins LTS)
+RUN apt-get update && \
+    apt-get install -y docker.io && \
+    apt-get clean
+
+# Sur le host le socket /var/run/docker.sock appartient à root:root (GID 0).
+# On ajoute donc l'utilisateur 'jenkins' au groupe 0 (root) pour pouvoir accéder au socket.
+#  Ceci donne des droits larges au user jenkins -> acceptable en dev/test local, pas conseillé en prod.
+RUN usermod -aG 0 jenkins || true
+
+# Fix permissions Jenkins home (CRUCIAL)
+RUN chown -R jenkins:jenkins /var/jenkins_home
+
+# Revenir à l'utilisateur Jenkins
+USER jenkins
