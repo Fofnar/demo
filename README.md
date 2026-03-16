@@ -37,13 +37,15 @@
 
 ## Architecture (conceptuelle)
 
-Backend (API) orchestrateur ↔ Frontend dashboard
+    Backend (API) orchestrateur ↔ Frontend dashboard
 
-↓
-Base de données opérationnelle
+                                ↓
+                            
+                  Base de données opérationnelle
 
-↓
-Microservice IA (analyse & prédiction)
+                                ↓
+                           
+               Microservice IA (analyse & prédiction)
 
 * Le backend orchestre les accès aux données, appelle le microservice IA et expose un JSON standardisé au frontend.
 * Le microservice IA est indépendant : reçoit des données sérialisées, renvoie des analyses / anomalies / prédictions / recommandations.
