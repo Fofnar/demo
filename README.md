@@ -1,6 +1,7 @@
 # Intelligent SME Analytics — Dashboard (AI & Data Platform)
 
 **Projet** : Tableau de bord d’analyse opérationnelle pour PME
+
 **Auteur / Lead Dev** : Fodeba Fofana
 
 ---
