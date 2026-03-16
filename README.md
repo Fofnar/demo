@@ -38,8 +38,10 @@
 ## Architecture (conceptuelle)
 
 Backend (API) orchestrateur ↔ Frontend dashboard
+
 ↓
 Base de données opérationnelle
+
 ↓
 Microservice IA (analyse & prédiction)
 
