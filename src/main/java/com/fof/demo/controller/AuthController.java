@@ -6,11 +6,18 @@ import com.fof.demo.exception.BadCredentialsException;
 import com.fof.demo.exception.UserAlreadyExistsException;
 import com.fof.demo.security.JwtUtils;
 import com.fof.demo.service.AppUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
  * Contrôleur responsable de l'authentification.
@@ -18,7 +25,7 @@ import java.time.LocalDateTime;
  * Il expose les endpoints pour :
  * - l'inscription des utilisateurs
  * - la connexion
- * - la génération d'un token JWT
+ * - le renouvellement d'un token JWT
  *
  * Toutes les routes de ce contrôleur commencent par /api/auth.
  */
@@ -48,9 +55,55 @@ public class AuthController {
      * 2. Créer un nouvel utilisateur
      * 3. Convertir l'entité AppUser en UserDTO
      * 4. Retourner une réponse API structurée
+     *
+     * @param request informations nécessaires à l'inscription
+     * @return utilisateur créé encapsulé dans ApiResponse
      */
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody AuthRequest request) {
+    @Operation(
+            summary = "Register a new user",
+            description = "Creates a new user account after checking that the email is not already taken."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "User registered successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResponse.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid request payload"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "409",
+                    description = "Email already taken"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error"
+            )
+    })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "User registration data",
+            required = true,
+            content = @Content(
+                    schema = @Schema(implementation = AuthRequest.class),
+                    examples = @ExampleObject(
+                            name = "Register example",
+                            value = """
+                                    {
+                                      "email": "fofnarbf@gmail.com",
+                                      "lastName": "Fofana",
+                                      "firstName": "Fodeba",
+                                      "age": 20,
+                                      "password": "Fodeba123",
+                                      "phone": "03010101010101010101"
+                                    }
+                                    """
+                    )
+            )
+    )
+    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody @Valid AuthRequest request) {
 
         // Vérifie si l'utilisateur existe déjà
         if (userService.existsByUsername(request.getEmail())) {
@@ -99,9 +152,51 @@ public class AuthController {
      * 2. Vérifier le mot de passe
      * 3. Générer un token JWT
      * 4. Retourner le token au client
+     *
+     * @param request identifiants de connexion
+     * @return access token et refresh token
      */
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody AuthRequest request) {
+    @Operation(
+            summary = "Login user",
+            description = "Authenticates a user and returns an access token and a refresh token."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Login successful",
+                    content = @Content(schema = @Schema(implementation = ApiResponse.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid request payload"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "Invalid credentials"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error"
+            )
+    })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "User login data",
+            required = true,
+            content = @Content(
+                    schema = @Schema(implementation = LoginRequest.class),
+                    examples = @ExampleObject(
+                            name = "Login example",
+                            value = """
+                                    {
+                                      "email": "fofnarbf@gmail.com",
+                                      "password": "Fodeba123"
+                                    }
+                                    """
+                    )
+            )
+    )
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody @Valid LoginRequest request) {
 
         // Recherche de l'utilisateur
         AppUser user = userService.loadUserByUsername(request.getEmail());
@@ -132,23 +227,60 @@ public class AuthController {
     }
 
     /**
-     * 🔁 Endpoint permettant de générer un nouveau access token
+     * Endpoint permettant de générer un nouvel access token
      * à partir d'un refresh token valide.
+     *
+     * @param request refresh token envoyé par le client
+     * @return nouveau access token et refresh token inchangé
      */
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<AuthResponse>> refreshToken(@RequestBody RefreshRequest request){
+    @Operation(
+            summary = "Refresh access token",
+            description = "Generates a new access token from a valid refresh token."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Token refreshed successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResponse.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid refresh token"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error"
+            )
+    })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Refresh token payload",
+            required = true,
+            content = @Content(
+                    schema = @Schema(implementation = RefreshRequest.class),
+                    examples = @ExampleObject(
+                            name = "Refresh example",
+                            value = """
+                                    {
+                                      "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2ZuYXJiZkBnbWFpbC5jb20iLCJpYXQiOjE3NzM5Mzk4MzUsImV4cCI6MTc3NDU0NDYzNX0.SbhWke6jPm8rWemWSeLbSVYfU1fq37TJtbE0KbywPGY"
+                                    }
+                                    """
+                    )
+            )
+    )
+    public ResponseEntity<ApiResponse<AuthResponse>> refreshToken(@RequestBody @Valid RefreshRequest request) {
 
         String refreshToken = request.getRefreshToken();
 
-        //Vérifie si le token est valide
-        if(!jwtUtils.validateJwtToken(refreshToken)){
+        // Vérifie si le token est valide
+        if (!jwtUtils.validateJwtToken(refreshToken)) {
             throw new BadCredentialsException("Invalid refresh token");
         }
 
-        //récupération de l'email dans le token
+        // Récupération de l'email dans le token
         String email = jwtUtils.getUserNameFromJwtToken(refreshToken);
 
-        //généation d'un nouveau token
+        // Génération d'un nouveau token
         String newAccessToken = jwtUtils.generateAccessToken(email);
 
         AuthResponse authResponse = new AuthResponse(
@@ -165,7 +297,4 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
-
 }
-
-

@@ -1,6 +1,7 @@
 package com.fof.demo.exception;
 
 import com.fof.demo.dto.ErrorResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,6 +99,17 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(500).body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDBError(Exception ex){
+        return ResponseEntity.badRequest().body(
+                new ErrorResponse(
+                        false,
+                        "Missing required field",
+                        LocalDateTime.now()
+                )
+        );
     }
 
 }

@@ -1,79 +1,103 @@
 package com.fof.demo.security;
 
-import com.fof.demo.entity.AppUser;                               // Notre entité utilisateur
+import com.fof.demo.entity.AppUser;
 import com.fof.demo.enums.Role;
-import com.fof.demo.service.AppUserService;                       // Service pour charger un user par username
-import jakarta.servlet.FilterChain;                               // Chaîne de filtres (middleware)
-import jakarta.servlet.ServletException;                          // Exception servlet
-import jakarta.servlet.http.HttpServletRequest;                   // Requête HTTP entrante
-import jakarta.servlet.http.HttpServletResponse;                  // Réponse HTTP sortante
-import lombok.RequiredArgsConstructor;                            // Génère un constructeur pour les champs 'final'
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken; // Représente un utilisateur authentifié
-import org.springframework.security.core.authority.SimpleGrantedAuthority;             // Représente une autorité/role
-import org.springframework.security.core.context.SecurityContextHolder;                // Contexte de sécurité courant
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource; // Détails web de l'auth
-import org.springframework.stereotype.Component;                  // Rend la classe détectable par Spring
-import org.springframework.web.filter.OncePerRequestFilter;       // Filtre exécuté une fois par requête
+import com.fof.demo.service.AppUserService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;                                       // Exception IO
-import java.util.List;                                            // Pour créer la liste d’autorisations
+import java.io.IOException;
+import java.util.List;
 
-@Component                              // ➜ Spring gère ce bean et peut l’injecter
-@RequiredArgsConstructor                 // ➜ constructeur pour les 'final' (jwtUtils, userService)
-public class JwtAuthFilter extends OncePerRequestFilter {  // ➜ Filtre qui s’exécute à CHAQUE requête
+/**
+ * Filtre JWT exécuté une seule fois par requête.
+ *
+ * Rôle :
+ * - ignorer les routes publiques
+ * - lire le header Authorization
+ * - valider le token JWT
+ * - charger l'utilisateur depuis la base
+ * - poser l'authentification dans le SecurityContext
+ */
+@Component
+@RequiredArgsConstructor
+public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final JwtUtils jwtUtils;                // ➜ outil pour générer/valider/lire le JWT
-    private final AppUserService userService;       // ➜ pour charger l’utilisateur depuis la DB
 
+    private final JwtUtils jwtUtils;
+    private final AppUserService userService;
+
+    /**
+     * Indique au filtre quelles routes doivent être ignorées.
+     *
+     * Ici, on laisse passer :
+     * - les endpoints d'authentification
+     * - Swagger
+     */
     @Override
-    protected void doFilterInternal(                // ➜ point d’entrée du filtre
-                                                    HttpServletRequest request,             // ➜ requête entrante
-                                                    HttpServletResponse response,           // ➜ réponse sortante
-                                                    FilterChain filterChain                 // ➜ permet de chaîner au filtre suivant
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/auth/")
+                || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs");
+    }
+
+    /**
+     * Logique principale du filtre JWT.
+     *
+     * Si un token valide est présent, l'utilisateur est authentifié
+     * dans le contexte Spring Security.
+     */
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization"); // ➜ récupère le header "Authorization"
+        String authHeader = request.getHeader("Authorization");
 
-        // ➜ Si pas de header, ou ne commence pas par "Bearer ", on laisse passer sans authentifier
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);            // ➜ on continue la chaîne
-            return;                                             // ➜ et on sort du filtre
-        }
-
-        String token = authHeader.substring(7);                 // ➜ enlève "Bearer " (7 caractères)
-        // ➜ On vérifie d’abord que le token est bien formé, signé et pas expiré
-        if (!jwtUtils.validateJwtToken(token)) {
-            filterChain.doFilter(request, response);            // ➜ token invalide : pas d’authent
+            filterChain.doFilter(request, response);
             return;
         }
 
-        // ➜ Récupère le username (email) contenu dans le token ("sub")
+        String token = authHeader.substring(7);
+
+        if (!jwtUtils.validateJwtToken(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String username = jwtUtils.getUserNameFromJwtToken(token);
 
-        // ➜ Si déjà authentifié sur ce thread, inutile de refaire
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            // ➜ On charge l’utilisateur en DB (pour récupérer par ex. son rôle)
             AppUser user = userService.loadUserByUsername(username);
-            if (user != null) {
-                // ➜ Prépare la liste d’autorisations (Spring attend "ROLE_...")
-                Role role = user.getRole();                                // ex: "USER"
-                String springRole = "ROLE_" + role.name();                // ex: ROLE_USER
-                List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(springRole));
 
-                // ➜ Crée un "utilisateur authentifié" pour Spring (pas besoin du mot de passe ici)
+            if (user != null) {
+                Role role = user.getRole();
+                String springRole = "ROLE_" + role.name();
+
+                List<SimpleGrantedAuthority> authorities =
+                        List.of(new SimpleGrantedAuthority(springRole));
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(username, null, authorities);
 
-                // ➜ Ajoute quelques détails utiles (adresse IP, session, etc.)
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // ➜ Pose l’authentification dans le contexte de sécurité (à partir de maintenant, "on est connecté")
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
-        //  on continue la chaîne des filtres (sinon la requête n’atteint jamais le contrôleur)
         filterChain.doFilter(request, response);
     }
 }
