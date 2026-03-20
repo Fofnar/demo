@@ -40,4 +40,8 @@ public class SaleEntity {
     @NotNull
     @Positive
     private int stock;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 }

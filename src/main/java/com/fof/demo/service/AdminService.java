@@ -31,7 +31,7 @@ public class AdminService {
         LocalDateTime todayStart =LocalDateTime.now().withHour(0).withMinute(0);
 
         //Vente d'aujourd'hui
-        long salesToday = saleRepository.findBySaleDateAfter(todayStart).stream().count();
+        long salesToday = saleRepository.findBySaleDateAfter(todayStart).size();
 
         // récupérer toutes les ventes
         List<SaleEntity> sales = saleRepository.findAll();

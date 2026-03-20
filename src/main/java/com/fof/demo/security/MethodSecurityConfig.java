@@ -7,4 +7,3 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableMethodSecurity
 public class MethodSecurityConfig {
 }
-

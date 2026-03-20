@@ -1,6 +1,7 @@
 package com.fof.demo.service;
 
 import com.fof.demo.dto.PagedResponse;
+import com.fof.demo.entity.AppUser;
 import com.fof.demo.entity.SaleEntity;
 import com.fof.demo.repository.SaleRepository;
 import com.fof.demo.specification.SaleSpecification;
@@ -40,7 +41,14 @@ public class SaleService {
      * une nouvelle entité SaleEntity qui sera persistée
      * dans la base de données.
      */
-    public SaleEntity createSale(LocalDateTime saleDate, String product, Double price, int quantity, int stock){
+    public SaleEntity createSale(
+            LocalDateTime saleDate,
+            String product,
+            Double price,
+            int quantity,
+            int stock,
+            AppUser user
+    ){
 
         SaleEntity saleEntity = new SaleEntity();
 
@@ -49,6 +57,7 @@ public class SaleService {
         saleEntity.setPrice(price);
         saleEntity.setQuantity(quantity);
         saleEntity.setStock(stock);
+        saleEntity.setUser(user);
 
         return saleRepository.save(saleEntity);
     }
@@ -167,5 +176,12 @@ public class SaleService {
                 pageResult.getTotalElements(),
                 pageResult.getTotalPages()
         );
+    }
+
+    /**
+     * Récupère les ventes appartenant à un utilisateur
+     */
+    public List<SaleEntity> getSalesByUser(String email) {
+        return saleRepository.findByUserEmail(email);
     }
 }
