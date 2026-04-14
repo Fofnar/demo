@@ -26,14 +26,15 @@ public class JwtUtils {
     }
 
     /** Génère un access token (durée courte) */
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(String username, String role) {
 
         Date now = new Date(); // maintenant
         Date expiry = new Date(now.getTime() + jwtExpirationMs);// expire dans 15 minutes
 
         return Jwts.builder()
                 .setSubject(username)   // sujet = username (email)
-                .setIssuedAt(now)       // date de création
+                .claim("role", role) //  rôle
+                .setIssuedAt(now)       // date de créatio
                 .setExpiration(expiry)  //date d'expiration
                 .signWith(key, SignatureAlgorithm.HS256) //signature avec une clé secrète
                 .compact(); // génère le token;
@@ -74,4 +75,13 @@ public class JwtUtils {
         }
     }
 
+    /** Lire le rôle depuis le token */
+    public String getRoleFromJwtToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
+    }
 }

@@ -17,7 +17,10 @@ public interface AppUserRepository extends
     // Permet de récupérer un utilisateur par son email (utilisé pour le login)
     Optional<AppUser> findByEmail(String email);
 
-    //Permet de récupérer des utilisateurss par son role (Filtering)
+    //Permet de récupérer un utilisateur par son role (Filtering)
     Page<AppUser> findByRole(Role role, Pageable pageable);
+
+    //Permet de récupérer un utilisateur par son numero de telephone
+    Optional<AppUser> findByPhone(String phone);
 
 }

@@ -8,57 +8,40 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.List; // Liste de ventes
+import java.util.stream.Collectors; // Conversion en DTO
 
-@Service
-@RequiredArgsConstructor
-public class AIAnalysisService {
-    // Service permettant de récupérer les ventes dans la base
-    private final SaleService saleService;
+@Service // Rend la classe injectable par Spring
+@RequiredArgsConstructor // Génère le constructeur avec les champs final
+public class AIAnalysisService { // Service métier de l'analyse IA
 
-    // Client HTTP pour appeler FastAPI
-    private final WebClient webClient;
+    private final SaleService saleService; // Service des ventes
+    private final WebClient webClient; // Client HTTP vers le microservice FastAPI
 
-    public AIResponse analyzeSales(){
+    public AIResponse analyzeSales() { // Lance l'analyse IA
 
-        //Récupérer toutes les ventes depuis la base
-        List<SaleEntity> sales = saleService.findAll();
+        List<SaleEntity> sales = saleService.findAllEntitiesInBatches(500); // Charge les ventes par lots
 
-        //convertir les entité DB en DTO pour l'IA
-        List<AISaleDTO> aiSales = sales.stream()
-                .map(s-> new AISaleDTO(
-                        s.getSaleDate(),
-                        s.getProduct(),
-                        s.getPrice(),
-                        s.getQuantity(),
-                        s.getStock()
+        List<AISaleDTO> aiSales = sales.stream() // Transforme la liste en flux
+                .map(s -> new AISaleDTO( // Convertit chaque vente en DTO IA
+                        s.getSaleDate(), // Date de vente
+                        s.getProduct(), // Produit
+                        s.getPrice(), // Prix
+                        s.getQuantity(), // Quantité
+                        s.getStock() // Stock
                 ))
-                .collect(Collectors.toList());
-        // 3️⃣ créer la requête envoyée au service IA
-        AISalesRequest request = new AISalesRequest(aiSales);
+                .collect(Collectors.toList()); // Liste finale pour l'IA
 
-        //appel HTTP vers FastAPI avec WebClient
-        AIResponse response = webClient.post()
+        AISalesRequest request = new AISalesRequest(aiSales); // Construit le payload envoyé à FastAPI
 
-                // endpoint du microservice IA
-                .uri("/api/analyze")
+        AIResponse response = webClient.post() // Prépare une requête POST
+                .uri("/api/analyze") // Endpoint du microservice IA
+                .bodyValue(request) // Envoie le corps JSON
+                .retrieve() // Exécute la requête
+                .bodyToMono(AIResponse.class) // Convertit la réponse en AIResponse
+                .onErrorReturn(new AIResponse()) // Retourne une réponse vide si FastAPI est indisponible
+                .block(); // Attend le résultat de façon synchrone
 
-                // body de la requête
-                .bodyValue(request)
-
-                // envoyer la requête
-                .retrieve()
-
-                // convertir la réponse JSON en objet AIResponse
-                .bodyToMono(AIResponse.class)
-
-                //Sécuriser l'appel si FastAPI tombe sur "connection refused"
-                .onErrorReturn(new AIResponse())
-
-                //block() attend la réponse (version simple)
-                .block();
-
-        return response;
+        return response; // Renvoie la réponse IA
     }
 }

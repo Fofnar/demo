@@ -1,34 +1,38 @@
-from fastapi import FastAPI, APIRouter
-from pydantic import BaseModel
 from typing import List
-from api.ai_service import run_ai_analysis
 
-#Création d'un routeur FastAPI
-#Il permet de grouper plus endpoints API dans un même module
+from fastapi import APIRouter
+from pydantic import BaseModel, Field
+
+from .ai_service import run_ai_analysis
+
+
+# Routeur FastAPI utilisé pour regrouper les endpoints IA
 router = APIRouter()
 
-#Modèle de données représentant une vente
-#Pydantic va automatiquement verifier ques les données reçues correspondent à ce modèle
-class SalesData(BaseModel):
-    date: str       # date de la vente
-    product: str    # nom du produit
-    price: float    # prix du produit
-    quantity: int   # quantité vendue
-    stock: int      # stock restant du produit
 
-# Modèle représentant la requête complète envoyée à l'API
-# L'utilisateur doit envoyer une liste de ventes
+class SalesData(BaseModel):
+    """
+    Représente une ligne de vente reçue par l'API.
+    """
+    date: str = Field(..., description="Date de la vente")
+    product: str = Field(..., description="Nom du produit")
+    price: float = Field(..., description="Prix unitaire")
+    quantity: int = Field(..., description="Quantité vendue")
+    stock: int = Field(..., description="Stock restant")
+
+
 class SalesRequest(BaseModel):
+    """
+    Représente la requête complète envoyée à l'API.
+    """
     data: List[SalesData]
 
-# Création d'un endpoint POST accessible à l'URL :
+
 @router.post("/api/analyze")
 def analyze_sales(request: SalesRequest):
-
-    # Conversion des objets Pydantic en dictionnaires Python
-    data =[item.dict() for item in request.data]
-
-    # Appel du moteur d'analyse IA
+    """
+    Lance l'analyse IA complète sur la liste des ventes reçues.
+    """
+    data = [item.dict() for item in request.data]
     result = run_ai_analysis(data)
-
     return result

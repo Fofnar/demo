@@ -1,38 +1,50 @@
 package com.fof.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
+/**
+ * DTO global représentant la réponse complète du microservice IA.
+ *
+ * Chaque bloc correspond à une brique fonctionnelle du moteur d'analyse :
+ * - ventes
+ * - anomalies
+ * - prédiction
+ * - recommandations
+ * - santé business
+ * - inventaire
+ * - stock
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AIResponse {
 
-    // Résultat de l'analyse des ventes
-    private Map<String, Object> sales_analysis;
+    @JsonProperty("sales_analysis")
+    private SalesAnalysisDTO salesAnalysis;
 
-    // Détection d'anomalies dans les ventes
-    private Map<String, Object> anomalies;
+    @JsonProperty("anomalies")
+    private AnomaliesDTO anomalies;
 
-    // Prédiction des revenus
-    private Map<String, Object> prediction;
+    @JsonProperty("prediction")
+    private PredictionDTO prediction;
 
-    // Recommandations business
-    private Map<String, Object> recommendations;
+    @JsonProperty("recommendations")
+    private RecommendationsDTO recommendations;
 
-    // Score global de santé du business
-    private Map<String, Object> health_score;
+    @JsonProperty("health_score")
+    private BusinessHealthDTO healthScore;
 
-    // Analyse de l'inventaire
-    private Map<String, Object> inventory;
+    @JsonProperty("inventory")
+    private InventoryDTO inventory;
 
-    // Prédiction de rupture de stock
-    private Map<String, Object> stock_prediction;
+    @JsonProperty("stock_prediction")
+    private StockPredictionDTO stockPrediction;
 
-    // Recommandations de réapprovisionnement
-    private Map<String, Object> stock_recommendations;
-
+    @JsonProperty("stock_recommendations")
+    private StockRecommendationsDTO stockRecommendations;
 }

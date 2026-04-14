@@ -14,19 +14,20 @@ import lombok.NoArgsConstructor;
 public class UpdateUserDTO {
 
     @Email
-    @NotBlank
     private String email;
 
-    @NotBlank
+    @Size(min = 2)
     private String lastName;
 
-    @NotBlank
+    @Size(min = 2)
     private String firstName;
 
     @Min(0)
     private int age;
 
-    @NotBlank
     @Size(min = 6, max = 20)
     private String phone;
+
+    @Size(min = 8)
+    private String password;
 }

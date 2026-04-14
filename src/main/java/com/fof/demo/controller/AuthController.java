@@ -105,11 +105,6 @@ public class AuthController {
     )
     public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody @Valid AuthRequest request) {
 
-        // Vérifie si l'utilisateur existe déjà
-        if (userService.existsByUsername(request.getEmail())) {
-            throw new UserAlreadyExistsException("Email already taken");
-        }
-
         // Création de l'utilisateur
         AppUser user = userService.saveUser(
                 request.getEmail(),
@@ -207,7 +202,10 @@ public class AuthController {
         }
 
         // Génération des tokens
-        String accessToken = jwtUtils.generateAccessToken(user.getEmail());
+        String accessToken = jwtUtils.generateAccessToken(
+                user.getEmail(),
+                user.getRole().name()
+        );
         String refreshToken = jwtUtils.generateRefreshToken(user.getEmail());
 
         AuthResponse authResponse = new AuthResponse(
@@ -279,9 +277,10 @@ public class AuthController {
 
         // Récupération de l'email dans le token
         String email = jwtUtils.getUserNameFromJwtToken(refreshToken);
+        AppUser user = userService.loadUserByUsername(email);
 
         // Génération d'un nouveau token
-        String newAccessToken = jwtUtils.generateAccessToken(email);
+        String newAccessToken = jwtUtils.generateAccessToken(email, user.getRole().name());
 
         AuthResponse authResponse = new AuthResponse(
                 newAccessToken,

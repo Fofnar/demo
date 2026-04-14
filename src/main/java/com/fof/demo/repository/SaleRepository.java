@@ -1,7 +1,8 @@
 package com.fof.demo.repository;
 
 import com.fof.demo.entity.SaleEntity;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -21,4 +22,6 @@ public interface SaleRepository extends
     //Récupérer les ventes d’un user
     List<SaleEntity> findByUserEmail(String email);
 
+    // Récupérer les ventes d’un user avec pagination
+    Page<SaleEntity> findByUserEmail(String email, Pageable pageable);
 }

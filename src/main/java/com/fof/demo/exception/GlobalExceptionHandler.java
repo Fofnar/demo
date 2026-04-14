@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(
                 new ErrorResponse(
                         false,
-                        "Missing required field",
+                        "Database constraint violation",
                         LocalDateTime.now()
                 )
         );

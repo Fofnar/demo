@@ -4,6 +4,7 @@ import com.fof.demo.dto.ApiResponse;
 import com.fof.demo.dto.UpdateUserDTO;
 import com.fof.demo.dto.UserDTO;
 import com.fof.demo.service.AppUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -94,6 +95,7 @@ public class UserProfileController {
      * - nom
      * - âge
      * - téléphone
+     * - mot de pass
      *
      * Le rôle ne peut pas être modifié ici
      * (cela doit être fait par un administrateur).
@@ -135,7 +137,7 @@ public class UserProfileController {
     )
     public ResponseEntity<ApiResponse<UserDTO>> updateCurrentUser(
             Authentication authentication,
-            @RequestBody UpdateUserDTO updateUserDTO
+            @RequestBody @Valid UpdateUserDTO updateUserDTO
     ) {
 
         // Email récupéré depuis le token JWT

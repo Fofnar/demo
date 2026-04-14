@@ -85,10 +85,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (user != null) {
                 Role role = user.getRole();
-                String springRole = "ROLE_" + role.name();
-
                 List<SimpleGrantedAuthority> authorities =
-                        List.of(new SimpleGrantedAuthority(springRole));
+                        List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(username, null, authorities);

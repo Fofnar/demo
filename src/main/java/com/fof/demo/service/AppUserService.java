@@ -20,7 +20,11 @@ public class AppUserService {
     public AppUser saveUser(String email, String lastname, String firstname, int age, String rawPassword, String phone){
 
         if (existsByUsername(email)){
-            throw new UserAlreadyExistsException("User with this email already exists");
+            throw new UserAlreadyExistsException("Email already taken");
+        }
+
+        if (existsByPhone(phone)){
+            throw new UserAlreadyExistsException("Phone already taken");
         }
 
         AppUser user = new AppUser();
@@ -32,6 +36,12 @@ public class AppUserService {
         user.setPhone(phone);
         user.setRole(Role.USER);  // ==> Par défaut, tous les utilisateurs auront le rôle USER
         return userRepository.save(user); // ==> On enregistre l'utilisateur encodé en base
+    }
+
+    /** Promotion ADMIN (méthode dédiée) */
+    public void promoteToAdmin(AppUser user){
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
     }
 
     /**  Récupère l’utilisateur par username (email) ou null si absent */
@@ -49,27 +59,62 @@ public class AppUserService {
         return userRepository.findByEmail(username).isPresent();
     }
 
-    /** Mise à jour utilisateur */
-    public UserDTO updateUser(String username, UpdateUserDTO dto){
+    /**  Vérifie si un phone existe déjà  */
+    public boolean existsByPhone(String phone){
+        return userRepository.findByPhone(phone).isPresent();
+    }
 
-        // récupérer utilisateur actuel
+    /** Mise à jour utilisateur */
+    public UserDTO updateUser(String username, UpdateUserDTO dto) {
+
+        // Récupération de l'utilisateur courant via son email
         AppUser user = loadUserByUsername(username);
 
-        if (user == null){
+        // Si l'utilisateur n'existe pas
+        if (user == null) {
             throw new RuntimeException("User not found");
         }
 
-        // mise à jour des champs autorisés
-        user.setEmail(dto.getEmail());
-        user.setLastName(dto.getLastName());
-        user.setFirstName(dto.getFirstName());
-        user.setAge(dto.getAge());
-        user.setPhone(dto.getPhone());
+        // Si l'email est fourni, on met à jour
+        if (dto.getEmail() != null && !dto.getEmail().isBlank()) {
+            if (!dto.getEmail().equals(user.getEmail()) && existsByUsername(dto.getEmail())) {
+                throw new UserAlreadyExistsException("Email already taken");
+            }
+            user.setEmail(dto.getEmail());
+        }
 
-        // sauvegarde
+        // Si le nom est fourni, on met à jour
+        if (dto.getLastName() != null && !dto.getLastName().isBlank()) {
+            user.setLastName(dto.getLastName());
+        }
+
+        // Si le prénom est fourni, on met à jour
+        if (dto.getFirstName() != null && !dto.getFirstName().isBlank()) {
+            user.setFirstName(dto.getFirstName());
+        }
+
+        // Si l'âge est fourni correctement, on met à jour
+        if (dto.getAge() >= 0) {
+            user.setAge(dto.getAge());
+        }
+
+        // Si le téléphone est fourni, on met à jour
+        if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
+            if (!dto.getPhone().equals(user.getPhone()) && existsByPhone(dto.getPhone())) {
+                throw new UserAlreadyExistsException("Phone already taken");
+            }
+            user.setPhone(dto.getPhone());
+        }
+
+        // Si un nouveau mot de passe est fourni, on l'encode
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        // Sauvegarde finale en base
         AppUser savedUser = userRepository.save(user);
 
-        // conversion Entity -> DTO
+        // Conversion Entity -> DTO
         return new UserDTO(
                 savedUser.getId(),
                 savedUser.getEmail(),
