@@ -1,5 +1,3 @@
-# ml/analysis/recommendation_engine.py
-
 import pandas as pd
 import numpy as np
 
@@ -272,7 +270,7 @@ def generate_recommendations(data):
     summary = (
         f"Trend: {trend}. "
         f"{top_revenue} drives most revenue. "
-        f"{len(anomalies)} anomalies detected ({high_priority} critical). "
+        f"{len(anomalies)} anomalies detected, including {high_priority} high-priority cases. "
     )
 
     if forecast["available"] and forecast["forecast"]:
