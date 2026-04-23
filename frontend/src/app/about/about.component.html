@@ -1,0 +1,126 @@
+<div class="about-page"> <!-- Conteneur principal de la page about -->
+
+  <section class="hero-card"> <!-- Hero principal -->
+    <div class="hero-copy"> <!-- Bloc texte principal -->
+      <p class="eyebrow">About {{ platformName }}</p> <!-- Petit label -->
+      <h1>{{ heroTitle }}</h1> <!-- Titre principal -->
+      <p class="subtitle">{{ heroSubtitle }}</p> <!-- Sous-texte de positionnement -->
+
+      <div class="hero-actions"> <!-- Actions du hero -->
+        <a routerLink="/login" class="primary-action">Open platform</a> <!-- Action principale -->
+        <a routerLink="/register" class="secondary-action">Create account</a> <!-- Action secondaire -->
+      </div>
+    </div>
+
+    <div class="hero-panel"> <!-- Bloc visuel résumé -->
+      <article class="hero-metric"> <!-- Carte résumé -->
+        <span class="hero-metric-label">Product type</span>
+        <strong>AI Decision Platform</strong>
+      </article>
+
+      <article class="hero-metric"> <!-- Carte résumé -->
+        <span class="hero-metric-label">Core promise</span>
+        <strong>Data → Decisions</strong>
+      </article>
+
+      <article class="hero-metric"> <!-- Carte résumé -->
+        <span class="hero-metric-label">Positioning</span>
+        <strong>Startup-ready</strong>
+      </article>
+
+      <article class="hero-metric"> <!-- Carte résumé -->
+        <span class="hero-metric-label">Architecture</span>
+        <strong>Fullstack + ML</strong>
+      </article>
+    </div>
+  </section>
+
+  <section class="story-grid"> <!-- Bloc vision / mission / startup -->
+    <article class="story-card"> <!-- Carte vision -->
+      <p class="card-tag">Vision</p>
+      <h2>Why {{ platformName }} exists</h2>
+      <p>{{ visionText }}</p>
+    </article>
+
+    <article class="story-card"> <!-- Carte mission -->
+      <p class="card-tag">Mission</p>
+      <h2>What the platform aims to solve</h2>
+      <p>{{ missionText }}</p>
+    </article>
+
+    <article class="story-card wide"> <!-- Carte ambition -->
+      <p class="card-tag">Long-term direction</p>
+      <h2>Built to grow beyond a single dashboard</h2>
+      <p>{{ startupText }}</p>
+    </article>
+  </section>
+
+  <section class="section-block"> <!-- Bloc piliers -->
+    <div class="section-heading"> <!-- En-tête de section -->
+      <h2>Product pillars</h2>
+      <p>{{ platformName }} is designed around three strong principles that make the platform useful, scalable, and decision-oriented.</p>
+    </div>
+
+    <div class="pillars-grid"> <!-- Grille des piliers -->
+      <article *ngFor="let pillar of pillars" class="pillar-card"> <!-- Carte pilier -->
+        <h3>{{ pillar.title }}</h3>
+        <p>{{ pillar.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-block"> <!-- Bloc modules -->
+    <div class="section-heading"> <!-- En-tête de section -->
+      <h2>Core intelligence modules</h2>
+      <p>The platform combines operational analytics and machine intelligence in one coherent business workspace.</p>
+    </div>
+
+    <div class="modules-grid"> <!-- Grille des modules -->
+      <article *ngFor="let module of modules" class="module-card"> <!-- Carte module -->
+        <h3>{{ module.title }}</h3>
+        <p>{{ module.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-block"> <!-- Bloc stack -->
+    <div class="section-heading"> <!-- En-tête de section -->
+      <h2>Technology foundation</h2>
+      <p>{{ platformName }} is built on a modern fullstack architecture designed for performance, modularity, and future scalability.</p>
+    </div>
+
+    <div class="stack-card"> <!-- Carte stack -->
+      <div class="stack-list"> <!-- Liste technologies -->
+        <span *ngFor="let tech of techStack" class="stack-badge">{{ tech }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block"> <!-- Bloc valeurs -->
+    <div class="section-heading"> <!-- En-tête de section -->
+      <h2>What defines the product</h2>
+      <p>These principles shape how {{ platformName }} is designed, presented, and evolved.</p>
+    </div>
+
+    <div class="values-grid"> <!-- Grille des valeurs -->
+      <article *ngFor="let value of values" class="value-card"> <!-- Carte valeur -->
+        <h3>{{ value.title }}</h3>
+        <p>{{ value.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-card"> <!-- Bloc final -->
+    <p class="card-tag">Final note</p>
+    <h2>{{ platformName }} is built for intelligent growth</h2>
+    <p>
+      From analytics to forecasting and operational recommendations, the platform is designed to help organizations move from observation to action with more confidence and more clarity.
+    </p>
+
+    <div class="cta-actions"> <!-- Actions finales -->
+      <a routerLink="/register" class="primary-action">Start with {{ platformName }}</a>
+      <a routerLink="/dashboard" class="secondary-action">Go to dashboard</a>
+    </div>
+  </section>
+
+</div>

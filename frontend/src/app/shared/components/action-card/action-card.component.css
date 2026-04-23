@@ -1,0 +1,29 @@
+.action-card { /* Carte principale */
+  display: block; /* L'élément prend la forme d'un bloc */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 20px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.7); /* Fond sombre semi-transparent */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure légère */
+  text-decoration: none; /* Supprime le soulignement du lien */
+  color: #e5e7eb; /* Couleur du texte */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animation fluide */
+}
+
+.action-card h3 { /* Titre de l'action */
+  margin: 0 0 8px 0; /* Espace sous le titre */
+  color: #ffffff; /* Titre blanc */
+}
+
+.action-card p { /* Description */
+  margin: 0; /* Pas de marge */
+  color: #cbd5e1; /* Texte plus doux */
+}
+
+.action-card.clickable { /* Carte cliquable */
+  cursor: pointer; /* Curseur main */
+}
+
+.action-card.clickable:hover { /* Effet au survol */
+  transform: translateY(-4px); /* Léger mouvement vers le haut */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); /* Ombre plus forte */
+}

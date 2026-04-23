@@ -1,0 +1,45 @@
+.app-shell { /* Structure principale */
+  min-height: 100vh;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.topbar { /* Barre du haut */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.brand { /* Nom de l'app */
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.nav-links { /* Liens */
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.nav-links a, .nav-links button { /* Style commun */
+  color: #cbd5e1;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.active-link { /* Lien actif */
+  color: #93c5fd;
+}
+
+.page-content { /* Zone page */
+  padding: 24px;
+}

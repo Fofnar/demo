@@ -1,0 +1,312 @@
+.anomalies-section { /* Section principale */
+  margin-top: 24px; /* Espace avec le bloc précédent */
+  padding: 24px; /* Espace intérieur */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.05); /* Fond glassmorphism */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18); /* Ombre douce */
+}
+
+.section-header { /* En-tête du module */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Sépare titre et statut */
+  gap: 16px; /* Espace entre colonnes */
+  align-items: flex-start; /* Alignement haut */
+  margin-bottom: 20px; /* Espace sous l'en-tête */
+}
+
+.section-tag { /* Petit label */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Texte en majuscules */
+  letter-spacing: 0.12em; /* Espacement lettres */
+  font-size: 12px; /* Petite taille */
+  color: #93c5fd; /* Bleu clair */
+}
+
+.section-header h2 { /* Titre principal */
+  margin: 0; /* Supprime marge par défaut */
+  font-size: 28px; /* Taille du titre */
+  color: #ffffff; /* Texte blanc */
+}
+
+.section-subtitle { /* Sous-titre */
+  margin: 10px 0 0 0; /* Marges */
+  color: #cbd5e1; /* Gris clair */
+  max-width: 760px; /* Limite largeur */
+}
+
+.header-status { /* Bloc statut */
+  display: flex; /* Mise en ligne */
+  align-items: center; /* Alignement vertical */
+}
+
+.status-chip { /* Badge statut */
+  padding: 10px 14px; /* Espace intérieur */
+  border-radius: 999px; /* Forme pilule */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  background: rgba(255, 255, 255, 0.06); /* Fond */
+  color: #cbd5e1; /* Texte */
+  font-size: 13px; /* Taille */
+  font-weight: 600; /* Poids */
+}
+
+.status-chip-active { /* Variante active */
+  border-color: rgba(74, 222, 128, 0.35); /* Bordure verte */
+  background: rgba(20, 83, 45, 0.35); /* Fond vert */
+  color: #bbf7d0; /* Texte vert clair */
+}
+
+.summary-grid { /* Grille des cartes résumé */
+  display: grid; /* Grid */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colonnes adaptatives */
+  gap: 16px; /* Espace entre cartes */
+  margin-bottom: 24px; /* Espace avant la liste */
+}
+
+.summary-card { /* Carte résumé */
+  padding: 18px; /* Espace intérieur */
+  border-radius: 20px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+}
+
+.summary-card.danger { /* Variante critique */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+}
+
+.summary-card.warning { /* Variante moyenne */
+  border-color: rgba(251, 191, 36, 0.35); /* Bordure orange */
+}
+
+.summary-label { /* Label carte */
+  margin: 0 0 8px 0; /* Marges */
+  font-size: 13px; /* Taille */
+  color: #93c5fd; /* Couleur */
+}
+
+.summary-card h3 { /* Valeur principale */
+  margin: 0; /* Supprime marge */
+  font-size: 28px; /* Taille */
+  color: #ffffff; /* Blanc */
+}
+
+.summary-hint { /* Texte secondaire */
+  display: block; /* Passe à la ligne */
+  margin-top: 8px; /* Espace */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 13px; /* Taille */
+}
+
+.empty-state { /* État vide */
+  padding: 28px; /* Espace intérieur */
+  border-radius: 20px; /* Coins */
+  background: rgba(15, 23, 42, 0.6); /* Fond */
+  border: 1px dashed rgba(255, 255, 255, 0.14); /* Bordure pointillée */
+  text-align: center; /* Centre le texte */
+}
+
+.empty-state h3 { /* Titre état vide */
+  margin: 0 0 10px 0; /* Marges */
+  color: #ffffff; /* Blanc */
+}
+
+.empty-state p { /* Texte état vide */
+  margin: 0; /* Pas de marge */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.anomaly-list { /* Liste des cartes anomalies */
+  display: grid; /* Grid */
+  gap: 18px; /* Espace vertical */
+}
+
+.anomaly-card { /* Carte anomalie */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 22px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16); /* Ombre */
+}
+
+.anomaly-top-row { /* Ligne haute */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Sépare contenu et badge */
+  gap: 16px; /* Espace */
+  align-items: flex-start; /* Alignement */
+  margin-bottom: 18px; /* Espace dessous */
+}
+
+.anomaly-date { /* Date de l'anomalie */
+  margin: 0 0 6px 0; /* Marges */
+  font-size: 13px; /* Taille */
+  color: #93c5fd; /* Bleu clair */
+}
+
+.anomaly-main-meta h3 { /* Produit */
+  margin: 0; /* Pas de marge */
+  font-size: 22px; /* Taille */
+  color: #ffffff; /* Blanc */
+}
+
+.severity-badge { /* Badge sévérité */
+  padding: 8px 12px; /* Espace intérieur */
+  border-radius: 999px; /* Forme pilule */
+  font-size: 12px; /* Taille */
+  font-weight: 700; /* Poids */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.08em; /* Espacement */
+}
+
+.severity-critical { /* Sévérité critique */
+  background: rgba(127, 29, 29, 0.5); /* Fond rouge */
+  border: 1px solid rgba(239, 68, 68, 0.5); /* Bordure rouge soutenue */
+  color: #fee2e2; /* Texte clair */
+}
+
+.severity-high { /* Sévérité élevée */
+  background: rgba(127, 29, 29, 0.35); /* Fond rouge */
+  border: 1px solid rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  color: #fecaca; /* Texte clair */
+}
+
+.severity-medium { /* Sévérité moyenne */
+  background: rgba(120, 53, 15, 0.35); /* Fond orange */
+  border: 1px solid rgba(251, 191, 36, 0.35); /* Bordure orange */
+  color: #fde68a; /* Texte jaune */
+}
+
+.severity-low { /* Sévérité faible */
+  background: rgba(20, 83, 45, 0.35); /* Fond vert */
+  border: 1px solid rgba(74, 222, 128, 0.35); /* Bordure verte */
+  color: #bbf7d0; /* Texte vert */
+}
+
+.severity-default { /* Sévérité inconnue */
+  background: rgba(255, 255, 255, 0.08); /* Fond neutre */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure neutre */
+  color: #e5e7eb; /* Texte neutre */
+}
+
+.anomaly-metrics { /* Grille de métriques */
+  display: grid; /* Grid */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Colonnes adaptatives */
+  gap: 12px; /* Espace */
+  margin-bottom: 18px; /* Espace sous métriques */
+}
+
+.metric-item { /* Carte métrique */
+  padding: 14px; /* Espace intérieur */
+  border-radius: 16px; /* Coins */
+  background: rgba(255, 255, 255, 0.04); /* Fond léger */
+  border: 1px solid rgba(255, 255, 255, 0.06); /* Bordure */
+}
+
+.metric-label { /* Label métrique */
+  display: block; /* Ligne dédiée */
+  margin-bottom: 6px; /* Espace */
+  font-size: 12px; /* Taille */
+  color: #93c5fd; /* Bleu clair */
+}
+
+.metric-item strong { /* Valeur métrique */
+  color: #ffffff; /* Blanc */
+  font-size: 16px; /* Taille */
+}
+
+.anomaly-content-grid { /* Bloc raison + reco */
+  display: grid; /* Grid */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Colonnes */
+  gap: 16px; /* Espace */
+  margin-bottom: 18px; /* Espace avant footer */
+}
+
+.content-block { /* Carte de contenu texte */
+  padding: 16px; /* Espace intérieur */
+  border-radius: 18px; /* Coins */
+  background: rgba(255, 255, 255, 0.04); /* Fond */
+  border: 1px solid rgba(255, 255, 255, 0.06); /* Bordure */
+}
+
+.content-title { /* Titre du bloc texte */
+  margin: 0 0 8px 0; /* Marges */
+  font-size: 13px; /* Taille */
+  color: #93c5fd; /* Bleu */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.08em; /* Espacement */
+}
+
+.content-text { /* Paragraphe principal */
+  margin: 0; /* Pas de marge */
+  color: #dbe4ee; /* Gris clair */
+  line-height: 1.55; /* Hauteur de ligne */
+}
+
+.anomaly-footer { /* Pied de carte */
+  display: flex; /* Mise en ligne */
+  flex-wrap: wrap; /* Retour à la ligne si besoin */
+  gap: 16px; /* Espace */
+  padding-top: 14px; /* Espace haut */
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Séparateur */
+}
+
+.footer-group { /* Groupe pied */
+  display: flex; /* Mise en ligne */
+  gap: 8px; /* Espace */
+  align-items: center; /* Alignement */
+}
+
+.footer-label { /* Label pied */
+  color: #93c5fd; /* Bleu */
+  font-size: 13px; /* Taille */
+}
+
+.footer-value { /* Valeur pied */
+  color: #e5e7eb; /* Couleur */
+  font-size: 13px; /* Taille */
+}
+
+@media (max-width: 768px) { /* Responsive tablette/mobile */
+  .section-header { /* Empilement vertical */
+    flex-direction: column; /* Passe en colonne */
+  }
+
+  .anomaly-top-row { /* Empilement haut de carte */
+    flex-direction: column; /* Passe en colonne */
+  }
+}
+
+.overview-note { /* Note affichée en mode aperçu lorsqu'il reste des anomalies masquées */
+  margin-top: 16px; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 14px; /* Taille discrète */
+}
+
+.panel-actions { /* Zone d'action de fin du panel */
+  margin-top: 18px; /* Espace supérieur */
+  display: flex; /* Alignement horizontal */
+  justify-content: flex-end; /* Aligne l'action à droite */
+}
+
+.panel-link { /* Lien vers la page détaillée */
+  padding: 12px 16px; /* Zone cliquable */
+  border-radius: 14px; /* Coins arrondis */
+  background: #93c5fd; /* Couleur accent */
+  color: #0f172a; /* Texte sombre */
+  text-decoration: none; /* Supprime le soulignement */
+  font-weight: 700; /* Poids fort */
+}
+
+.summary-card.critical { /* Variante critique */
+  border-color: rgba(239, 68, 68, 0.45); /* Bordure rouge plus forte */
+  background: rgba(127, 29, 29, 0.18); /* Fond critique discret */
+}
+
+.summary-card.low { /* Variante faible */
+  border-color: rgba(96, 165, 250, 0.28); /* Bordure bleutée douce */
+}
+
+.severity-critical { /* Sévérité critique */
+  background: rgba(127, 29, 29, 0.5); /* Fond rouge prononcé */
+  border: 1px solid rgba(239, 68, 68, 0.5); /* Bordure rouge soutenue */
+  color: #fee2e2; /* Texte clair */
+}

@@ -1,0 +1,112 @@
+<div class="sales-page"> <!-- Conteneur principal -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <p class="eyebrow">Felyxor Workspace</p> <!-- Petit label -->
+    <h1>My sales workspace</h1> <!-- Titre principal -->
+    <p class="subtitle">
+      Record sales activity and review your personal business entries from one organized workspace.
+    </p> <!-- Sous-texte -->
+  </section>
+
+  <div class="sales-grid"> <!-- Grille principale -->
+
+    <section class="panel"> <!-- Carte formulaire -->
+      <h2>Create a sales record</h2> <!-- Titre de section -->
+
+      <div *ngIf="errorMessage" class="error-banner"> <!-- Message d'erreur -->
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="success-banner"> <!-- Message de succès -->
+        {{ successMessage }}
+      </div>
+
+      <form [formGroup]="salesForm" (ngSubmit)="onSubmit()" class="sales-form"> <!-- Formulaire de création -->
+
+        <label class="field"> <!-- Champ date -->
+          <span>Date</span>
+          <input type="datetime-local" formControlName="date">
+        </label>
+
+        <label class="field"> <!-- Champ produit -->
+          <span>Product</span>
+          <input type="text" formControlName="product" placeholder="Enter product name">
+        </label>
+
+        <label class="field"> <!-- Champ prix -->
+          <span>Price</span>
+          <input type="number" formControlName="price" step="0.01" min="0.01" placeholder="Enter price">
+        </label>
+
+        <label class="field"> <!-- Champ quantité -->
+          <span>Quantity</span>
+          <input type="number" formControlName="quantity" min="1" placeholder="Enter quantity">
+        </label>
+
+        <label class="field"> <!-- Champ stock -->
+          <span>Stock</span>
+          <input type="number" formControlName="stock" min="0" placeholder="Enter remaining stock">
+        </label>
+
+        <button type="submit" [disabled]="isSubmitting"> <!-- Bouton submit -->
+          {{ isSubmitting ? 'Creating...' : 'Create record' }}
+        </button>
+
+        <button type="button" (click)="onReset()">Reset</button> <!-- Bouton reset -->
+
+      </form>
+    </section>
+
+    <section class="panel"> <!-- Carte liste paginée -->
+      <div class="panel-header"> <!-- En-tête de la liste -->
+        <h2>My sales records</h2> <!-- Titre -->
+        <span class="count">{{ totalElements }} records</span> <!-- Nombre total d'éléments -->
+      </div>
+
+      <app-loading-spinner *ngIf="isLoadingList" label="Loading sales records..."></app-loading-spinner> <!-- Spinner -->
+
+      <ng-container *ngIf="!isLoadingList"> <!-- Contenu visible hors chargement -->
+
+        <div *ngIf="sales.length === 0" class="empty-state"> <!-- État vide -->
+          No sales record found for this account.
+        </div>
+
+        <div *ngIf="sales.length > 0" class="table-wrap"> <!-- Table des ventes -->
+          <table class="sales-table"> <!-- Table -->
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let sale of sales; trackBy: trackBySaleId">
+                <td>{{ sale.saleDate | date:'medium' }}</td>
+                <td>{{ sale.product }}</td>
+                <td>{{ sale.price | number:'1.2-2' }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>{{ sale.stock }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination"> <!-- Bloc pagination -->
+          <button type="button" (click)="goToPreviousPage()" [disabled]="currentPage === 0">Prev</button>
+
+          <span class="page-info">
+            Page {{ currentPage + 1 }} / {{ totalPages === 0 ? 1 : totalPages }}
+          </span>
+
+          <button type="button" (click)="goToNextPage()" [disabled]="currentPage + 1 >= totalPages">Next</button>
+        </div>
+
+      </ng-container>
+    </section>
+
+  </div>
+</div>

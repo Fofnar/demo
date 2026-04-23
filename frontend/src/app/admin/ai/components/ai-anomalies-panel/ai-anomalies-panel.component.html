@@ -1,0 +1,141 @@
+<section class="anomalies-section"> <!-- Section principale du module anomalies -->
+
+  <div class="section-header"> <!-- En-tête du module -->
+    <div> <!-- Bloc texte de l'en-tête -->
+      <p class="section-tag">Risk monitoring</p> <!-- Petit label -->
+      <h2>Anomaly detection</h2> <!-- Titre -->
+      <p class="section-subtitle">
+        Statistical and machine-learning signals detected across the sales activity.
+      </p> <!-- Sous-titre -->
+    </div>
+
+    <div class="header-status"> <!-- Bloc de statut -->
+      <span class="status-chip" [class.status-chip-active]="anomalies?.ml_enabled"> <!-- Badge ML -->
+        ML {{ anomalies?.ml_enabled ? 'enabled' : 'disabled' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="summary-grid"> <!-- Résumé rapide -->
+    <article class="summary-card"> <!-- Nombre total -->
+      <p class="summary-label">Total anomalies</p>
+      <h3>{{ anomalyCount }}</h3>
+      <span class="summary-hint">Signals detected in the selected dataset</span>
+    </article>
+
+    <article class="summary-card critical"> <!-- Sévérité critique -->
+      <p class="summary-label">Critical severity</p>
+      <h3>{{ criticalSeverityCount }}</h3>
+      <span class="summary-hint">Immediate intervention required</span>
+    </article>
+
+    <article class="summary-card danger"> <!-- Sévérité haute -->
+      <p class="summary-label">High severity</p>
+      <h3>{{ highSeverityCount }}</h3>
+      <span class="summary-hint">Strong abnormal signals requiring quick review</span>
+    </article>
+
+    <article class="summary-card warning"> <!-- Sévérité moyenne -->
+      <p class="summary-label">Medium severity</p>
+      <h3>{{ mediumSeverityCount }}</h3>
+      <span class="summary-hint">Should be monitored closely</span>
+    </article>
+
+    <article class="summary-card low"> <!-- Sévérité faible -->
+      <p class="summary-label">Low severity</p>
+      <h3>{{ lowSeverityCount }}</h3>
+      <span class="summary-hint">Minor deviations with limited business impact</span>
+    </article>
+
+    <article class="summary-card"> <!-- Bornes -->
+      <p class="summary-label">Detection bounds</p>
+      <h3>{{ anomalies?.lower_bound }} / {{ anomalies?.upper_bound }}</h3>
+      <span class="summary-hint">Statistical thresholds used by the engine</span>
+    </article>
+  </div>
+
+  <div *ngIf="!hasAnomalies()" class="empty-state"> <!-- État vide -->
+    <h3>No anomalies detected</h3>
+    <p>The analysis engine did not detect any abnormal sales pattern for the current dataset.</p>
+  </div>
+
+  <div *ngIf="hasAnomalies()" class="anomaly-list"> <!-- Liste des anomalies -->
+
+    <article
+      *ngFor="let anomaly of displayedAnomalies; trackBy: trackByAnomaly"
+      class="anomaly-card"> <!-- Carte d'anomalie -->
+
+      <div class="anomaly-top-row"> <!-- En-tête de la carte -->
+        <div class="anomaly-main-meta"> <!-- Date + produit -->
+          <p class="anomaly-date">{{ anomaly.date }}</p>
+          <h3>{{ anomaly.product }}</h3>
+        </div>
+
+        <span class="severity-badge" [ngClass]="getSeverityClass(anomaly.severity)"> <!-- Badge sévérité -->
+          {{ getSeverityLabel(anomaly.severity) }}
+        </span>
+      </div>
+
+      <div class="anomaly-metrics"> <!-- Bloc métriques -->
+        <div class="metric-item">
+          <span class="metric-label">Value</span>
+          <strong>{{ anomaly.value }}</strong>
+        </div>
+
+        <div class="metric-item">
+          <span class="metric-label">Daily revenue</span>
+          <strong>{{ anomaly.daily_revenue }}</strong>
+        </div>
+
+        <div class="metric-item">
+          <span class="metric-label">Share of day</span>
+          <strong>{{ formatPercentage(anomaly.share_of_day_revenue) }}</strong>
+        </div>
+
+        <div class="metric-item">
+          <span class="metric-label">Deviation ratio</span>
+          <strong>{{ formatPercentage(anomaly.deviation_ratio) }}</strong>
+        </div>
+      </div>
+
+      <div class="anomaly-content-grid"> <!-- Corps texte -->
+        <div class="content-block">
+          <p class="content-title">Reason</p>
+          <p class="content-text">{{ anomaly.reason }}</p>
+        </div>
+
+        <div class="content-block">
+          <p class="content-title">Recommended action</p>
+          <p class="content-text">{{ anomaly.recommendation }}</p>
+        </div>
+      </div>
+
+      <div class="anomaly-footer"> <!-- Pied de carte -->
+        <div class="footer-group">
+          <span class="footer-label">Sources</span>
+          <span class="footer-value">
+            {{ anomaly.sources.length ? anomaly.sources.join(', ') : 'N/A' }}
+          </span>
+        </div>
+
+        <div class="footer-group">
+          <span class="footer-label">ML score</span>
+          <span class="footer-value">
+            {{ anomaly.ml_score }}
+          </span>
+        </div>
+      </div>
+
+    </article>
+
+  </div>
+
+  <div *ngIf="overviewMode && remainingCount > 0" class="overview-note"> <!-- Indique qu'il reste des anomalies masquées -->
+    {{ remainingCount }} more anomaly{{ remainingCount > 1 ? 'ies' : 'y' }} available in the detailed module.
+  </div>
+
+  <div *ngIf="showFooterAction" class="panel-actions"> <!-- Action vers la page complète -->
+    <a routerLink="/admin/ai/anomalies" class="panel-link">Open full anomalies module</a>
+  </div>
+
+</section>

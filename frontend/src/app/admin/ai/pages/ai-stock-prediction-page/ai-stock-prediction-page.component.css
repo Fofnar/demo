@@ -1,0 +1,552 @@
+.ai-stock-prediction-page { /* Conteneur principal de la page stock prediction */
+  min-height: 100vh; /* Pleine hauteur écran */
+  padding: 32px; /* Espace intérieur global */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond sombre SaaS */
+  color: #e5e7eb; /* Couleur principale du texte */
+  font-family: Arial, Helvetica, sans-serif; /* Police simple et lisible */
+}
+
+.hero-card { /* Bandeau principal */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Répartition horizontale */
+  gap: 24px; /* Espace entre les blocs */
+  align-items: flex-start; /* Alignement haut */
+  padding: 28px; /* Espace intérieur */
+  margin-bottom: 24px; /* Espace sous le bandeau */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Effet glass */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+  flex-wrap: wrap; /* Autorise le retour à la ligne */
+}
+
+.hero-content { /* Bloc texte du hero */
+  flex: 1 1 520px; /* Taille flexible */
+}
+
+.eyebrow { /* Petit label */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.14em; /* Espacement */
+  font-size: 13px; /* Taille lisible */
+  color: #93c5fd; /* Accent bleu */
+}
+
+.hero-card h1 { /* Titre principal */
+  margin: 0; /* Supprime marge par défaut */
+  font-size: 32px; /* Taille forte */
+  line-height: 1.2; /* Hauteur de ligne */
+  color: #ffffff; /* Blanc */
+}
+
+.subtitle { /* Sous-texte principal */
+  margin: 12px 0 0 0; /* Espacement supérieur */
+  max-width: 760px; /* Largeur confortable */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.55; /* Confort de lecture */
+}
+
+.hero-kpis { /* Bloc des indicateurs rapides */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(2, minmax(170px, 1fr)); /* Deux colonnes minimales */
+  gap: 14px; /* Espace entre cartes */
+  flex: 1 1 340px; /* Largeur adaptable */
+}
+
+.hero-kpi { /* Carte KPI rapide */
+  padding: 18px; /* Espace intérieur */
+  border-radius: 18px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+}
+
+.hero-kpi.alert { /* Variante alerte */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  background: rgba(127, 29, 29, 0.22); /* Fond critique discret */
+}
+
+.hero-kpi-label { /* Libellé KPI */
+  display: block; /* Passe à la ligne */
+  margin-bottom: 8px; /* Espace sous le libellé */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+}
+
+.hero-kpi strong { /* Valeur du KPI */
+  font-size: 28px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.state-card { /* Bloc d'état générique */
+  padding: 18px 22px; /* Espace intérieur */
+  border-radius: 18px; /* Coins */
+  margin-bottom: 18px; /* Espace inférieur */
+  background: rgba(255, 255, 255, 0.05); /* Fond discret */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+}
+
+.state-card.error { /* Variante erreur */
+  background: rgba(127, 29, 29, 0.3); /* Fond rouge sombre */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+}
+
+.state-card p { /* Texte du bloc d'état */
+  margin: 0; /* Pas de marge */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.5; /* Confort de lecture */
+}
+
+.state-actions { /* Actions du bloc erreur */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre actions */
+  flex-wrap: wrap; /* Retour à la ligne si besoin */
+  margin-top: 14px; /* Espace supérieur */
+}
+
+.state-actions button,
+.state-actions a { /* Style commun des actions */
+  padding: 12px 16px; /* Zone cliquable confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Sans bordure native */
+  text-decoration: none; /* Sans soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte plus fort */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-size: 15px; /* Taille lisible */
+}
+
+.priority-banner { /* Bannière stratégique */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Répartition des blocs */
+  gap: 20px; /* Espace entre texte et actions */
+  align-items: center; /* Alignement vertical */
+  flex-wrap: wrap; /* Responsive */
+  margin: 24px 0; /* Espacement vertical */
+  padding: 22px; /* Espace intérieur */
+  border-radius: 22px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.priority-banner.critical { /* Variante critique */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  background: rgba(127, 29, 29, 0.16); /* Fond critique discret */
+}
+
+.priority-tag { /* Petit label */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.1em; /* Espacement */
+  font-size: 13px; /* Taille lisible */
+  color: #93c5fd; /* Accent */
+}
+
+.priority-banner h2 { /* Titre de la bannière */
+  margin: 0; /* Pas de marge */
+  color: #ffffff; /* Blanc */
+  font-size: 26px; /* Taille forte */
+}
+
+.priority-text { /* Texte de synthèse */
+  margin: 10px 0 0 0; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.55; /* Confort de lecture */
+  max-width: 780px; /* Limite de largeur */
+}
+
+.priority-actions { /* Actions rapides */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre actions */
+  flex-wrap: wrap; /* Responsive */
+}
+
+.priority-actions button,
+.priority-actions a { /* Style commun */
+  padding: 12px 16px; /* Taille confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Sans bordure native */
+  text-decoration: none; /* Sans soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte fort */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-size: 15px; /* Taille lisible */
+}
+
+.section-heading { /* En-tête de section */
+  margin-bottom: 18px; /* Espace inférieur */
+}
+
+.section-heading h2 { /* Titre de section */
+  margin: 0; /* Pas de marge */
+  font-size: 24px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.section-heading p { /* Sous-texte */
+  margin: 8px 0 0 0; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 15px; /* Taille lisible */
+}
+
+.business-section,
+.products-section,
+.anomaly-context-section,
+.recommendations-section { /* Sections principales */
+  margin-bottom: 26px; /* Espace inférieur */
+}
+
+.business-card { /* Carte du commentaire métier */
+  padding: 22px; /* Espace intérieur */
+  border-radius: 22px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.business-card p { /* Texte commentaire métier */
+  margin: 0; /* Pas de marge */
+  color: #dbe4ee; /* Gris clair */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.65; /* Confort de lecture */
+}
+
+.empty-state { /* État vide */
+  padding: 24px; /* Espace intérieur */
+  border-radius: 18px; /* Coins */
+  background: rgba(15, 23, 42, 0.68); /* Fond */
+  border: 1px dashed rgba(255, 255, 255, 0.12); /* Bordure pointillée */
+  color: #cbd5e1; /* Couleur texte */
+  font-size: 15px; /* Taille lisible */
+}
+
+.products-grid { /* Grille des cartes produit */
+  display: grid; /* Mise en grille */
+  gap: 18px; /* Espace entre cartes */
+}
+
+.product-card { /* Carte produit */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 22px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16); /* Ombre */
+}
+
+.product-top-row { /* En-tête de la carte */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Répartition */
+  gap: 16px; /* Espace */
+  align-items: flex-start; /* Alignement haut */
+  margin-bottom: 18px; /* Espace inférieur */
+}
+
+.product-tag { /* Petit label */
+  margin: 0 0 6px 0; /* Marges */
+  font-size: 13px; /* Taille lisible */
+  color: #93c5fd; /* Accent */
+}
+
+.product-card h3 { /* Nom du produit */
+  margin: 0; /* Pas de marge */
+  font-size: 24px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.risk-badge { /* Badge de niveau de risque */
+  padding: 8px 12px; /* Espace intérieur */
+  border-radius: 999px; /* Forme pilule */
+  font-size: 12px; /* Taille compacte */
+  font-weight: 700; /* Poids fort */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.08em; /* Espacement */
+}
+
+.risk-critical { /* Risque critique */
+  background: rgba(127, 29, 29, 0.5); /* Fond rouge fort */
+  border: 1px solid rgba(239, 68, 68, 0.5); /* Bordure rouge */
+  color: #fee2e2; /* Texte clair */
+}
+
+.risk-high { /* Risque élevé */
+  background: rgba(127, 29, 29, 0.35); /* Fond rouge */
+  border: 1px solid rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  color: #fecaca; /* Texte clair */
+}
+
+.risk-medium { /* Risque moyen */
+  background: rgba(120, 53, 15, 0.35); /* Fond orange */
+  border: 1px solid rgba(251, 191, 36, 0.35); /* Bordure orange */
+  color: #fde68a; /* Texte clair */
+}
+
+.risk-low { /* Risque faible */
+  background: rgba(20, 83, 45, 0.35); /* Fond vert */
+  border: 1px solid rgba(74, 222, 128, 0.35); /* Bordure verte */
+  color: #bbf7d0; /* Texte vert */
+}
+
+.risk-unknown { /* Risque inconnu */
+  background: rgba(59, 130, 246, 0.18); /* Fond bleu discret */
+  border: 1px solid rgba(96, 165, 250, 0.3); /* Bordure bleue */
+  color: #bfdbfe; /* Texte bleu clair */
+}
+
+.risk-default { /* Fallback */
+  background: rgba(255, 255, 255, 0.08); /* Fond neutre */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure neutre */
+  color: #e5e7eb; /* Texte neutre */
+}
+
+.metrics-grid { /* Grille des métriques */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Colonnes adaptatives */
+  gap: 12px; /* Espace */
+  margin-bottom: 18px; /* Espace inférieur */
+}
+
+.metric-item { /* Carte métrique */
+  padding: 14px; /* Espace intérieur */
+  border-radius: 16px; /* Coins */
+  background: rgba(255, 255, 255, 0.04); /* Fond léger */
+  border: 1px solid rgba(255, 255, 255, 0.06); /* Bordure */
+}
+
+.metric-label { /* Label métrique */
+  display: block; /* Passe à la ligne */
+  margin-bottom: 6px; /* Espace inférieur */
+  font-size: 12px; /* Taille compacte */
+  color: #93c5fd; /* Accent */
+}
+
+.metric-item strong { /* Valeur métrique */
+  color: #ffffff; /* Blanc */
+  font-size: 16px; /* Taille lisible */
+}
+
+.content-grid { /* Grille du contenu texte */
+  display: grid; /* Mise en grille */
+  gap: 16px; /* Espace */
+  margin-bottom: 18px; /* Espace inférieur */
+}
+
+.content-block { /* Carte de contenu texte */
+  padding: 16px; /* Espace intérieur */
+  border-radius: 18px; /* Coins */
+  background: rgba(255, 255, 255, 0.04); /* Fond */
+  border: 1px solid rgba(255, 255, 255, 0.06); /* Bordure */
+}
+
+.content-title { /* Titre du bloc texte */
+  margin: 0 0 8px 0; /* Marges */
+  font-size: 13px; /* Taille */
+  color: #93c5fd; /* Accent */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.08em; /* Espacement */
+}
+
+.content-text { /* Texte du bloc */
+  margin: 0; /* Pas de marge */
+  color: #dbe4ee; /* Gris clair */
+  line-height: 1.55; /* Confort */
+  font-size: 15px; /* Taille lisible */
+}
+
+.product-footer { /* Pied de carte */
+  display: flex; /* Mise en ligne */
+  flex-wrap: wrap; /* Retour à la ligne */
+  gap: 16px; /* Espace */
+  padding-top: 14px; /* Espace supérieur */
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Séparateur */
+}
+
+.footer-group { /* Groupe du pied */
+  display: flex; /* Mise en ligne */
+  gap: 8px; /* Espace */
+  align-items: center; /* Alignement */
+}
+
+.footer-label { /* Label du pied */
+  color: #93c5fd; /* Accent */
+  font-size: 13px; /* Taille lisible */
+}
+
+.footer-value { /* Valeur du pied */
+  color: #e5e7eb; /* Couleur */
+  font-size: 13px; /* Taille lisible */
+}
+
+.inline-severity { /* Sévérité inline */
+  display: inline-block; /* Permet padding et bordure */
+  padding: 4px 8px; /* Espace intérieur */
+  border-radius: 999px; /* Forme capsule */
+}
+
+.trend-upward { /* Tendance haussière */
+  color: #86efac; /* Vert clair */
+}
+
+.trend-downward { /* Tendance baissière */
+  color: #fca5a5; /* Rouge clair */
+}
+
+.trend-stable { /* Tendance stable */
+  color: #fde68a; /* Jaune clair */
+}
+
+.trend-default { /* Tendance inconnue */
+  color: #ffffff; /* Blanc */
+}
+
+.severity-critical { /* Sévérité critique liée */
+  background: rgba(127, 29, 29, 0.5); /* Fond critique */
+  border: 1px solid rgba(239, 68, 68, 0.5); /* Bordure critique */
+  color: #fee2e2; /* Texte clair */
+}
+
+.severity-high { /* Sévérité haute liée */
+  background: rgba(127, 29, 29, 0.35); /* Fond rouge */
+  border: 1px solid rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  color: #fecaca; /* Texte clair */
+}
+
+.severity-medium { /* Sévérité moyenne liée */
+  background: rgba(120, 53, 15, 0.35); /* Fond orange */
+  border: 1px solid rgba(251, 191, 36, 0.35); /* Bordure orange */
+  color: #fde68a; /* Texte clair */
+}
+
+.severity-low { /* Sévérité faible liée */
+  background: rgba(20, 83, 45, 0.35); /* Fond vert */
+  border: 1px solid rgba(74, 222, 128, 0.35); /* Bordure verte */
+  color: #bbf7d0; /* Texte vert */
+}
+
+.severity-default { /* Sévérité inconnue */
+  background: rgba(255, 255, 255, 0.08); /* Fond neutre */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure neutre */
+  color: #e5e7eb; /* Texte neutre */
+}
+
+.anomaly-context-grid { /* Grille du contexte anomalies */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colonnes responsive */
+  gap: 18px; /* Espace entre cartes */
+}
+
+.anomaly-context-card { /* Carte contexte anomalies */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 20px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.anomaly-context-card.alert { /* Variante alerte */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+}
+
+.anomaly-context-label { /* Label contexte anomalies */
+  margin: 0 0 10px 0; /* Marges */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+}
+
+.anomaly-context-card strong { /* Valeur contexte anomalies */
+  font-size: 30px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.recommendations-grid { /* Grille des recommandations */
+  display: grid; /* Mise en grille */
+  gap: 16px; /* Espace entre cartes */
+}
+
+.recommendation-card { /* Carte recommandation */
+  display: flex; /* Mise en ligne */
+  gap: 14px; /* Espace entre index et texte */
+  align-items: flex-start; /* Alignement haut */
+  padding: 18px; /* Espace intérieur */
+  border-radius: 20px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.recommendation-index { /* Index de recommandation */
+  min-width: 42px; /* Largeur minimale */
+  height: 42px; /* Hauteur */
+  display: inline-flex; /* Centre le contenu */
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  border-radius: 999px; /* Rond */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-weight: 700; /* Texte fort */
+}
+
+.recommendation-card p { /* Texte recommandation */
+  margin: 0; /* Pas de marge */
+  color: #dbe4ee; /* Gris clair */
+  font-size: 15px; /* Taille lisible */
+  line-height: 1.6; /* Confort */
+}
+
+.footer-actions { /* Actions rapides de fin */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre actions */
+  flex-wrap: wrap; /* Retour à la ligne si besoin */
+}
+
+.footer-actions button,
+.footer-actions a { /* Style commun */
+  padding: 12px 16px; /* Zone cliquable confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Retire bordure native */
+  text-decoration: none; /* Sans soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte fort */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-size: 15px; /* Taille lisible */
+}
+
+@media (max-width: 900px) { /* Responsive tablette */
+  .hero-kpis {
+    grid-template-columns: 1fr 1fr; /* Garde deux colonnes si possible */
+  }
+
+  .product-top-row {
+    flex-direction: column; /* Empile le contenu */
+  }
+}
+
+@media (max-width: 768px) { /* Responsive mobile */
+  .ai-stock-prediction-page {
+    padding: 20px; /* Réduit le padding externe */
+  }
+
+  .hero-card h1 {
+    font-size: 28px; /* Réduit légèrement le titre principal */
+  }
+
+  .subtitle {
+    font-size: 15px; /* Sous-texte légèrement réduit */
+  }
+
+  .hero-kpis {
+    grid-template-columns: 1fr; /* KPI sur une seule colonne */
+  }
+
+  .priority-banner h2 {
+    font-size: 22px; /* Titre bannière réduit */
+  }
+
+  .priority-text {
+    font-size: 15px; /* Texte bannière réduit mais lisible */
+  }
+}

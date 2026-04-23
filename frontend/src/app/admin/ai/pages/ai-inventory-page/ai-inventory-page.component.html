@@ -1,0 +1,182 @@
+<div class="ai-inventory-page"> <!-- Conteneur principal de la page inventory -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <div class="hero-content"> <!-- Bloc texte principal -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Inventory module</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Monitor stock pressure, critical products, out-of-stock situations and replenishment priorities from one operational workspace.
+      </p> <!-- Sous-texte métier -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && inventory"> <!-- Indicateurs rapides -->
+      <article class="hero-kpi"> <!-- Total produits -->
+        <span class="hero-kpi-label">Total products</span>
+        <strong>{{ totalProducts }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Stock faible -->
+        <span class="hero-kpi-label">Low stock</span>
+        <strong>{{ lowStockCount }}</strong>
+      </article>
+
+      <article class="hero-kpi" [class.alert]="criticalStockCount > 0"> <!-- Stock critique -->
+        <span class="hero-kpi-label">Critical stock</span>
+        <strong>{{ criticalStockCount }}</strong>
+      </article>
+
+      <article class="hero-kpi" [class.alert]="outOfStockCount > 0"> <!-- Rupture -->
+        <span class="hero-kpi-label">Out of stock</span>
+        <strong>{{ outOfStockCount }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne entre les modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading inventory...">
+  </app-loading-spinner> <!-- Spinner de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message -->
+    <div class="state-actions"> <!-- Actions du bloc erreur -->
+      <button type="button" (click)="retry()">Retry</button> <!-- Relance -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && inventory"> <!-- Contenu principal -->
+
+    <section class="priority-banner" [class.critical]="hasCriticalStockPressure()"> <!-- Bannière stratégique -->
+      <div> <!-- Bloc texte -->
+        <p class="priority-tag">Operational priority</p> <!-- Petit label -->
+        <h2>Inventory pressure overview</h2> <!-- Titre -->
+        <p class="priority-text">
+          The stock analysis reports {{ lowStockCount }} low-stock products, {{ criticalStockCount }}
+          critical-stock products and {{ outOfStockCount }} out-of-stock situations requiring operational attention.
+        </p> <!-- Résumé métier -->
+      </div>
+
+      <div class="priority-actions"> <!-- Actions rapides -->
+        <button type="button" (click)="refreshInventory()">Refresh inventory</button> <!-- Recharge les données -->
+        <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+      </div>
+    </section>
+
+    <section class="comments-section"> <!-- Section commentaires globaux -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Inventory assessment</h2> <!-- Titre -->
+        <p>Operational and business comments generated from the inventory engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="comments-grid"> <!-- Grille de commentaires -->
+        <article class="comment-card"> <!-- Commentaire inventaire -->
+          <p class="comment-title">Inventory comment</p> <!-- Titre -->
+          <p class="comment-text">{{ inventory.inventory_comment }}</p> <!-- Texte -->
+        </article>
+
+        <article class="comment-card"> <!-- Commentaire business -->
+          <p class="comment-title">Business comment</p> <!-- Titre -->
+          <p class="comment-text">{{ inventory.business_comment }}</p> <!-- Texte -->
+        </article>
+      </div>
+    </section>
+
+    <section class="alerts-section"> <!-- Section des alertes détaillées -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Low stock alerts</h2> <!-- Titre -->
+        <p>Detailed product-level alerts generated from the current stock state.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="!hasAlerts()" class="empty-state"> <!-- Cas sans alerte -->
+        No stock alert is available for the current analysis.
+      </div>
+
+      <div *ngIf="hasAlerts()" class="alerts-grid"> <!-- Liste des alertes -->
+        <article
+          *ngFor="let alert of alerts; trackBy: trackByProduct"
+          class="alert-card"> <!-- Carte d'alerte produit -->
+
+          <div class="alert-top-row"> <!-- En-tête de la carte -->
+            <div> <!-- Produit -->
+              <p class="alert-date-label">Product alert</p> <!-- Petit label -->
+              <h3>{{ alert.product }}</h3> <!-- Nom du produit -->
+            </div>
+
+            <span class="stock-level-badge" [ngClass]="getStockLevelClass(alert.stock_level)"> <!-- Badge niveau stock -->
+              {{ getStockLevelLabel(alert.stock_level) }}
+            </span>
+          </div>
+
+          <div class="alert-metrics"> <!-- Bloc de métriques -->
+            <div class="metric-item"> <!-- Stock restant -->
+              <span class="metric-label">Current stock</span>
+              <strong>{{ alert.stock }}</strong>
+            </div>
+
+            <div class="metric-item"> <!-- Anomalies liées -->
+              <span class="metric-label">Related anomalies</span>
+              <strong>{{ alert.related_anomaly_count }}</strong>
+            </div>
+
+            <div class="metric-item"> <!-- Sévérité liée -->
+              <span class="metric-label">Related severity</span>
+              <strong
+                class="inline-severity"
+                [ngClass]="getRelatedSeverityClass(alert.related_anomaly_severity)">
+                {{ getRelatedSeverityLabel(alert.related_anomaly_severity) }}
+              </strong>
+            </div>
+
+            <div class="metric-item"> <!-- Lien anomalie -->
+              <span class="metric-label">Anomaly linked</span>
+              <strong>{{ alert.has_related_anomaly ? 'Yes' : 'No' }}</strong>
+            </div>
+          </div>
+
+          <div class="alert-content-grid"> <!-- Corps texte -->
+            <div class="content-block"> <!-- Warning -->
+              <p class="content-title">Warning</p>
+              <p class="content-text">{{ alert.warning }}</p>
+            </div>
+
+            <div class="content-block"> <!-- Recommendation -->
+              <p class="content-title">Recommended action</p>
+              <p class="content-text">{{ alert.recommendation }}</p>
+            </div>
+          </div>
+
+        </article>
+      </div>
+    </section>
+
+    <section class="recommendations-section"> <!-- Recommandations globales -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Global recommendations</h2> <!-- Titre -->
+        <p>Operational actions suggested by the inventory analysis engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="inventory.recommendations.length === 0" class="empty-state"> <!-- Cas sans recommandation -->
+        No inventory recommendation is available for the current analysis.
+      </div>
+
+      <div *ngIf="inventory.recommendations.length > 0" class="recommendations-grid"> <!-- Liste recommandations -->
+        <article
+          *ngFor="let recommendation of inventory.recommendations; let i = index"
+          class="recommendation-card">
+          <span class="recommendation-index">#{{ i + 1 }}</span> <!-- Numéro -->
+          <p>{{ recommendation }}</p> <!-- Recommandation -->
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-actions"> <!-- Actions rapides de fin -->
+      <button type="button" (click)="refreshInventory()">Refresh inventory</button> <!-- Rafraîchit les données -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </section>
+
+  </ng-container>
+
+</div>

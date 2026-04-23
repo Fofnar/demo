@@ -1,0 +1,47 @@
+<div class="app-shell"> <!-- Shell global -->
+
+  <header class="topbar"> <!-- Barre du haut -->
+    <a class="brand" routerLink="/about">Felyxor</a> <!-- Nom officiel de la plateforme -->
+
+    <nav class="nav-links"> <!-- Navigation principale -->
+
+      <a routerLink="/about" routerLinkActive="active-link">
+        About
+      </a> <!-- Page publique de présentation -->
+
+      <a *ngIf="hasSession() && !isAdmin()" routerLink="/sales" routerLinkActive="active-link">
+        Sales
+      </a> <!-- Espace ventes utilisateur -->
+
+      <a *ngIf="hasSession() && isAdmin()" routerLink="/admin/sales" routerLinkActive="active-link">
+        Sales
+      </a> <!-- Espace ventes administrateur -->
+
+      <a *ngIf="hasSession()" routerLink="/profile" routerLinkActive="active-link">
+        Profile
+      </a> <!-- Profil utilisateur -->
+
+      <a *ngIf="hasSession() && isAdmin()" routerLink="/dashboard" routerLinkActive="active-link">
+        Dashboard
+      </a> <!-- Dashboard administrateur -->
+
+      <a *ngIf="!hasSession()" routerLink="/login" routerLinkActive="active-link">
+        Sign in
+      </a> <!-- Connexion -->
+
+      <a *ngIf="!hasSession()" routerLink="/register" routerLinkActive="active-link">
+        Get started
+      </a> <!-- Création de compte -->
+
+      <button *ngIf="hasSession()" type="button" (click)="logout()">
+        Sign out
+      </button> <!-- Déconnexion -->
+
+    </nav>
+  </header>
+
+  <main class="page-content"> <!-- Zone de contenu -->
+    <router-outlet></router-outlet> <!-- Angular injecte la route ici -->
+  </main>
+
+</div>

@@ -1,0 +1,145 @@
+<div class="admin-sales-page"> <!-- Conteneur principal -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <p class="eyebrow">Felyxor Admin</p> <!-- Petit label -->
+    <h1>Sales management</h1> <!-- Titre principal -->
+    <p class="subtitle">
+      Search, filter, review, and manage sales records from a centralized administrator workspace.
+    </p> <!-- Sous-texte -->
+  </section>
+
+  <section class="panel"> <!-- Carte des filtres -->
+    <div class="panel-header"> <!-- En-tête -->
+      <h2>Advanced filters</h2> <!-- Titre de section -->
+      <span class="count">{{ totalElements }} records</span> <!-- Total des résultats -->
+    </div>
+
+    <div class="filter-hint"> <!-- Indication métier -->
+      Range filters should be filled with both boundaries, or left empty.
+    </div>
+
+    <div *ngIf="errorMessage" class="error-banner"> <!-- Message d'erreur -->
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="success-banner"> <!-- Message de succès -->
+      {{ successMessage }}
+    </div>
+
+    <form [formGroup]="filterForm" class="filters-grid"> <!-- Formulaire de filtres -->
+
+      <label class="field"> <!-- Filtre produit -->
+        <span>Product</span>
+        <input type="text" formControlName="product" placeholder="Enter product name">
+      </label>
+
+      <label class="field"> <!-- Filtre mot-clé -->
+        <span>Keyword</span>
+        <input type="text" formControlName="keyword" placeholder="Search by keyword">
+      </label>
+
+      <label class="field"> <!-- Filtre stock inférieur -->
+        <span>Stock less than</span>
+        <input type="number" formControlName="stockLessThan" min="0" placeholder="Enter stock threshold">
+      </label>
+
+      <div class="range-grid"> <!-- Plage de stock -->
+        <label class="field">
+          <span>Min stock</span>
+          <input type="number" formControlName="minStock" min="0" placeholder="Enter minimum stock">
+        </label>
+
+        <label class="field">
+          <span>Max stock</span>
+          <input type="number" formControlName="maxStock" min="0" placeholder="Enter maximum stock">
+        </label>
+      </div>
+
+      <div class="range-grid"> <!-- Plage de prix -->
+        <label class="field">
+          <span>Min price</span>
+          <input type="number" formControlName="minPrice" min="0" step="0.01" placeholder="Enter minimum price">
+        </label>
+
+        <label class="field">
+          <span>Max price</span>
+          <input type="number" formControlName="maxPrice" min="0" step="0.01" placeholder="Enter maximum price">
+        </label>
+      </div>
+
+      <div class="range-grid"> <!-- Plage de dates -->
+        <label class="field">
+          <span>Start date</span>
+          <input type="datetime-local" formControlName="startDate">
+        </label>
+
+        <label class="field">
+          <span>End date</span>
+          <input type="datetime-local" formControlName="endDate">
+        </label>
+      </div>
+
+      <div class="action-row"> <!-- Ligne des actions -->
+        <button type="button" (click)="applyFilters()">Apply filters</button>
+        <button type="button" (click)="resetFilters()">Reset</button>
+      </div>
+
+    </form>
+  </section>
+
+  <section class="panel"> <!-- Carte tableau -->
+    <div class="panel-header"> <!-- En-tête tableau -->
+      <h2>All sales records</h2> <!-- Titre -->
+      <span class="count">Page {{ currentPage + 1 }} / {{ totalPages === 0 ? 1 : totalPages }}</span> <!-- Pagination -->
+    </div>
+
+    <app-loading-spinner *ngIf="isLoadingList" label="Loading sales records..."></app-loading-spinner> <!-- Spinner -->
+
+    <ng-container *ngIf="!isLoadingList"> <!-- Contenu hors chargement -->
+
+      <div *ngIf="sales.length === 0" class="empty-state"> <!-- État vide -->
+        No sales record found for the selected filters.
+      </div>
+
+      <div *ngIf="sales.length > 0" class="table-wrap"> <!-- Tableau -->
+        <table class="sales-table"> <!-- Tableau des ventes -->
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let sale of sales; trackBy: trackBySaleId">
+              <td>{{ sale.id }}</td>
+              <td>{{ sale.saleDate | date:'medium' }}</td>
+              <td>{{ sale.product }}</td>
+              <td>{{ sale.price | number:'1.2-2' }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>{{ sale.stock }}</td>
+              <td>
+                <button type="button" class="danger" (click)="deleteSale(sale.id)" [disabled]="deletingId === sale.id">
+                  {{ deletingId === sale.id ? 'Deleting...' : 'Delete' }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination"> <!-- Pagination -->
+        <button type="button" (click)="goToPreviousPage()" [disabled]="currentPage === 0">Prev</button>
+        <span class="page-info">Page {{ currentPage + 1 }} / {{ totalPages === 0 ? 1 : totalPages }}</span>
+        <button type="button" (click)="goToNextPage()" [disabled]="currentPage + 1 >= totalPages">Next</button>
+      </div>
+
+    </ng-container>
+  </section>
+
+</div>

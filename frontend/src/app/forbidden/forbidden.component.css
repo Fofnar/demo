@@ -1,0 +1,23 @@
+.forbidden-card { /* Carte principale */
+  max-width: 520px; /* Largeur max */
+  margin: 64px auto; /* Centre la carte */
+  padding: 32px; /* Espace intérieur */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Fond transparent */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  color: #e5e7eb; /* Couleur du texte */
+  text-align: center; /* Texte centré */
+}
+.eyebrow { /* Petit texte au-dessus */
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: #93c5fd;
+}
+.back-link { /* Lien de retour */
+  display: inline-block;
+  margin-top: 16px;
+  color: #93c5fd;
+  text-decoration: none;
+}

@@ -1,0 +1,36 @@
+.stat-card { /* Conteneur de la carte */
+  padding: 22px; /* Espace intérieur */
+  border-radius: 22px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Fond transparent */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animation fluide */
+}
+
+.stat-card:hover { /* Effet au survol */
+  transform: translateY(-4px); /* Monte légèrement */
+  box-shadow: 0 22px 38px rgba(0, 0, 0, 0.24); /* Ombre plus forte */
+}
+
+.stat-label { /* Titre de la stat */
+  margin: 0 0 10px 0;
+  color: #93c5fd;
+  font-size: 14px;
+}
+
+.stat-card h2 { /* Valeur principale */
+  margin: 0;
+  font-size: 34px;
+  color: #ffffff;
+}
+
+.stat-hint { /* Texte secondaire */
+  display: block;
+  margin-top: 8px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.stat-card.alert { /* Style spécial pour un avertissement */
+  border-color: rgba(251, 191, 36, 0.35);
+}

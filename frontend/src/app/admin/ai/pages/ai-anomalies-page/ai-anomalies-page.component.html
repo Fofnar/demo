@@ -1,0 +1,82 @@
+<div class="ai-anomalies-page"> <!-- Conteneur principal de la page anomalies -->
+
+  <section class="hero-card"> <!-- Bandeau principal de la page -->
+    <div class="hero-content"> <!-- Bloc texte principal -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Anomalies module</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Review unusual revenue signals, severity levels and recommended actions from the AI engine.
+      </p> <!-- Sous-texte métier -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && anomalies"> <!-- Résumé rapide visible immédiatement -->
+      <article class="hero-kpi"> <!-- Carte total anomalies -->
+        <span class="hero-kpi-label">Total anomalies</span>
+        <strong>{{ anomalyCount }}</strong>
+      </article>
+
+      <article class="hero-kpi" [class.alert]="hasCriticalAttention()"> <!-- Carte anomalies critiques -->
+        <span class="hero-kpi-label">Critical severity</span>
+        <strong>{{ criticalSeverityCount }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Carte anomalies hautes -->
+        <span class="hero-kpi-label">High severity</span>
+        <strong>{{ highSeverityCount }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Carte anomalies medium -->
+        <span class="hero-kpi-label">Medium severity</span>
+        <strong>{{ mediumSeverityCount }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Carte statut ML -->
+        <span class="hero-kpi-label">ML detection</span>
+        <strong>{{ mlStatusLabel }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne des modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading anomalies...">
+  </app-loading-spinner> <!-- Indicateur de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message d'erreur -->
+    <div class="state-actions"> <!-- Actions du bloc erreur -->
+      <button type="button" (click)="retry()">Retry</button> <!-- Relance l'appel -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && anomalies"> <!-- Contenu principal de la page -->
+
+    <section class="priority-banner" [class.critical]="hasCriticalAttention()"> <!-- Bannière stratégique -->
+      <div> <!-- Texte principal -->
+        <p class="priority-tag">Risk priority</p> <!-- Petit label -->
+        <h2>Business anomalies overview</h2> <!-- Titre -->
+        <p class="priority-text">
+          {{ anomalyCount }} anomaly signals detected, including {{ criticalSeverityCount }} critical cases 
+          and {{ highSeverityCount }} high-severity cases that may require immediate review.
+        </p> <!-- Résumé métier -->
+      </div>
+
+      <div class="priority-actions"> <!-- Actions rapides -->
+        <button type="button" (click)="refreshAnomalies()">Refresh anomalies</button> <!-- Recharge les données -->
+        <a routerLink="/admin/ai">Back to overview</a> <!-- Retour à la vue d'ensemble -->
+      </div>
+    </section>
+
+    <app-ai-anomalies-panel
+      [anomalies]="anomalies"
+      [overviewMode]="false"
+      [maxItems]="null"
+      [showFooterAction]="false">
+    </app-ai-anomalies-panel> <!-- Version complète du panel anomalies -->
+
+  </ng-container>
+
+</div>

@@ -1,0 +1,175 @@
+<div class="ai-recommendations-page"> <!-- Conteneur principal de la page recommendations -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <div class="hero-content"> <!-- Bloc texte principal -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Recommendations module</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Explore the executive summary, strategic product insights, trend actions and anomaly-driven recommendations from the global AI engine.
+      </p> <!-- Sous-texte métier -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && recommendationsData"> <!-- Indicateurs rapides -->
+      <article class="hero-kpi" [class.alert]="trend === 'downward'"> <!-- Tendance globale -->
+        <span class="hero-kpi-label">Global trend</span>
+        <strong [ngClass]="getTrendClass(trend)">{{ getTrendLabel(trend) }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Variation -->
+        <span class="hero-kpi-label">Trend change rate</span>
+        <strong>{{ formatPercentage(trendChangeRate) }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Produit top volume -->
+        <span class="hero-kpi-label">Top selling product</span>
+        <strong>{{ topSellingProduct }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Produit top revenu -->
+        <span class="hero-kpi-label">Top revenue product</span>
+        <strong>{{ topRevenueProduct }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne entre les modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading recommendations...">
+  </app-loading-spinner> <!-- Spinner de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message -->
+    <div class="state-actions"> <!-- Actions du bloc erreur -->
+      <button type="button" (click)="retry()">Retry</button> <!-- Relance -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && recommendationsData"> <!-- Contenu principal -->
+
+    <section class="priority-banner" [class.critical]="hasCriticalAttention()"> <!-- Bannière stratégique -->
+      <div> <!-- Bloc texte -->
+        <p class="priority-tag">Executive summary</p> <!-- Petit label -->
+        <h2>Strategic recommendation overview</h2> <!-- Titre -->
+        <p class="priority-text">
+          {{ executiveSummary }}
+        </p> <!-- Résumé exécutif -->
+      </div>
+
+      <div class="priority-actions"> <!-- Actions rapides -->
+        <button type="button" (click)="refreshRecommendations()">Refresh recommendations</button> <!-- Recharge les données -->
+        <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+      </div>
+    </section>
+
+    <section class="trend-section"> <!-- Section contexte tendance -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Trend context</h2> <!-- Titre -->
+        <p>Global direction, slope and forecast signals extracted from the business trend engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="trend-grid"> <!-- Grille tendance -->
+        <article class="trend-card"> <!-- Tendance -->
+          <p class="trend-label">Trend</p>
+          <strong [ngClass]="getTrendClass(trend)">{{ getTrendLabel(trend) }}</strong>
+        </article>
+
+        <article class="trend-card"> <!-- Slope -->
+          <p class="trend-label">Trend slope</p>
+          <strong>{{ trendSlope | number:'1.2-2' }}</strong>
+        </article>
+
+        <article class="trend-card"> <!-- Change rate -->
+          <p class="trend-label">Change rate</p>
+          <strong>{{ formatPercentage(trendChangeRate) }}</strong>
+        </article>
+
+        <article class="trend-card"> <!-- Forecast method -->
+          <p class="trend-label">Forecast method</p>
+          <strong>{{ forecastMethod }}</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="forecast-section"> <!-- Section forecast -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Associated forecast</h2> <!-- Titre -->
+        <p>Forward-looking revenue projection reused by the recommendations engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="!forecastAvailable || !hasForecast()" class="empty-state"> <!-- Cas sans forecast -->
+        No forecast data is available for the current recommendations analysis.
+      </div>
+
+      <div *ngIf="forecastAvailable && hasForecast()" class="forecast-grid"> <!-- Liste forecast -->
+        <article
+          *ngFor="let point of forecastPoints; trackBy: trackByForecastDate"
+          class="forecast-card">
+          <p class="forecast-date">{{ point.date }}</p> <!-- Date -->
+          <h3>{{ point.yhat | number:'1.2-2' }}</h3> <!-- Valeur prévue -->
+        </article>
+      </div>
+    </section>
+
+    <section class="insights-section"> <!-- Section recommandations détaillées -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Detailed recommendation themes</h2> <!-- Titre -->
+        <p>Recommendations are grouped by products, trend and anomalies for faster business reading.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="insights-grid"> <!-- Grille des blocs -->
+        <article class="insight-card"> <!-- Bloc produits -->
+          <p class="insight-title">Product insights</p>
+          <div *ngIf="productInsights.length === 0" class="empty-inline">No product insight available.</div>
+          <ul *ngIf="productInsights.length > 0" class="insight-list">
+            <li *ngFor="let insight of productInsights; trackBy: trackByInsight">{{ insight }}</li>
+          </ul>
+        </article>
+
+        <article class="insight-card"> <!-- Bloc tendance -->
+          <p class="insight-title">Trend insights</p>
+          <div *ngIf="trendInsights.length === 0" class="empty-inline">No trend insight available.</div>
+          <ul *ngIf="trendInsights.length > 0" class="insight-list">
+            <li *ngFor="let insight of trendInsights; trackBy: trackByInsight">{{ insight }}</li>
+          </ul>
+        </article>
+
+        <article class="insight-card wide"> <!-- Bloc anomalies -->
+          <p class="insight-title">Anomaly insights</p>
+          <div *ngIf="anomalyInsights.length === 0" class="empty-inline">No anomaly insight available.</div>
+          <ul *ngIf="anomalyInsights.length > 0" class="insight-list">
+            <li *ngFor="let insight of anomalyInsights; trackBy: trackByInsight">{{ insight }}</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="anomaly-context-section"> <!-- Contexte anomalies -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Anomaly context</h2> <!-- Titre -->
+        <p>Strategic recommendations should be interpreted together with anomaly pressure.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="anomaly-context-grid"> <!-- Grille contexte anomalies -->
+        <article class="anomaly-context-card"> <!-- Total anomalies -->
+          <p class="anomaly-context-label">Total anomalies</p>
+          <strong>{{ anomaliesCount }}</strong>
+        </article>
+
+        <article class="anomaly-context-card" [class.alert]="highPriorityAnomalies > 0"> <!-- Prioritaires -->
+          <p class="anomaly-context-label">High priority anomalies</p>
+          <strong>{{ highPriorityAnomalies }}</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-actions"> <!-- Actions rapides de fin -->
+      <button type="button" (click)="refreshRecommendations()">Refresh recommendations</button> <!-- Rafraîchit les données -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </section>
+
+  </ng-container>
+
+</div>
