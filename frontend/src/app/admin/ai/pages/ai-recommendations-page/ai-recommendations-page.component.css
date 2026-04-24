@@ -1,0 +1,399 @@
+.ai-recommendations-page { /* Conteneur principal de la page recommendations */
+  min-height: 100vh; /* Pleine hauteur écran */
+  padding: 32px; /* Espace intérieur global */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond sombre SaaS */
+  color: #e5e7eb; /* Couleur principale du texte */
+  font-family: Arial, Helvetica, sans-serif; /* Police simple et lisible */
+}
+
+.hero-card { /* Bandeau principal */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Répartition horizontale */
+  gap: 24px; /* Espace entre les blocs */
+  align-items: flex-start; /* Alignement haut */
+  padding: 28px; /* Espace intérieur */
+  margin-bottom: 24px; /* Espace sous le bandeau */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Effet glass */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+  flex-wrap: wrap; /* Autorise le retour à la ligne */
+}
+
+.hero-content { /* Bloc texte du hero */
+  flex: 1 1 520px; /* Taille flexible */
+}
+
+.eyebrow { /* Petit label */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.14em; /* Espacement */
+  font-size: 13px; /* Taille lisible */
+  color: #93c5fd; /* Accent bleu */
+}
+
+.hero-card h1 { /* Titre principal */
+  margin: 0; /* Supprime marge par défaut */
+  font-size: 32px; /* Taille forte */
+  line-height: 1.2; /* Hauteur de ligne */
+  color: #ffffff; /* Blanc */
+}
+
+.subtitle { /* Sous-texte principal */
+  margin: 12px 0 0 0; /* Espacement supérieur */
+  max-width: 760px; /* Largeur confortable */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.55; /* Confort de lecture */
+}
+
+.hero-kpis { /* Bloc des indicateurs rapides */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(2, minmax(170px, 1fr)); /* Deux colonnes minimales */
+  gap: 14px; /* Espace entre cartes */
+  flex: 1 1 340px; /* Largeur adaptable */
+}
+
+.hero-kpi { /* Carte KPI rapide */
+  padding: 18px; /* Espace intérieur */
+  border-radius: 18px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+}
+
+.hero-kpi.alert { /* Variante alerte */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  background: rgba(127, 29, 29, 0.22); /* Fond critique discret */
+}
+
+.hero-kpi-label { /* Libellé KPI */
+  display: block; /* Passe à la ligne */
+  margin-bottom: 8px; /* Espace sous le libellé */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+}
+
+.hero-kpi strong { /* Valeur du KPI */
+  font-size: 28px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.state-card { /* Bloc d'état générique */
+  padding: 18px 22px; /* Espace intérieur */
+  border-radius: 18px; /* Coins */
+  margin-bottom: 18px; /* Espace inférieur */
+  background: rgba(255, 255, 255, 0.05); /* Fond discret */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+}
+
+.state-card.error { /* Variante erreur */
+  background: rgba(127, 29, 29, 0.3); /* Fond rouge sombre */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+}
+
+.state-card p { /* Texte du bloc d'état */
+  margin: 0; /* Pas de marge */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.5; /* Confort de lecture */
+}
+
+.state-actions { /* Actions du bloc erreur */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre actions */
+  flex-wrap: wrap; /* Retour à la ligne si besoin */
+  margin-top: 14px; /* Espace supérieur */
+}
+
+.state-actions button,
+.state-actions a { /* Style commun des actions */
+  padding: 12px 16px; /* Zone cliquable confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Sans bordure native */
+  text-decoration: none; /* Sans soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte plus fort */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-size: 15px; /* Taille lisible */
+}
+
+.priority-banner { /* Bannière stratégique */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Répartition des blocs */
+  gap: 20px; /* Espace entre texte et actions */
+  align-items: center; /* Alignement vertical */
+  flex-wrap: wrap; /* Responsive */
+  margin: 24px 0; /* Espacement vertical */
+  padding: 22px; /* Espace intérieur */
+  border-radius: 22px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.priority-banner.critical { /* Variante critique */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  background: rgba(127, 29, 29, 0.16); /* Fond critique discret */
+}
+
+.priority-tag { /* Petit label */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.1em; /* Espacement */
+  font-size: 13px; /* Taille lisible */
+  color: #93c5fd; /* Accent */
+}
+
+.priority-banner h2 { /* Titre de la bannière */
+  margin: 0; /* Pas de marge */
+  color: #ffffff; /* Blanc */
+  font-size: 26px; /* Taille forte */
+}
+
+.priority-text { /* Texte de synthèse */
+  margin: 10px 0 0 0; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 16px; /* Taille lisible */
+  line-height: 1.55; /* Confort de lecture */
+  max-width: 780px; /* Limite de largeur */
+}
+
+.priority-actions { /* Actions rapides */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre actions */
+  flex-wrap: wrap; /* Responsive */
+}
+
+.priority-actions button,
+.priority-actions a { /* Style commun */
+  padding: 12px 16px; /* Taille confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Sans bordure native */
+  text-decoration: none; /* Sans soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte fort */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-size: 15px; /* Taille lisible */
+}
+
+.section-heading { /* En-tête de section */
+  margin-bottom: 18px; /* Espace inférieur */
+}
+
+.section-heading h2 { /* Titre de section */
+  margin: 0; /* Pas de marge */
+  font-size: 24px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.section-heading p { /* Sous-texte */
+  margin: 8px 0 0 0; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 15px; /* Taille lisible */
+}
+
+.trend-section,
+.forecast-section,
+.insights-section,
+.anomaly-context-section { /* Sections principales */
+  margin-bottom: 26px; /* Espace inférieur */
+}
+
+.trend-grid { /* Grille de tendance */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colonnes responsive */
+  gap: 18px; /* Espace entre cartes */
+}
+
+.trend-card { /* Carte tendance */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 20px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.trend-label { /* Label tendance */
+  margin: 0 0 10px 0; /* Marges */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+}
+
+.trend-card strong { /* Valeur tendance */
+  font-size: 28px; /* Taille forte */
+}
+
+.trend-upward { /* Tendance haussière */
+  color: #86efac; /* Vert clair */
+}
+
+.trend-downward { /* Tendance baissière */
+  color: #fca5a5; /* Rouge clair */
+}
+
+.trend-stable { /* Tendance stable */
+  color: #fde68a; /* Jaune clair */
+}
+
+.trend-default { /* Tendance inconnue */
+  color: #ffffff; /* Blanc */
+}
+
+.empty-state { /* État vide */
+  padding: 24px; /* Espace intérieur */
+  border-radius: 18px; /* Coins */
+  background: rgba(15, 23, 42, 0.68); /* Fond */
+  border: 1px dashed rgba(255, 255, 255, 0.12); /* Bordure pointillée */
+  color: #cbd5e1; /* Couleur texte */
+  font-size: 15px; /* Taille lisible */
+}
+
+.forecast-grid { /* Grille des points forecast */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colonnes responsive */
+  gap: 18px; /* Espace entre cartes */
+}
+
+.forecast-card { /* Carte forecast */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 20px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.forecast-date { /* Date forecast */
+  margin: 0 0 10px 0; /* Marges */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+}
+
+.forecast-card h3 { /* Valeur forecast */
+  margin: 0; /* Pas de marge */
+  color: #ffffff; /* Blanc */
+  font-size: 30px; /* Taille forte */
+}
+
+.insights-grid { /* Grille des blocs d'insights */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Colonnes responsive */
+  gap: 18px; /* Espace entre blocs */
+}
+
+.insight-card { /* Carte insight */
+  padding: 22px; /* Espace intérieur */
+  border-radius: 22px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.insight-card.wide { /* Carte large */
+  grid-column: 1 / -1; /* Prend toute la largeur */
+}
+
+.insight-title { /* Titre insight */
+  margin: 0 0 12px 0; /* Marges */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.08em; /* Espacement */
+}
+
+.insight-list { /* Liste d'insights */
+  margin: 0; /* Pas de marge haute */
+  padding-left: 20px; /* Décalage des puces */
+  color: #dbe4ee; /* Couleur */
+}
+
+.insight-list li { /* Élément de liste */
+  margin-bottom: 10px; /* Espace entre items */
+  line-height: 1.6; /* Confort de lecture */
+  font-size: 15px; /* Taille lisible */
+}
+
+.empty-inline { /* État vide compact */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 15px; /* Taille lisible */
+}
+
+.anomaly-context-grid { /* Grille du contexte anomalies */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colonnes responsive */
+  gap: 18px; /* Espace entre cartes */
+}
+
+.anomaly-context-card { /* Carte contexte anomalies */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 20px; /* Coins */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+}
+
+.anomaly-context-card.alert { /* Variante alerte */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+}
+
+.anomaly-context-label { /* Label contexte anomalies */
+  margin: 0 0 10px 0; /* Marges */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille lisible */
+}
+
+.anomaly-context-card strong { /* Valeur contexte anomalies */
+  font-size: 30px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.footer-actions { /* Actions rapides de fin */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre actions */
+  flex-wrap: wrap; /* Retour à la ligne si besoin */
+}
+
+.footer-actions button,
+.footer-actions a { /* Style commun */
+  padding: 12px 16px; /* Zone cliquable confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Retire bordure native */
+  text-decoration: none; /* Sans soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte fort */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  font-size: 15px; /* Taille lisible */
+}
+
+@media (max-width: 900px) { /* Responsive tablette */
+  .hero-kpis {
+    grid-template-columns: 1fr 1fr; /* Garde deux colonnes si possible */
+  }
+}
+
+@media (max-width: 768px) { /* Responsive mobile */
+  .ai-recommendations-page {
+    padding: 20px; /* Réduit le padding externe */
+  }
+
+  .hero-card h1 {
+    font-size: 28px; /* Réduit légèrement le titre principal */
+  }
+
+  .subtitle {
+    font-size: 15px; /* Sous-texte légèrement réduit */
+  }
+
+  .hero-kpis {
+    grid-template-columns: 1fr; /* KPI sur une seule colonne */
+  }
+
+  .priority-banner h2 {
+    font-size: 22px; /* Titre bannière réduit */
+  }
+
+  .priority-text {
+    font-size: 15px; /* Texte bannière réduit mais lisible */
+  }
+}

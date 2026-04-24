@@ -1,6 +1,6 @@
 import traceback
 
-# Imports des modules d'analyse
+# Imports principaux utilisés lorsque le service est exécuté comme package Python.
 try:
     from ..analysis.sales_analysis import analyze_sales
     from ..analysis.anomaly_detection import detect_sales_anomalies
@@ -10,7 +10,7 @@ try:
     from ..analysis.inventory_analysis import analyze_inventory
     from ..analysis.stock_prediction import predict_stockout, stock_recommendations
 except Exception:
-    # Fallback pour exécution directe hors package
+    # Fallback conservé pour les exécutions locales directes hors contexte package.
     from analysis.sales_analysis import analyze_sales
     from analysis.anomaly_detection import detect_sales_anomalies
     from analysis.prediction import predict_sales
@@ -22,7 +22,10 @@ except Exception:
 
 def _safe_call(function, data, default_error_label: str):
     """
-    Exécute une fonction d'analyse sans interrompre le pipeline global.
+    Exécute une fonction d'analyse sans interrompre l'ensemble du pipeline IA.
+
+    Chaque bloc d'analyse reste isolé : une erreur sur une analyse spécifique
+    ne bloque pas les autres résultats retournés au backend.
     """
     try:
         return function(data)
@@ -35,35 +38,22 @@ def _safe_call(function, data, default_error_label: str):
 
 def run_ai_analysis(data):
     """
-    Ordonne l'ensemble des analyses IA sur les ventes.
+    Orchestre l'ensemble des analyses IA appliquées aux données de vente.
 
-    Retourne un bloc JSON unique, prêt pour FastAPI et pour le contrat Spring Boot.
+    Le service retourne une réponse JSON unique afin de conserver un contrat
+    stable entre FastAPI, Spring Boot et le frontend Angular.
     """
     if not data:
         return {"error": "no sales data"}
 
-    # Analyse des ventes
     sales_analysis = _safe_call(analyze_sales, data, "sales_analysis_failed")
-
-    # Détection d'anomalies
     anomalies = _safe_call(detect_sales_anomalies, data, "anomaly_detection_failed")
-
-    # Prédiction des ventes
     prediction = _safe_call(predict_sales, data, "prediction_failed")
-
-    # Recommandations business
     recommendations = _safe_call(generate_recommendations, data, "recommendation_failed")
-
-    # Score de santé business
     health = _safe_call(business_health_score, data, "business_health_failed")
-
-    # Analyse des stocks
     inventory = _safe_call(analyze_inventory, data, "inventory_analysis_failed")
-
-    # Prédiction de rupture de stock
     stock_pred = _safe_call(predict_stockout, data, "stock_prediction_failed")
 
-    # Recommandations de réapprovisionnement
     stock_rec = (
         _safe_call(stock_recommendations, stock_pred, "stock_recommendation_failed")
         if isinstance(stock_pred, dict) and "stock_prediction" in stock_pred

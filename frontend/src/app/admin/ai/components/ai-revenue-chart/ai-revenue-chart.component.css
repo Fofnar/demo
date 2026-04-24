@@ -1,0 +1,80 @@
+.chart-card { /* Carte globale du module graphique */
+  padding: 24px; /* Espace intérieur */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Effet glass */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure légère */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22); /* Ombre douce */
+  color: #e5e7eb; /* Couleur de texte principale */
+}
+
+.chart-header { /* En-tête principal */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Espace entre gauche et droite */
+  align-items: flex-start; /* Alignement haut */
+  gap: 20px; /* Espace entre blocs */
+  margin-bottom: 22px; /* Espace sous le header */
+  flex-wrap: wrap; /* Retour à la ligne en responsive */
+}
+
+.eyebrow { /* Petit label au-dessus du titre */
+  margin: 0 0 8px 0; /* Espacement */
+  text-transform: uppercase; /* Texte en majuscules */
+  letter-spacing: 0.14em; /* Espacement des lettres */
+  font-size: 12px; /* Petite taille */
+  color: #93c5fd; /* Couleur accent */
+}
+
+.chart-header h2 { /* Titre du bloc */
+  margin: 0; /* Retire la marge par défaut */
+  font-size: 28px; /* Taille du titre */
+  color: #ffffff; /* Texte blanc */
+}
+
+.subtitle { /* Sous-texte */
+  margin: 10px 0 0 0; /* Espacement au-dessus */
+  color: #cbd5e1; /* Couleur secondaire */
+  max-width: 640px; /* Limite la largeur */
+}
+
+.chart-meta { /* Zone des infos rapides */
+  display: flex; /* Alignement horizontal */
+  flex-wrap: wrap; /* Retour à la ligne si nécessaire */
+  gap: 10px; /* Espacement entre pastilles */
+  justify-content: flex-end; /* Alignement à droite */
+}
+
+.meta-pill { /* Pastille d'information */
+  padding: 10px 14px; /* Espace intérieur */
+  border-radius: 999px; /* Forme capsule */
+  background: rgba(15, 23, 42, 0.78); /* Fond foncé */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure douce */
+  color: #dbeafe; /* Texte clair */
+  font-size: 13px; /* Taille compacte */
+}
+
+.chart-wrapper { /* Zone du canvas */
+  height: 380px; /* Hauteur du graphique */
+  width: 100%; /* Largeur complète */
+}
+
+.empty-state { /* Message si aucune donnée */
+  padding: 32px; /* Espace intérieur */
+  border-radius: 18px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond plus foncé */
+  color: #cbd5e1; /* Texte secondaire */
+  text-align: center; /* Texte centré */
+}
+
+@media (max-width: 768px) { /* Responsive tablette/mobile */
+  .chart-card {
+    padding: 18px; /* Réduit les marges */
+  }
+
+  .chart-header h2 {
+    font-size: 22px; /* Titre plus petit */
+  }
+
+  .chart-wrapper {
+    height: 300px; /* Hauteur plus compacte */
+  }
+}

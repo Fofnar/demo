@@ -1,0 +1,185 @@
+<div class="ai-sales-analysis-page"> <!-- Conteneur principal de la page sales analysis -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <div class="hero-content"> <!-- Bloc texte principal -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Sales analysis module</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Explore revenue performance, top commercial drivers, sales trend and business recommendations from the sales analysis engine.
+      </p> <!-- Sous-texte métier -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && salesAnalysis"> <!-- Indicateurs rapides -->
+      <article class="hero-kpi"> <!-- CA total -->
+        <span class="hero-kpi-label">Total revenue</span>
+        <strong>{{ totalRevenue | number:'1.2-2' }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Quantité totale -->
+        <span class="hero-kpi-label">Quantity sold</span>
+        <strong>{{ totalQuantitySold }}</strong>
+      </article>
+
+      <article class="hero-kpi" [class.alert]="trend === 'downward'"> <!-- Tendance -->
+        <span class="hero-kpi-label">Trend</span>
+        <strong [ngClass]="getTrendClass(trend)">{{ getTrendLabel(trend) }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Produits distincts -->
+        <span class="hero-kpi-label">Unique products</span>
+        <strong>{{ uniqueProducts }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne entre les modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading sales analysis...">
+  </app-loading-spinner> <!-- Spinner de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message -->
+    <div class="state-actions"> <!-- Actions du bloc erreur -->
+      <button type="button" (click)="retry()">Retry</button> <!-- Relance -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && salesAnalysis"> <!-- Contenu principal -->
+
+    <section class="priority-banner" [class.critical]="hasCriticalAttention()"> <!-- Bannière stratégique -->
+      <div> <!-- Bloc texte -->
+        <p class="priority-tag">Sales signal</p> <!-- Petit label -->
+        <h2>Commercial performance overview</h2> <!-- Titre -->
+        <p class="priority-text">
+          The engine reports {{ totalRevenue | number:'1.2-2' }} in revenue across {{ uniqueDays }} analyzed day(s),
+          with {{ topRevenueProduct }} leading in value and {{ topSellingProduct }} leading in sales volume.
+        </p> <!-- Résumé métier -->
+      </div>
+
+      <div class="priority-actions"> <!-- Actions rapides -->
+        <button type="button" (click)="refreshSalesAnalysis()">Refresh sales analysis</button> <!-- Recharge les données -->
+        <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+      </div>
+    </section>
+
+    <section class="kpi-section"> <!-- Section KPI détaillés -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Sales KPIs</h2> <!-- Titre -->
+        <p>Core revenue and sales indicators extracted from the sales engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="kpi-grid"> <!-- Grille KPI -->
+        <app-stat-card
+          label="Total revenue"
+          [value]="totalRevenue"
+          hint="Revenue generated over the analyzed period">
+        </app-stat-card> <!-- Carte CA total -->
+
+        <app-stat-card
+          label="Quantity sold"
+          [value]="totalQuantitySold"
+          hint="Total units sold">
+        </app-stat-card> <!-- Carte quantité totale -->
+
+        <app-stat-card
+          label="Average order value"
+          [value]="averageOrderValue"
+          hint="Average basket value">
+        </app-stat-card> <!-- Carte panier moyen -->
+
+        <app-stat-card
+          label="Unique products"
+          [value]="uniqueProducts"
+          hint="Distinct products analyzed">
+        </app-stat-card> <!-- Carte produits -->
+
+        <app-stat-card
+          label="Unique days"
+          [value]="uniqueDays"
+          hint="Business days covered by the analysis">
+        </app-stat-card> <!-- Carte jours analysés -->
+
+        <app-stat-card
+          label="Top selling quantity"
+          [value]="topSellingQuantity"
+          hint="Volume sold by the best-selling product">
+        </app-stat-card> <!-- Carte quantité top produit -->
+      </div>
+    </section>
+
+    <section class="leaders-section"> <!-- Section leaders commerciaux -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Commercial leaders</h2> <!-- Titre -->
+        <p>Products leading the business in volume and revenue.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="leaders-grid"> <!-- Grille leaders -->
+        <article class="leader-card"> <!-- Top volume -->
+          <p class="leader-label">Top selling product</p>
+          <h3>{{ topSellingProduct }}</h3>
+          <span class="leader-hint">{{ topSellingQuantity }} units sold</span>
+        </article>
+
+        <article class="leader-card"> <!-- Top revenu -->
+          <p class="leader-label">Top revenue product</p>
+          <h3>{{ topRevenueProduct }}</h3>
+          <span class="leader-hint">{{ topRevenueValue | number:'1.2-2' }} revenue generated</span>
+        </article>
+
+        <article class="leader-card"> <!-- Tendance -->
+          <p class="leader-label">Trend status</p>
+          <h3 [ngClass]="getTrendClass(trend)">{{ getTrendLabel(trend) }}</h3>
+          <span class="leader-hint">Slope: {{ trendSlope | number:'1.4-4' }}</span>
+        </article>
+      </div>
+    </section>
+
+    <app-ai-revenue-chart
+      [revenueData]="salesAnalysis.revenue_per_day"
+      [trend]="salesAnalysis.trend"
+      [topRevenueProduct]="salesAnalysis.top_revenue_product"
+      [totalRevenue]="salesAnalysis.total_revenue">
+    </app-ai-revenue-chart> <!-- Réutilisation du composant graphique existant -->
+
+    <section class="comment-section"> <!-- Section commentaire métier -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Business interpretation</h2> <!-- Titre -->
+        <p>Readable business summary generated by the sales analysis engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <article class="comment-card"> <!-- Carte commentaire -->
+        <p>{{ salesComment }}</p>
+      </article>
+    </section>
+
+    <section class="recommendations-section"> <!-- Section recommandations -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Recommended actions</h2> <!-- Titre -->
+        <p>Commercial actions suggested by the sales analysis engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="!hasRecommendations()" class="empty-state"> <!-- Cas sans recommandation -->
+        No sales recommendation is available for the current analysis.
+      </div>
+
+      <div *ngIf="hasRecommendations()" class="recommendations-grid"> <!-- Liste recommandations -->
+        <article
+          *ngFor="let recommendation of recommendations; let i = index; trackBy: trackByRecommendation"
+          class="recommendation-card">
+          <span class="recommendation-index">#{{ i + 1 }}</span> <!-- Numéro -->
+          <p>{{ recommendation }}</p> <!-- Recommandation -->
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-actions"> <!-- Actions rapides de fin -->
+      <button type="button" (click)="refreshSalesAnalysis()">Refresh sales analysis</button> <!-- Rafraîchit les données -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </section>
+
+  </ng-container>
+
+</div>

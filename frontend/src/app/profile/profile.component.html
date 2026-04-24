@@ -1,0 +1,71 @@
+<div class="profile-page"> <!-- Page entière -->
+  <section class="profile-card"> <!-- Carte centrale -->
+
+    <div class="profile-visual"> <!-- Partie visuelle -->
+      <p class="eyebrow">Account settings</p> <!-- Petit label -->
+      <h1>My profile</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Manage your personal information and keep your Felyxor account up to date from one secure place.
+      </p> <!-- Sous-texte -->
+
+      <div *ngIf="currentUser" class="user-summary"> <!-- Résumé utilisateur -->
+        <p><strong>Role:</strong> {{ currentUser.role }}</p> <!-- Rôle -->
+        <p><strong>Email:</strong> {{ currentUser.email }}</p> <!-- Email -->
+        <p><strong>User ID:</strong> {{ currentUser.id }}</p> <!-- ID -->
+      </div>
+    </div>
+
+    <div class="profile-form-box"> <!-- Zone formulaire -->
+
+      <app-loading-spinner *ngIf="isLoading" label="Loading profile..."></app-loading-spinner> <!-- Spinner -->
+
+      <div *ngIf="!isLoading && errorMessage" class="error-banner"> <!-- Message erreur -->
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="!isLoading && successMessage" class="success-banner"> <!-- Message succès -->
+        {{ successMessage }}
+      </div>
+
+      <form *ngIf="!isLoading" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form"> <!-- Formulaire -->
+
+        <label class="field"> <!-- Email -->
+          <span>Email</span>
+          <input type="email" formControlName="email" placeholder="Update your email">
+        </label>
+
+        <label class="field"> <!-- Prénom -->
+          <span>First name</span>
+          <input type="text" formControlName="firstName" placeholder="Update your first name">
+        </label>
+
+        <label class="field"> <!-- Nom -->
+          <span>Last name</span>
+          <input type="text" formControlName="lastName" placeholder="Update your last name">
+        </label>
+
+        <label class="field"> <!-- Âge -->
+          <span>Age</span>
+          <input type="number" formControlName="age" placeholder="Update your age" min="0">
+        </label>
+
+        <label class="field"> <!-- Téléphone -->
+          <span>Phone</span>
+          <input type="text" formControlName="phone" placeholder="Update your phone number">
+        </label>
+
+        <label class="field"> <!-- Mot de passe -->
+          <span>New password</span>
+          <input type="password" formControlName="password" placeholder="Enter a new password">
+        </label>
+
+        <button type="submit" [disabled]="isLoading"> <!-- Bouton save -->
+          {{ isLoading ? 'Saving...' : 'Save changes' }}
+        </button>
+
+        <button type="button" (click)="onReset()">Reset</button> <!-- Bouton reset -->
+
+      </form>
+    </div>
+  </section>
+</div>

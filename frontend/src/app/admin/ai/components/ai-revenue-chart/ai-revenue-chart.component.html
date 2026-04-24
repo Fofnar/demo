@@ -1,0 +1,38 @@
+<section class="chart-card"> <!-- Carte principale du graphique -->
+
+  <div class="chart-header"> <!-- En-tête du bloc -->
+    <div> <!-- Bloc texte de gauche -->
+      <p class="eyebrow">Revenue analytics</p> <!-- Petit label -->
+      <h2>Revenue over time</h2> <!-- Titre principal -->
+      <p class="subtitle">Daily revenue evolution generated from the AI analysis engine.</p> <!-- Sous-texte -->
+    </div>
+
+    <div class="chart-meta"> <!-- Bloc résumé métier -->
+      <div class="meta-pill"> <!-- Pastille tendance -->
+        {{ getTrendLabel() }}
+      </div>
+
+      <div class="meta-pill"> <!-- Pastille produit top revenu -->
+        Top revenue product: {{ topRevenueProduct || 'N/A' }}
+      </div>
+
+      <div class="meta-pill"> <!-- Pastille revenu total -->
+        Total revenue: {{ totalRevenue | number:'1.2-2' }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!hasData()" class="empty-state"> <!-- État vide -->
+    No revenue data available for the selected analysis.
+  </div>
+
+  <div *ngIf="hasData()" class="chart-wrapper"> <!-- Zone contenant le graphique -->
+    <canvas
+      baseChart
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      [type]="'line'">
+    </canvas>
+  </div>
+
+</section>

@@ -1,0 +1,46 @@
+.ai-nav { /* Barre de navigation interne IA */
+  display: flex; /* Affichage horizontal */
+  flex-wrap: wrap; /* Retour à la ligne si nécessaire */
+  gap: 12px; /* Espace entre les liens */
+  margin-bottom: 24px; /* Espace sous la navigation */
+  padding: 16px; /* Espace intérieur */
+  border-radius: 20px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.05); /* Fond léger glass */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16); /* Ombre douce */
+}
+
+.ai-nav a { /* Liens de navigation */
+  padding: 10px 14px; /* Zone cliquable confortable */
+  border-radius: 999px; /* Forme capsule */
+  text-decoration: none; /* Retire le soulignement */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  color: #cbd5e1; /* Texte secondaire */
+  font-size: 14px; /* Taille lisible */
+  font-weight: 600; /* Poids moyen */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease; /* Transition fluide */
+}
+
+.ai-nav a:hover { /* Effet au survol */
+  transform: translateY(-2px); /* Léger soulèvement */
+  color: #ffffff; /* Texte plus visible */
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18); /* Ombre renforcée */
+}
+
+.ai-nav a.active-link { /* Lien actif */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  border-color: transparent; /* Allège le rendu du lien actif */
+}
+
+@media (max-width: 768px) { /* Responsive mobile */
+  .ai-nav {
+    padding: 14px; /* Réduit légèrement l'espace interne */
+  }
+
+  .ai-nav a {
+    width: 100%; /* Chaque lien occupe toute la largeur */
+    text-align: center; /* Centre le texte */
+  }
+}

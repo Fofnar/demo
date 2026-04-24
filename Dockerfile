@@ -1,8 +1,22 @@
+# ===============================
+# BUILD STAGE
+# ===============================
+FROM gradle:8.8-jdk17 AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN gradle clean bootJar --no-daemon
+
+# ===============================
+# RUNTIME STAGE
+# ===============================
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-COPY build/libs/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
 

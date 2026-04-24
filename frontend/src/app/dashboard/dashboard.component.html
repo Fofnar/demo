@@ -1,0 +1,80 @@
+<div class="dashboard-wrapper"> <!-- Conteneur principal du dashboard -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <p class="eyebrow">Felyxor Admin</p> <!-- Petit label -->
+    <h1>Welcome to your decision workspace</h1> <!-- Titre principal -->
+    <p class="subtitle">
+      Monitor platform activity, manage operations, and access the intelligence modules that support business decisions.
+    </p> <!-- Sous-texte -->
+  </section>
+
+  <app-loading-spinner *ngIf="isLoading" label="Loading dashboard statistics..."></app-loading-spinner> <!-- Spinner de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    {{ errorMessage }} <!-- Message d'erreur -->
+  </div>
+
+  <section *ngIf="!isLoading && stats" class="stats-grid"> <!-- Grille des statistiques -->
+
+    <app-stat-card
+      label="Users"
+      [value]="stats.totalUsers"
+      hint="Registered platform accounts">
+    </app-stat-card> <!-- Carte utilisateurs -->
+
+    <app-stat-card
+      label="Sales"
+      [value]="stats.totalSales"
+      hint="Sales records stored in the platform">
+    </app-stat-card> <!-- Carte ventes -->
+
+    <app-stat-card
+      label="Sales today"
+      [value]="stats.salesToday"
+      hint="Commercial activity recorded today">
+    </app-stat-card> <!-- Carte ventes du jour -->
+
+    <app-stat-card
+      label="Products"
+      [value]="stats.totalProducts"
+      hint="Tracked products across the workspace">
+    </app-stat-card> <!-- Carte produits -->
+
+    <app-stat-card
+      label="Low stock"
+      [value]="stats.lowStockProducts"
+      hint="Products requiring closer attention"
+      [alert]="true">
+    </app-stat-card> <!-- Carte stock faible -->
+
+  </section>
+
+  <section class="quick-actions"> <!-- Zone des actions rapides -->
+
+    <app-action-card
+      title="AI Intelligence"
+      description="Open the full intelligence workspace for analytics, anomalies, forecasting, and recommendations."
+      route="/admin/ai">
+    </app-action-card> <!-- Action IA -->
+
+    <app-action-card
+      title="Sales Management"
+      description="Search, filter, review, and manage sales activity from the admin workspace."
+      route="/admin/sales">
+    </app-action-card> <!-- Gestion ventes -->
+
+    <app-action-card
+      title="Users Management"
+      description="Search, filter, update roles, and manage registered platform accounts."
+      route="/admin/users">
+    </app-action-card> <!-- Gestion admin des utilisateurs -->
+
+    <app-action-card
+      title="Profile Settings"
+      description="View and update the information linked to your administrator account."
+      route="/profile">
+    </app-action-card> <!-- Profil utilisateur -->
+
+  </section>
+
+</div>

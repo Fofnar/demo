@@ -1,0 +1,1 @@
+export type Role = 'ADMIN' | 'USER'; // Rôles autorisés côté frontend

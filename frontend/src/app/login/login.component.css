@@ -1,0 +1,94 @@
+.login-page { /* Page complète */
+  min-height: 100vh; /* Pleine hauteur écran */
+  display: flex; /* Centre la carte */
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  padding: 24px; /* Marge intérieure */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond SaaS sombre */
+}
+
+.login-card { /* Carte principale */
+  width: min(460px, 100%); /* Largeur responsive */
+  padding: 32px; /* Espace intérieur */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Effet glass */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+  color: #e5e7eb; /* Couleur texte */
+}
+
+.eyebrow { /* Petit texte au-dessus */
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: #93c5fd;
+}
+
+.login-card h1 { /* Titre */
+  margin: 0;
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.subtitle { /* Sous-titre */
+  margin: 12px 0 0 0;
+  color: #cbd5e1;
+}
+
+.error-banner { /* Bandeau d'erreur */
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(127, 29, 29, 0.28);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+
+.login-form { /* Formulaire */
+  margin-top: 22px;
+  display: grid;
+  gap: 16px;
+}
+
+.field { /* Groupe label + input */
+  display: grid;
+  gap: 8px;
+}
+
+.field span { /* Texte du label */
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.field input { /* Champs du formulaire */
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.7);
+  color: #ffffff;
+  outline: none;
+}
+
+.field input:focus { /* Focus au clic */
+  border-color: #93c5fd;
+}
+
+button { /* Boutons */
+  padding: 14px 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button[type="submit"] { /* Bouton login */
+  background: #93c5fd;
+  color: #0f172a;
+}
+
+button[type="button"] { /* Bouton reset */
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+}

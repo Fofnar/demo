@@ -1,0 +1,194 @@
+<div class="ai-stock-recommendations-page"> <!-- Conteneur principal de la page stock recommendations -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <div class="hero-content"> <!-- Bloc texte principal -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Stock recommendations module</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Prioritize replenishment decisions with executive alerts, product-level actions and anomaly-aware stock recommendations.
+      </p> <!-- Sous-texte métier -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && stockRecommendations"> <!-- Indicateurs rapides -->
+      <article class="hero-kpi" [class.alert]="criticalAlerts > 0"> <!-- Alertes critiques -->
+        <span class="hero-kpi-label">Critical alerts</span>
+        <strong>{{ criticalAlerts }}</strong>
+      </article>
+
+      <article class="hero-kpi" [class.alert]="highAlerts > 0"> <!-- Alertes élevées -->
+        <span class="hero-kpi-label">High alerts</span>
+        <strong>{{ highAlerts }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Total anomalies -->
+        <span class="hero-kpi-label">Total anomalies</span>
+        <strong>{{ anomaliesCount }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Anomalies prioritaires -->
+        <span class="hero-kpi-label">High priority anomalies</span>
+        <strong>{{ highPriorityAnomalies }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne entre les modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading stock recommendations...">
+  </app-loading-spinner> <!-- Spinner de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message -->
+    <div class="state-actions"> <!-- Actions du bloc erreur -->
+      <button type="button" (click)="retry()">Retry</button> <!-- Relance -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && stockRecommendations"> <!-- Contenu principal -->
+
+    <section class="priority-banner" [class.critical]="hasCriticalPriority()"> <!-- Bannière stratégique -->
+      <div> <!-- Bloc texte -->
+        <p class="priority-tag">Executive priority</p> <!-- Petit label -->
+        <h2>Stock action priorities</h2> <!-- Titre -->
+        <p class="priority-text">
+          {{ executiveNote }}
+        </p> <!-- Résumé exécutif -->
+      </div>
+
+      <div class="priority-actions"> <!-- Actions rapides -->
+        <button type="button" (click)="refreshStockRecommendations()">Refresh stock recommendations</button> <!-- Recharge les données -->
+        <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+      </div>
+    </section>
+
+    <section class="business-section"> <!-- Commentaire métier global -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Business interpretation</h2> <!-- Titre -->
+        <p>Global interpretation generated from the stock recommendations engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <article class="business-card"> <!-- Carte commentaire -->
+        <p>{{ businessComment }}</p>
+      </article>
+    </section>
+
+    <section class="products-section"> <!-- Recommandations détaillées par produit -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Product-level recommendations</h2> <!-- Titre -->
+        <p>Prioritized replenishment actions for each product under stock pressure.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="!hasItems()" class="empty-state"> <!-- Cas sans données -->
+        No stock recommendation item is available for the current analysis.
+      </div>
+
+      <div *ngIf="hasItems()" class="products-grid"> <!-- Liste des cartes produit -->
+        <article
+          *ngFor="let item of items; trackBy: trackByProduct"
+          class="product-card"> <!-- Carte produit -->
+
+          <div class="product-top-row"> <!-- En-tête produit -->
+            <div> <!-- Bloc texte principal -->
+              <p class="product-tag">Restock priority</p> <!-- Petit label -->
+              <h3>{{ item.product }}</h3> <!-- Nom du produit -->
+            </div>
+
+            <span class="risk-badge" [ngClass]="getRiskLevelClass(item.risk_level)"> <!-- Badge risque -->
+              {{ getRiskLevelLabel(item.risk_level) }}
+            </span>
+          </div>
+
+          <div class="metrics-grid"> <!-- Grille métriques -->
+            <div class="metric-item"> <!-- Quantité recommandée -->
+              <span class="metric-label">Restock quantity</span>
+              <strong>{{ item.recommended_restock_quantity }}</strong>
+            </div>
+
+            <div class="metric-item"> <!-- Jours avant rupture -->
+              <span class="metric-label">Days before stockout</span>
+              <strong>{{ formatDaysBeforeStockout(item.estimated_days_before_stockout) }}</strong>
+            </div>
+
+            <div class="metric-item"> <!-- Anomalies liées -->
+              <span class="metric-label">Related anomalies</span>
+              <strong>{{ item.related_anomaly_count }}</strong>
+            </div>
+
+            <div class="metric-item"> <!-- Sévérité liée -->
+              <span class="metric-label">Related severity</span>
+              <strong
+                class="inline-severity"
+                [ngClass]="getRelatedSeverityClass(item.related_anomaly_severity)">
+                {{ getRelatedSeverityLabel(item.related_anomaly_severity) }}
+              </strong>
+            </div>
+          </div>
+
+          <div class="content-grid"> <!-- Corps principal -->
+            <div class="content-block"> <!-- Message principal -->
+              <p class="content-title">Recommended action</p>
+              <p class="content-text">{{ item.message }}</p>
+            </div>
+          </div>
+
+          <div class="product-footer"> <!-- Pied de carte -->
+            <div class="footer-group"> <!-- Lien anomalies -->
+              <span class="footer-label">Related anomaly</span>
+              <span class="footer-value">{{ item.has_related_anomaly ? 'Yes' : 'No' }}</span>
+            </div>
+          </div>
+
+        </article>
+      </div>
+    </section>
+
+    <section class="anomaly-context-section"> <!-- Contexte anomalies -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Anomaly context</h2> <!-- Titre -->
+        <p>Stock priorities should be interpreted together with anomaly pressure.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="anomaly-context-grid"> <!-- Grille contexte anomalies -->
+        <article class="anomaly-context-card"> <!-- Total anomalies -->
+          <p class="anomaly-context-label">Total anomalies</p>
+          <strong>{{ anomaliesCount }}</strong>
+        </article>
+
+        <article class="anomaly-context-card" [class.alert]="highPriorityAnomalies > 0"> <!-- Prioritaires -->
+          <p class="anomaly-context-label">High priority anomalies</p>
+          <strong>{{ highPriorityAnomalies }}</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="recommendations-section"> <!-- Recommandations globales -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Global recommendations</h2> <!-- Titre -->
+        <p>Cross-product stock actions suggested by the engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="recommendations.length === 0" class="empty-state"> <!-- Cas sans recommandation -->
+        No global stock recommendation is available for the current analysis.
+      </div>
+
+      <div *ngIf="recommendations.length > 0" class="recommendations-grid"> <!-- Liste recommandations -->
+        <article
+          *ngFor="let recommendation of recommendations; let i = index"
+          class="recommendation-card">
+          <span class="recommendation-index">#{{ i + 1 }}</span> <!-- Numéro -->
+          <p>{{ recommendation }}</p> <!-- Recommandation -->
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-actions"> <!-- Actions rapides de fin -->
+      <button type="button" (click)="refreshStockRecommendations()">Refresh stock recommendations</button> <!-- Rafraîchit les données -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </section>
+
+  </ng-container>
+
+</div>

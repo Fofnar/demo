@@ -1,0 +1,207 @@
+<div class="ai-health-page"> <!-- Conteneur principal de la page health -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <div class="hero-content"> <!-- Bloc texte principal -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Business health module</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Evaluate the global business condition through health score, score breakdown, anomaly impact and strategic recommendations.
+      </p> <!-- Sous-texte métier -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && health"> <!-- Indicateurs rapides de la page -->
+      <article class="hero-kpi" [class.alert]="isHealthFragile()"> <!-- Score de santé -->
+        <span class="hero-kpi-label">Health score</span>
+        <strong>{{ healthScore }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Statut de santé -->
+        <span class="hero-kpi-label">Health status</span>
+        <strong>{{ statusLabel }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Pénalité anomalies -->
+        <span class="hero-kpi-label">Anomaly penalty</span>
+        <strong>{{ anomalyPenalty }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Anomalies prioritaires -->
+        <span class="hero-kpi-label">High priority anomalies</span>
+        <strong>{{ highPriorityAnomalies }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne entre les modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading business health...">
+  </app-loading-spinner> <!-- Spinner de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc d'erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message -->
+    <div class="state-actions"> <!-- Actions du bloc erreur -->
+      <button type="button" (click)="retry()">Retry</button> <!-- Relance -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && health"> <!-- Contenu principal de la page -->
+
+    <section class="priority-banner" [class.critical]="isHealthFragile()"> <!-- Bannière stratégique -->
+      <div> <!-- Bloc texte de la bannière -->
+        <p class="priority-tag">Executive signal</p> <!-- Petit label -->
+        <h2>Global business condition: {{ statusLabel }}</h2> <!-- Titre dynamique -->
+        <p class="priority-text">
+          The business health score is currently {{ healthScore }}/100, with {{ highPriorityAnomalies }}
+          high-priority anomalies and an anomaly penalty of {{ anomalyPenalty }} affecting the global assessment.
+        </p> <!-- Résumé stratégique -->
+      </div>
+
+      <div class="priority-actions"> <!-- Actions rapides -->
+        <button type="button" (click)="refreshHealth()">Refresh health</button> <!-- Recharge les données -->
+        <a routerLink="/admin/ai">Back to overview</a> <!-- Retour à la vue d'ensemble -->
+      </div>
+    </section>
+
+    <section class="status-section"> <!-- Section du statut principal -->
+      <article class="status-card" [ngClass]="statusClass"> <!-- Carte centrale du statut -->
+        <p class="status-label">Current status</p> <!-- Label -->
+        <h2>{{ statusLabel }}</h2> <!-- Statut principal -->
+        <p class="status-score">Score: {{ healthScore }}/100</p> <!-- Score affiché -->
+      </article>
+
+      <article class="context-card"> <!-- Carte contexte anomalies -->
+        <p class="context-label">Anomaly context</p> <!-- Label -->
+        <div class="context-grid"> <!-- Petits indicateurs -->
+          <div>
+            <span class="context-value">{{ anomaliesCount }}</span>
+            <span class="context-text">Total anomalies</span>
+          </div>
+
+          <div>
+            <span class="context-value">{{ highPriorityAnomalies }}</span>
+            <span class="context-text">High priority</span>
+          </div>
+
+          <div>
+            <span class="context-value">{{ anomalyPenalty }}</span>
+            <span class="context-text">Penalty</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="breakdown-section"> <!-- Section des sous-scores -->
+      <div class="section-heading"> <!-- En-tête de section -->
+        <h2>Health breakdown</h2> <!-- Titre -->
+        <p>Each component contributes to the overall business health score.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="breakdown-grid"> <!-- Grille des sous-scores -->
+        <article class="breakdown-card"> <!-- Tendance -->
+          <p class="breakdown-label">Trend score</p>
+          <h3>{{ trendScore }}</h3>
+          <span class="breakdown-hint">Revenue direction and consistency over time</span>
+        </article>
+
+        <article class="breakdown-card"> <!-- Stabilité -->
+          <p class="breakdown-label">Stability score</p>
+          <h3>{{ stabilityScore }}</h3>
+          <span class="breakdown-hint">Regularity and volatility control across activity</span>
+        </article>
+
+        <article class="breakdown-card"> <!-- Croissance -->
+          <p class="breakdown-label">Growth score</p>
+          <h3>{{ growthScore }}</h3>
+          <span class="breakdown-hint">Capacity of the business to increase over time</span>
+        </article>
+
+        <article class="breakdown-card"> <!-- Diversification -->
+          <p class="breakdown-label">Diversification score</p>
+          <h3>{{ diversificationScore }}</h3>
+          <span class="breakdown-hint">Balance between products and dependence concentration</span>
+        </article>
+
+        <article class="breakdown-card alert"> <!-- Pénalité anomalies -->
+          <p class="breakdown-label">Anomaly penalty</p>
+          <h3>{{ anomalyPenalty }}</h3>
+          <span class="breakdown-hint">Negative adjustment caused by unusual signals</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="details-section"> <!-- Section des commentaires détaillés -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Detailed interpretation</h2> <!-- Titre -->
+        <p>Textual comments generated for each health dimension.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="details-grid"> <!-- Grille des commentaires -->
+        <article class="detail-card"> <!-- Tendance -->
+          <p class="detail-title">Trend comment</p>
+          <p class="detail-text">{{ health.health_details.trend_comment }}</p>
+        </article>
+
+        <article class="detail-card"> <!-- Stabilité -->
+          <p class="detail-title">Stability comment</p>
+          <p class="detail-text">{{ health.health_details.stability_comment }}</p>
+        </article>
+
+        <article class="detail-card"> <!-- Croissance -->
+          <p class="detail-title">Growth comment</p>
+          <p class="detail-text">{{ health.health_details.growth_comment }}</p>
+        </article>
+
+        <article class="detail-card"> <!-- Diversification -->
+          <p class="detail-title">Diversification comment</p>
+          <p class="detail-text">{{ health.health_details.diversification_comment }}</p>
+        </article>
+
+        <article class="detail-card wide"> <!-- Anomalies -->
+          <p class="detail-title">Anomaly comment</p>
+          <p class="detail-text">{{ health.health_details.anomaly_comment }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="business-section"> <!-- Commentaire métier global -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Business assessment</h2> <!-- Titre -->
+        <p>Global interpretation generated from the health engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <article class="business-card"> <!-- Carte commentaire global -->
+        <p>{{ health.business_comment }}</p> <!-- Commentaire business -->
+      </article>
+    </section>
+
+    <section class="recommendations-section"> <!-- Section recommandations -->
+      <div class="section-heading"> <!-- En-tête -->
+        <h2>Recommended actions</h2> <!-- Titre -->
+        <p>Priority actions suggested by the health analysis engine.</p> <!-- Sous-texte -->
+      </div>
+
+      <div *ngIf="health.recommendations.length === 0" class="empty-state"> <!-- Cas sans recommandation -->
+        No business health recommendation is available for the current analysis.
+      </div>
+
+      <div *ngIf="health.recommendations.length > 0" class="recommendations-grid"> <!-- Liste recommandations -->
+        <article
+          *ngFor="let recommendation of health.recommendations; let i = index"
+          class="recommendation-card">
+          <span class="recommendation-index">#{{ i + 1 }}</span> <!-- Numéro -->
+          <p>{{ recommendation }}</p> <!-- Recommandation -->
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-actions"> <!-- Actions rapides de fin -->
+      <button type="button" (click)="refreshHealth()">Refresh health</button> <!-- Rafraîchit les données -->
+      <a routerLink="/admin/ai">Back to overview</a> <!-- Retour overview -->
+    </section>
+
+  </ng-container>
+
+</div>

@@ -1,0 +1,131 @@
+.register-page { /* Page complète */
+  min-height: 100vh; /* Pleine hauteur */
+  display: flex; /* Centre la carte */
+  align-items: center; /* Centre vertical */
+  justify-content: center; /* Centre horizontal */
+  padding: 24px; /* Espace */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond SaaS sombre */
+}
+
+.register-card { /* Carte principale */
+  width: min(980px, 100%); /* Largeur responsive */
+  display: grid; /* Layout en deux colonnes */
+  grid-template-columns: 1.1fr 1fr; /* Partie visuelle + formulaire */
+  gap: 24px; /* Espace entre colonnes */
+  padding: 24px; /* Espace intérieur */
+  border-radius: 28px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+  color: #e5e7eb; /* Texte */
+}
+
+.register-visual { /* Bloc de gauche */
+  padding: 18px; /* Espace intérieur */
+  display: flex; /* Flex vertical */
+  flex-direction: column; /* Colonne */
+  justify-content: center; /* Centre vertical */
+}
+
+.eyebrow { /* Petit texte */
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: #93c5fd;
+}
+
+.register-visual h1 { /* Titre principal */
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.subtitle { /* Sous-texte */
+  margin: 14px 0 0 0;
+  color: #cbd5e1;
+  max-width: 420px;
+}
+
+.feature-list { /* Liste d'avantages */
+  margin-top: 24px;
+  display: grid;
+  gap: 10px;
+  color: #dbeafe;
+}
+
+.register-form-box { /* Bloc formulaire */
+  padding: 18px;
+}
+
+.error-banner { /* Bandeau d'erreur */
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(127, 29, 29, 0.28);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+
+.success-banner { /* Bandeau succès */
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(20, 83, 45, 0.35);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #bbf7d0;
+}
+
+.register-form { /* Formulaire */
+  display: grid; /* Formulaire vertical */
+  gap: 14px; /* Espace entre champs */
+}
+
+.field { /* Groupe label + input */
+  display: grid;
+  gap: 8px;
+}
+
+.field span { /* Texte du label */
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.field input { /* Champs */
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.7);
+  color: #ffffff;
+  outline: none;
+}
+
+.field input:focus { /* Focus */
+  border-color: #93c5fd;
+}
+
+button { /* Boutons */
+  padding: 14px 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button[type="submit"] { /* Bouton principal */
+  background: #93c5fd;
+  color: #0f172a;
+}
+
+button[type="button"] { /* Bouton secondaire */
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+}
+
+@media (max-width: 900px) { /* Version mobile/tablette */
+  .register-card {
+    grid-template-columns: 1fr; /* Une seule colonne */
+  }
+}

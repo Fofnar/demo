@@ -1,0 +1,179 @@
+.sales-page { /* Conteneur principal de la page */
+  min-height: 100vh; /* Hauteur complète */
+  padding: 32px; /* Espacement interne */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond sombre SaaS */
+  color: #e5e7eb; /* Couleur du texte */
+  font-family: Arial, Helvetica, sans-serif; /* Police de base */
+}
+
+.hero-card { /* Bandeau d'accueil */
+  background: rgba(255, 255, 255, 0.06); /* Fond translucide */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  border-radius: 24px; /* Coins arrondis */
+  padding: 28px; /* Espace intérieur */
+  margin-bottom: 24px; /* Espace avec le reste */
+  backdrop-filter: blur(12px); /* Effet glass */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+}
+
+.eyebrow { /* Petit texte au-dessus du titre */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.14em; /* Espacement lettres */
+  font-size: 12px; /* Taille */
+  color: #93c5fd; /* Couleur accent */
+}
+
+.hero-card h1 { /* Titre principal */
+  margin: 0; /* Aucun espace externe */
+  font-size: 32px; /* Taille */
+  line-height: 1.2; /* Hauteur de ligne */
+  color: #ffffff; /* Blanc */
+}
+
+.subtitle { /* Sous-texte */
+  margin: 12px 0 0 0; /* Espacement */
+  max-width: 720px; /* Largeur max */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.sales-grid { /* Mise en page principale */
+  display: grid; /* Grille */
+  grid-template-columns: 1fr 1.4fr; /* Formulaire à gauche, liste à droite */
+  gap: 24px; /* Espace entre colonnes */
+}
+
+.panel { /* Carte générale */
+  background: rgba(255, 255, 255, 0.06); /* Fond translucide */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure */
+  border-radius: 24px; /* Coins arrondis */
+  padding: 24px; /* Espace intérieur */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22); /* Ombre */
+}
+
+.panel h2 { /* Titres de section */
+  margin: 0 0 18px 0; /* Espace bas */
+  color: #ffffff; /* Blanc */
+}
+
+.panel-header { /* En-tête de la liste */
+  display: flex; /* Ligne horizontale */
+  justify-content: space-between; /* Espace entre éléments */
+  align-items: center; /* Alignement vertical */
+  margin-bottom: 16px; /* Espace bas */
+}
+
+.count { /* Compteur de records */
+  color: #93c5fd; /* Couleur accent */
+  font-size: 14px; /* Taille */
+}
+
+.sales-form { /* Formulaire */
+  display: grid; /* Colonne */
+  gap: 14px; /* Espace entre champs */
+}
+
+.field { /* Groupe label + input */
+  display: grid; /* Labels au-dessus des champs */
+  gap: 8px; /* Espace */
+}
+
+.field span { /* Texte des labels */
+  font-size: 14px; /* Taille */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.field input { /* Champs du formulaire */
+  width: 100%; /* Pleine largeur */
+  padding: 14px 16px; /* Espacement interne */
+  border-radius: 14px; /* Coins arrondis */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Bordure */
+  background: rgba(15, 23, 42, 0.7); /* Fond input */
+  color: #ffffff; /* Texte */
+  outline: none; /* Retire contour par défaut */
+}
+
+.field input:focus { /* Focus */
+  border-color: #93c5fd; /* Accent */
+}
+
+button { /* Boutons */
+  padding: 14px 16px; /* Taille */
+  border: none; /* Sans bordure */
+  border-radius: 14px; /* Coins */
+  cursor: pointer; /* Curseur */
+  font-weight: 600; /* Gras */
+}
+
+button[type="submit"] { /* Bouton principal */
+  background: #93c5fd; /* Accent */
+  color: #0f172a; /* Contraste */
+}
+
+button[type="button"] { /* Bouton secondaire */
+  background: rgba(255, 255, 255, 0.08); /* Fond discret */
+  color: #e5e7eb; /* Texte */
+}
+
+.error-banner { /* Message d'erreur */
+  margin-bottom: 14px; /* Espace bas */
+  padding: 14px 16px; /* Espace interne */
+  border-radius: 14px; /* Coins */
+  background: rgba(127, 29, 29, 0.28); /* Fond rouge translucide */
+  border: 1px solid rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  color: #fecaca; /* Texte rouge clair */
+}
+
+.success-banner { /* Message de succès */
+  margin-bottom: 14px; /* Espace bas */
+  padding: 14px 16px; /* Espace interne */
+  border-radius: 14px; /* Coins */
+  background: rgba(20, 83, 45, 0.35); /* Fond vert translucide */
+  border: 1px solid rgba(74, 222, 128, 0.35); /* Bordure verte */
+  color: #bbf7d0; /* Texte vert clair */
+}
+
+.empty-state { /* État vide */
+  padding: 18px; /* Espace */
+  border-radius: 14px; /* Coins */
+  background: rgba(255, 255, 255, 0.04); /* Fond discret */
+  color: #cbd5e1; /* Texte */
+}
+
+.table-wrap { /* Conteneur du tableau */
+  overflow-x: auto; /* Scroll horizontal si nécessaire */
+}
+
+.sales-table { /* Tableau */
+  width: 100%; /* Pleine largeur */
+  border-collapse: collapse; /* Fusion des bordures */
+}
+
+.sales-table th, .sales-table td { /* Cellules */
+  padding: 12px 10px; /* Espace interne */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Ligne de séparation */
+  text-align: left; /* Alignement gauche */
+}
+
+.sales-table th { /* En-têtes */
+  color: #93c5fd; /* Accent */
+  font-weight: 600; /* Gras */
+}
+
+.pagination { /* Bloc pagination */
+  display: flex; /* Ligne horizontale */
+  justify-content: space-between; /* Répartition */
+  align-items: center; /* Centrage vertical */
+  gap: 12px; /* Espace */
+  margin-top: 18px; /* Espace haut */
+}
+
+.page-info { /* Texte d'indication de page */
+  color: #cbd5e1; /* Gris clair */
+}
+
+@media (max-width: 900px) { /* Mobile / tablette */
+  .sales-grid { /* Grille */
+    grid-template-columns: 1fr; /* Une colonne */
+  }
+}

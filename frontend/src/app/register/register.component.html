@@ -1,0 +1,74 @@
+<div class="register-page"> <!-- Page complète -->
+  <section class="register-card"> <!-- Carte centrale -->
+
+    <div class="register-visual"> <!-- Partie visuelle de présentation -->
+      <p class="eyebrow">Get started</p> <!-- Petit label -->
+      <h1>Create your Felyxor account</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Join Felyxor and access a smarter way to monitor performance, detect risks, and support business decisions.
+      </p> <!-- Sous-titre -->
+
+      <div class="feature-list"> <!-- Liste des bénéfices -->
+        <p>• Secure access to your workspace</p>
+        <p>• Intelligent analytics and monitoring</p>
+        <p>• Actionable business insights</p>
+      </div>
+    </div>
+
+    <div class="register-form-box"> <!-- Zone formulaire -->
+
+      <div *ngIf="errorMessage" class="error-banner"> <!-- Bloc erreur -->
+        {{ errorMessage }} <!-- Message backend -->
+      </div>
+
+      <div *ngIf="successMessage" class="success-banner"> <!-- Bloc succès -->
+        {{ successMessage }} <!-- Message succès -->
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form"> <!-- Formulaire -->
+
+        <label class="field"> <!-- Groupe email -->
+          <span>Email</span>
+          <input type="email" formControlName="email" placeholder="Enter your email">
+        </label>
+
+        <label class="field"> <!-- Groupe prénom -->
+          <span>First name</span>
+          <input type="text" formControlName="firstName" placeholder="Enter your first name">
+        </label>
+
+        <label class="field"> <!-- Groupe nom -->
+          <span>Last name</span>
+          <input type="text" formControlName="lastName" placeholder="Enter your last name">
+        </label>
+
+        <label class="field"> <!-- Groupe âge -->
+          <span>Age</span>
+          <input type="number" formControlName="age" placeholder="Enter your age" min="1">
+        </label>
+
+        <label class="field"> <!-- Groupe téléphone -->
+          <span>Phone</span>
+          <input type="text" formControlName="phone" placeholder="Enter your phone number">
+        </label>
+
+        <label class="field"> <!-- Groupe mot de passe -->
+          <span>Password</span>
+          <input type="password" formControlName="password" placeholder="Create a password">
+        </label>
+
+        <label class="field"> <!-- Groupe confirmation -->
+          <span>Confirm password</span>
+          <input type="password" formControlName="confirmPassword" placeholder="Confirm your password">
+        </label>
+
+        <button type="submit" [disabled]="isLoading"> <!-- Bouton submit -->
+          {{ isLoading ? 'Creating account...' : 'Create account' }}
+        </button>
+
+        <button type="button" (click)="onReset()">Reset</button> <!-- Bouton reset -->
+
+      </form>
+    </div>
+  </section>
+</div>

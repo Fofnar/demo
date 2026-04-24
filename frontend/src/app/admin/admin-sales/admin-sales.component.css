@@ -1,0 +1,198 @@
+.admin-sales-page { /* Conteneur principal */
+  min-height: 100vh; /* Pleine hauteur */
+  padding: 32px; /* Espace intérieur */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond sombre */
+  color: #e5e7eb; /* Texte clair */
+  font-family: Arial, Helvetica, sans-serif; /* Police de base */
+}
+
+.hero-card { /* Bandeau d'accueil */
+  background: rgba(255, 255, 255, 0.06); /* Effet glass */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure légère */
+  border-radius: 24px; /* Coins arrondis */
+  padding: 28px; /* Espace intérieur */
+  margin-bottom: 24px; /* Espace avec le reste */
+  backdrop-filter: blur(12px); /* Flou de fond */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+}
+
+.eyebrow { /* Petit texte */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.14em; /* Espacement lettres */
+  font-size: 12px; /* Taille */
+  color: #93c5fd; /* Accent */
+}
+
+.hero-card h1 { /* Titre principal */
+  margin: 0; /* Aucune marge */
+  font-size: 32px; /* Taille */
+  line-height: 1.2; /* Interligne */
+  color: #ffffff; /* Blanc */
+}
+
+.subtitle { /* Sous-texte */
+  margin: 12px 0 0 0; /* Espacement */
+  max-width: 760px; /* Largeur max */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.panel { /* Carte générale */
+  background: rgba(255, 255, 255, 0.06); /* Fond glass */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure */
+  border-radius: 24px; /* Coins */
+  padding: 24px; /* Espace intérieur */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22); /* Ombre */
+  margin-bottom: 24px; /* Espace entre cartes */
+}
+
+.panel-header { /* En-tête de carte */
+  display: flex; /* Ligne horizontale */
+  justify-content: space-between; /* Répartition */
+  align-items: center; /* Alignement vertical */
+  gap: 12px; /* Espace */
+  margin-bottom: 16px; /* Espace bas */
+}
+
+.count { /* Compteur */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille */
+}
+
+.filter-hint { /* Aide sur les filtres */
+  margin-bottom: 16px; /* Espace bas */
+  color: #cbd5e1; /* Texte gris */
+  font-size: 13px; /* Taille */
+}
+
+.error-banner { /* Erreur */
+  margin-bottom: 14px; /* Espace */
+  padding: 14px 16px; /* Padding */
+  border-radius: 14px; /* Coins */
+  background: rgba(127, 29, 29, 0.28); /* Fond rouge */
+  border: 1px solid rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  color: #fecaca; /* Texte rouge clair */
+}
+
+.success-banner { /* Succès */
+  margin-bottom: 14px; /* Espace */
+  padding: 14px 16px; /* Padding */
+  border-radius: 14px; /* Coins */
+  background: rgba(20, 83, 45, 0.35); /* Fond vert */
+  border: 1px solid rgba(74, 222, 128, 0.35); /* Bordure verte */
+  color: #bbf7d0; /* Texte vert clair */
+}
+
+.filters-grid { /* Grille de filtres */
+  display: grid; /* Grille */
+  gap: 14px; /* Espace */
+}
+
+.range-grid { /* Sous-grille pour les plages */
+  display: grid; /* Grille */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Deux colonnes */
+  gap: 14px; /* Espace */
+}
+
+.field { /* Groupe label + input */
+  display: grid; /* Layout vertical */
+  gap: 8px; /* Espace */
+}
+
+.field span { /* Texte label */
+  font-size: 14px; /* Taille */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.field input { /* Inputs */
+  width: 100%; /* Pleine largeur */
+  padding: 14px 16px; /* Espace intérieur */
+  border-radius: 14px; /* Coins */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Bordure */
+  background: rgba(15, 23, 42, 0.7); /* Fond */
+  color: #ffffff; /* Texte */
+  outline: none; /* Retire contour */
+}
+
+.field input:focus { /* Focus */
+  border-color: #93c5fd; /* Accent */
+}
+
+.action-row { /* Ligne des boutons */
+  display: flex; /* Ligne */
+  gap: 12px; /* Espace */
+  flex-wrap: wrap; /* Retour ligne si besoin */
+}
+
+button { /* Boutons */
+  padding: 14px 16px; /* Taille */
+  border: none; /* Sans bordure */
+  border-radius: 14px; /* Coins */
+  cursor: pointer; /* Curseur */
+  font-weight: 600; /* Gras */
+}
+
+button[type="button"] { /* Boutons neutres */
+  background: rgba(255, 255, 255, 0.08); /* Fond discret */
+  color: #e5e7eb; /* Texte */
+}
+
+button.danger { /* Bouton suppression */
+  background: rgba(153, 27, 27, 0.7); /* Rouge */
+  color: #ffffff; /* Texte blanc */
+}
+
+button:disabled { /* Bouton désactivé */
+  opacity: 0.65; /* Transparence */
+  cursor: not-allowed; /* Curseur inactif */
+}
+
+.empty-state { /* État vide */
+  padding: 18px; /* Espace */
+  border-radius: 14px; /* Coins */
+  background: rgba(255, 255, 255, 0.04); /* Fond discret */
+  color: #cbd5e1; /* Texte */
+}
+
+.table-wrap { /* Conteneur du tableau */
+  overflow-x: auto; /* Scroll horizontal */
+}
+
+.sales-table { /* Tableau */
+  width: 100%; /* Pleine largeur */
+  border-collapse: collapse; /* Fusion des bordures */
+}
+
+.sales-table th, .sales-table td { /* Cellules */
+  padding: 12px 10px; /* Espace interne */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Séparation */
+  text-align: left; /* Alignement gauche */
+}
+
+.sales-table th { /* En-têtes */
+  color: #93c5fd; /* Accent */
+  font-weight: 600; /* Gras */
+}
+
+.pagination { /* Bloc pagination */
+  display: flex; /* Ligne */
+  justify-content: space-between; /* Répartition */
+  align-items: center; /* Alignement vertical */
+  gap: 12px; /* Espace */
+  margin-top: 18px; /* Espace haut */
+}
+
+.page-info { /* Infos page */
+  color: #cbd5e1; /* Gris clair */
+}
+
+@media (max-width: 900px) { /* Responsive */
+  .range-grid { /* Plages */
+    grid-template-columns: 1fr; /* Une colonne */
+  }
+
+  .panel-header { /* En-tête */
+    flex-direction: column; /* Empilement vertical */
+    align-items: flex-start; /* Alignement gauche */
+  }
+}

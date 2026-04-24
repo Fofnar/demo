@@ -1,0 +1,34 @@
+<div class="login-page"> <!-- Conteneur plein écran -->
+  <section class="login-card"> <!-- Carte centrale -->
+
+    <p class="eyebrow">Welcome back</p> <!-- Petit label -->
+    <h1>Sign in to Felyxor</h1> <!-- Titre principal -->
+    <p class="subtitle">
+      Access your intelligent business workspace and continue monitoring what matters most.
+    </p> <!-- Sous-texte -->
+
+    <div *ngIf="errorMessage" class="error-banner"> <!-- Bloc d'erreur -->
+      {{ errorMessage }} <!-- Message backend affiché -->
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form"> <!-- Formulaire Angular -->
+
+      <label class="field"> <!-- Groupe email -->
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="Enter your email">
+      </label>
+
+      <label class="field"> <!-- Groupe password -->
+        <span>Password</span>
+        <input type="password" formControlName="password" placeholder="Enter your password">
+      </label>
+
+      <button type="submit" [disabled]="isLoading"> <!-- Bouton submit -->
+        {{ isLoading ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+      <button type="button" (click)="onReset()">Reset</button> <!-- Réinitialise le formulaire -->
+
+    </form>
+  </section>
+</div>

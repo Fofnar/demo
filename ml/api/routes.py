@@ -5,34 +5,34 @@ from pydantic import BaseModel, Field
 
 from .ai_service import run_ai_analysis
 
-
-# Routeur FastAPI utilisé pour regrouper les endpoints IA
+# Routeur dédié aux endpoints d'analyse IA.
 router = APIRouter()
 
 
 class SalesData(BaseModel):
     """
-    Représente une ligne de vente reçue par l'API.
+    Représente une ligne de vente reçue par le service IA.
     """
-    date: str = Field(..., description="Date de la vente")
-    product: str = Field(..., description="Nom du produit")
-    price: float = Field(..., description="Prix unitaire")
+
+    date: str = Field(..., description="Date of sale")
+    product: str = Field(..., description="Product Name")
+    price: float = Field(..., description="Unit price")
     quantity: int = Field(..., description="Quantité vendue")
-    stock: int = Field(..., description="Stock restant")
+    stock: int = Field(..., description="Remaining stock")
 
 
 class SalesRequest(BaseModel):
     """
-    Représente la requête complète envoyée à l'API.
+    Représente la charge utile complète envoyée par le backend Spring Boot.
     """
+
     data: List[SalesData]
 
 
 @router.post("/api/analyze")
 def analyze_sales(request: SalesRequest):
     """
-    Lance l'analyse IA complète sur la liste des ventes reçues.
+    Executes the complete AI analytics pipeline on received sales.
     """
-    data = [item.dict() for item in request.data]
-    result = run_ai_analysis(data)
-    return result
+    data = [item.model_dump() for item in request.data]
+    return run_ai_analysis(data)

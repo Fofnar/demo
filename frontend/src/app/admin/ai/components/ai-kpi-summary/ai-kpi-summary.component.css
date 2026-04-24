@@ -1,0 +1,25 @@
+.kpi-section { /* Section globale KPI */
+  margin-bottom: 24px; /* Espace sous le bloc */
+}
+
+.section-header { /* En-tête de section */
+  margin-bottom: 16px; /* Espace avec la grille */
+}
+
+.section-header h2 { /* Titre principal */
+  margin: 0; /* Aucun espace extérieur */
+  color: #ffffff; /* Couleur texte */
+  font-size: 22px; /* Taille lisible */
+}
+
+.section-header p { /* Sous-texte */
+  margin: 6px 0 0 0; /* Espacement léger */
+  color: #cbd5e1; /* Gris clair */
+  font-size: 14px; /* Taille secondaire */
+}
+
+.kpi-grid { /* Grille des KPI */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colonnes adaptatives */
+  gap: 18px; /* Espace entre cartes */
+}

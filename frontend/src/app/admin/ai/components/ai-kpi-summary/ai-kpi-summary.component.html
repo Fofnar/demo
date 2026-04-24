@@ -1,0 +1,55 @@
+<section class="kpi-section"> <!-- Conteneur principal du bloc KPI -->
+
+  <div class="section-header"> <!-- En-tête du bloc -->
+    <h2>Executive summary</h2> <!-- Titre du bloc -->
+    <p>Core business indicators extracted from the AI engine.</p> <!-- Sous-texte -->
+  </div>
+
+  <div class="kpi-grid"> <!-- Grille des cartes KPI -->
+
+    <app-stat-card
+      label="Total revenue"
+      [value]="totalRevenue"
+      hint="Revenue generated over the analyzed period">
+    </app-stat-card> <!-- Carte CA total -->
+
+    <app-stat-card
+      label="Quantity sold"
+      [value]="totalQuantitySold"
+      hint="Total units sold">
+    </app-stat-card> <!-- Carte quantité vendue -->
+
+    <app-stat-card
+      label="Average order value"
+      [value]="averageOrderValue"
+      hint="Average basket value">
+    </app-stat-card> <!-- Carte panier moyen -->
+
+    <app-stat-card
+      label="Unique products"
+      [value]="uniqueProducts"
+      hint="Distinct products analyzed">
+    </app-stat-card> <!-- Carte produits distincts -->
+
+    <app-stat-card
+      label="Health score"
+      [value]="healthScore"
+      hint="Global business health"
+      [alert]="isHealthWeak()">
+    </app-stat-card> <!-- Carte santé business -->
+
+    <app-stat-card
+      label="Top selling product"
+      [value]="topSellingProduct"
+      hint="Best product by volume">
+    </app-stat-card> <!-- Carte top produit volume -->
+
+    <app-stat-card
+      label="Top revenue product"
+      [value]="topRevenueProduct"
+      hint="Best product by revenue">
+    </app-stat-card> <!-- Carte top produit revenu -->
+
+  </div>
+
+</section>

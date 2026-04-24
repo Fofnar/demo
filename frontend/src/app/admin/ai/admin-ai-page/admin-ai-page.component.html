@@ -1,0 +1,110 @@
+<div class="admin-ai-page"> <!-- Conteneur principal de la page overview IA -->
+
+  <section class="hero-card"> <!-- Bandeau principal -->
+    <div class="hero-content"> <!-- Partie texte du hero -->
+      <p class="eyebrow">Felyxor Intelligence</p> <!-- Petit label -->
+      <h1>Business intelligence overview</h1> <!-- Titre principal -->
+      <p class="subtitle">
+        Explore analytics, anomalies, forecasting, inventory, and business health from one intelligent decision workspace.
+      </p> <!-- Sous-texte -->
+    </div>
+
+    <div class="hero-kpis" *ngIf="!isLoading && analysis"> <!-- Résumé rapide visible immédiatement -->
+      <article class="hero-kpi"> <!-- Indicateur nombre total d'anomalies -->
+        <span class="hero-kpi-label">Total anomalies</span>
+        <strong>{{ anomalyCount }}</strong>
+      </article>
+
+      <article class="hero-kpi" [class.alert]="hasCriticalAnomalies()"> <!-- Indicateur anomalies critiques -->
+        <span class="hero-kpi-label">Critical severity</span>
+        <strong>{{ criticalSeverityCount }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Indicateur santé business -->
+        <span class="hero-kpi-label">Health score</span>
+        <strong>{{ healthScore }}</strong>
+      </article>
+
+      <article class="hero-kpi"> <!-- Indicateur stock critique -->
+        <span class="hero-kpi-label">Critical stock</span>
+        <strong>{{ criticalStockCount }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <app-ai-nav></app-ai-nav> <!-- Navigation interne vers les sous-modules IA -->
+
+  <app-loading-spinner
+    *ngIf="isLoading"
+    label="Loading AI analysis...">
+  </app-loading-spinner> <!-- Indicateur de chargement -->
+
+  <div *ngIf="!isLoading && errorMessage" class="state-card error"> <!-- Bloc erreur -->
+    <p>{{ errorMessage }}</p> <!-- Message -->
+    <button type="button" (click)="retry()">Retry</button> <!-- Relance -->
+  </div>
+
+  <ng-container *ngIf="!isLoading && analysis"> <!-- Contenu principal lorsque l'analyse est disponible -->
+
+    <app-ai-kpi-summary [analysis]="analysis"></app-ai-kpi-summary> <!-- Résumé KPI principal -->
+
+    <app-ai-revenue-chart
+      [revenueData]="analysis.sales_analysis.revenue_per_day"
+      [trend]="analysis.sales_analysis.trend"
+      [topRevenueProduct]="analysis.sales_analysis.top_revenue_product"
+      [totalRevenue]="analysis.sales_analysis.total_revenue">
+    </app-ai-revenue-chart> <!-- Graphique principal de revenu -->
+
+    <section class="overview-alerts"> <!-- Zone d'alertes overview -->
+      <article class="overview-alert-card" [class.critical]="hasCriticalAnomalies()"> <!-- Carte anomalie overview -->
+        <div> <!-- Texte principal -->
+          <p class="overview-alert-tag">Risk priority</p> <!-- Petit label -->
+          <h2>Anomalies require attention</h2> <!-- Titre -->
+          <p class="overview-alert-text">
+            {{ anomalyCount }} anomaly signals detected, including {{ criticalSeverityCount }} critical cases.
+          </p> <!-- Résumé métier -->
+        </div>
+
+        <a routerLink="/admin/ai/anomalies" class="overview-link">Open anomalies module</a> <!-- Lien vers détail -->
+      </article>
+    </section>
+
+    <app-ai-anomalies-panel
+      [anomalies]="analysis.anomalies"
+      [overviewMode]="true"
+      [maxItems]="3"
+      [showFooterAction]="true">
+    </app-ai-anomalies-panel> <!-- Aperçu anomalies limité pour la page overview  -->
+
+    <section class="modules-section"> <!-- Section des cartes modules -->
+      <div class="section-heading"> <!-- En-tête de section -->
+        <h2>AI modules</h2> <!-- Titre -->
+        <p>Open a dedicated workspace for each analysis domain.</p> <!-- Sous-texte -->
+      </div>
+
+      <div class="module-grid"> <!-- Grille des cartes de navigation -->
+        <a
+          *ngFor="let module of moduleCards; trackBy: trackByModuleRoute"
+          class="module-card"
+          [class.alert]="module.alert"
+          [routerLink]="module.route">
+
+          <div class="module-card-top"> <!-- Haut de la carte -->
+            <h3>{{ module.title }}</h3> <!-- Titre -->
+            <span *ngIf="module.badge" class="module-badge">{{ module.badge }}</span> <!-- Badge -->
+          </div>
+
+          <p>{{ module.description }}</p> <!-- Description -->
+          <span class="module-link-text">Open module</span> <!-- Indication d'action -->
+        </a>
+      </div>
+    </section>
+
+    <section class="footer-actions"> <!-- Actions bas de page -->
+      <button type="button" (click)="refreshAnalysis()">Refresh analysis</button> <!-- Rafraîchit les données -->
+      <a routerLink="/dashboard">Back to dashboard</a> <!-- Retour dashboard -->
+    </section>
+
+  </ng-container>
+
+</div>

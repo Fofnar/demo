@@ -746,4 +746,12 @@ You may obtain a copy of the license at:
 http://www.apache.org/licenses/LICENSE-2.0
 ```
 
+<<<<<<< HEAD
 Unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an **"AS IS" BASIS**, without warranties or conditions of any kind.
+=======
+<<<<<<< HEAD
+Unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an **"AS IS" BASIS**, without warranties or conditions of any kind.
+=======
+Unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an **"AS IS" BASIS**, without warranties or conditions of any kind.
+>>>>>>> 15474be (Prepare Felyxor V1 for Render deployment)
+>>>>>>> feature/frontend-felyxor

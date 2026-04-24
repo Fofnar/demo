@@ -1,0 +1,273 @@
+.admin-ai-page { /* Conteneur général de la page overview IA */
+  min-height: 100vh; /* Pleine hauteur */
+  padding: 32px; /* Espace intérieur global */
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%); /* Fond sombre SaaS */
+  color: #e5e7eb; /* Couleur texte principale */
+  font-family: Arial, Helvetica, sans-serif; /* Police simple et lisible */
+}
+
+.hero-card { /* Bandeau principal */
+  display: flex; /* Mise en ligne du contenu */
+  justify-content: space-between; /* Répartition horizontale */
+  gap: 24px; /* Espace entre les blocs */
+  align-items: flex-start; /* Alignement haut */
+  padding: 28px; /* Espace intérieur */
+  margin-bottom: 24px; /* Espace sous le bandeau */
+  border-radius: 24px; /* Coins arrondis */
+  background: rgba(255, 255, 255, 0.06); /* Fond glass */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure douce */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); /* Ombre */
+  flex-wrap: wrap; /* Autorise le retour à la ligne */
+}
+
+.hero-content { /* Bloc texte du hero */
+  flex: 1 1 520px; /* Prend l'espace disponible */
+}
+
+.eyebrow { /* Petit label supérieur */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.14em; /* Espacement des lettres */
+  font-size: 12px; /* Petite taille */
+  color: #93c5fd; /* Accent bleu */
+}
+
+.hero-card h1 { /* Titre principal */
+  margin: 0; /* Supprime marge par défaut */
+  font-size: 32px; /* Taille du titre */
+  line-height: 1.2; /* Hauteur de ligne */
+  color: #ffffff; /* Blanc */
+}
+
+.subtitle { /* Sous-texte */
+  margin: 12px 0 0 0; /* Espacement supérieur */
+  max-width: 760px; /* Largeur confortable */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.hero-kpis { /* Bloc des indicateurs rapides */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(2, minmax(160px, 1fr)); /* Deux colonnes minimum */
+  gap: 14px; /* Espace entre les cartes */
+  flex: 1 1 320px; /* Largeur adaptable */
+}
+
+.hero-kpi { /* Carte KPI du hero */
+  padding: 18px; /* Espace intérieur */
+  border-radius: 18px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+}
+
+.hero-kpi.alert { /* Variante alerte */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  background: rgba(127, 29, 29, 0.22); /* Fond plus critique */
+}
+
+.hero-kpi-label { /* Label de KPI */
+  display: block; /* Passe à la ligne */
+  margin-bottom: 8px; /* Espace sous le label */
+  color: #93c5fd; /* Accent */
+  font-size: 13px; /* Taille */
+}
+
+.hero-kpi strong { /* Valeur principale */
+  font-size: 28px; /* Taille forte */
+  color: #ffffff; /* Blanc */
+}
+
+.state-card { /* Bloc d'état générique */
+  padding: 18px 22px; /* Espace intérieur */
+  border-radius: 18px; /* Coins arrondis */
+  margin-bottom: 18px; /* Espace sous le bloc */
+  background: rgba(255, 255, 255, 0.05); /* Fond léger */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+}
+
+.state-card.error { /* Variante erreur */
+  background: rgba(127, 29, 29, 0.3); /* Fond rouge sombre */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+}
+
+.state-card button { /* Bouton du bloc erreur */
+  margin-top: 12px; /* Espace au-dessus du bouton */
+}
+
+.overview-alerts { /* Section des alertes overview */
+  margin: 24px 0; /* Espace vertical */
+}
+
+.overview-alert-card { /* Carte d'alerte principale */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Sépare contenu et CTA */
+  gap: 20px; /* Espace entre les blocs */
+  align-items: center; /* Alignement vertical */
+  padding: 22px; /* Espace intérieur */
+  border-radius: 22px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.72); /* Fond sombre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+  flex-wrap: wrap; /* Responsive */
+}
+
+.overview-alert-card.critical { /* Variante urgente */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge */
+  background: rgba(127, 29, 29, 0.16); /* Fond rouge discret */
+}
+
+.overview-alert-tag { /* Petit label de la carte alerte */
+  margin: 0 0 8px 0; /* Marges */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.1em; /* Espacement */
+  font-size: 12px; /* Petite taille */
+  color: #93c5fd; /* Accent */
+}
+
+.overview-alert-card h2 { /* Titre carte alerte */
+  margin: 0; /* Supprime la marge */
+  color: #ffffff; /* Blanc */
+  font-size: 24px; /* Taille forte */
+}
+
+.overview-alert-text { /* Texte carte alerte */
+  margin: 10px 0 0 0; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.overview-link { /* Lien CTA vers le module anomalies */
+  padding: 12px 16px; /* Zone cliquable */
+  border-radius: 14px; /* Coins */
+  background: #93c5fd; /* Accent principal */
+  color: #0f172a; /* Texte sombre */
+  text-decoration: none; /* Sans soulignement */
+  font-weight: 700; /* Texte plus fort */
+}
+
+.modules-section { /* Section des cartes modules */
+  margin-top: 28px; /* Espace supérieur */
+}
+
+.section-heading { /* En-tête de la section modules */
+  margin-bottom: 18px; /* Espace sous l'en-tête */
+}
+
+.section-heading h2 { /* Titre section */
+  margin: 0; /* Pas de marge */
+  font-size: 24px; /* Taille */
+  color: #ffffff; /* Blanc */
+}
+
+.section-heading p { /* Sous-texte section */
+  margin: 8px 0 0 0; /* Espace supérieur */
+  color: #cbd5e1; /* Gris clair */
+}
+
+.module-grid { /* Grille des modules */
+  display: grid; /* Mise en grille */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colonnes responsive */
+  gap: 18px; /* Espace entre cartes */
+  margin-bottom: 24px; /* Espace inférieur */
+}
+
+.module-card { /* Carte module cliquable */
+  display: block; /* Comportement bloc */
+  padding: 20px; /* Espace intérieur */
+  border-radius: 20px; /* Coins arrondis */
+  background: rgba(15, 23, 42, 0.7); /* Fond profond */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure discrète */
+  text-decoration: none; /* Supprime soulignement du lien */
+  color: #e5e7eb; /* Couleur principale */
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18); /* Ombre */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; /* Transition fluide */
+}
+
+.module-card:hover { /* Survol des cartes modules */
+  transform: translateY(-4px); /* Soulève légèrement la carte */
+  box-shadow: 0 22px 38px rgba(0, 0, 0, 0.24); /* Renforce l'ombre */
+}
+
+.module-card.alert { /* Carte prioritaire */
+  border-color: rgba(248, 113, 113, 0.35); /* Bordure rouge discrète */
+}
+
+.module-card-top { /* Ligne haute de la carte */
+  display: flex; /* Mise en ligne */
+  justify-content: space-between; /* Répartition */
+  gap: 12px; /* Espace */
+  align-items: flex-start; /* Alignement haut */
+  margin-bottom: 12px; /* Espace sous la ligne */
+}
+
+.module-card h3 { /* Titre de module */
+  margin: 0; /* Supprime la marge */
+  color: #ffffff; /* Blanc */
+  font-size: 18px; /* Taille */
+}
+
+.module-card p { /* Description module */
+  margin: 0 0 16px 0; /* Espace inférieur */
+  color: #cbd5e1; /* Gris clair */
+  line-height: 1.5; /* Hauteur de ligne */
+}
+
+.module-badge { /* Badge en haut à droite */
+  padding: 8px 10px; /* Espace intérieur */
+  border-radius: 999px; /* Capsule */
+  background: rgba(255, 255, 255, 0.08); /* Fond neutre */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordure */
+  color: #dbeafe; /* Texte */
+  font-size: 12px; /* Taille compacte */
+  white-space: nowrap; /* Évite le retour à la ligne */
+}
+
+.module-link-text { /* Texte final d'action */
+  color: #93c5fd; /* Accent */
+  font-size: 14px; /* Taille */
+  font-weight: 600; /* Poids */
+}
+
+.footer-actions { /* Actions rapides de fin */
+  display: flex; /* Alignement horizontal */
+  gap: 12px; /* Espace entre les actions */
+  flex-wrap: wrap; /* Retour à la ligne si besoin */
+}
+
+.footer-actions button,
+.footer-actions a { /* Style commun des actions */
+  padding: 12px 16px; /* Zone cliquable confortable */
+  border-radius: 14px; /* Coins */
+  border: none; /* Retire la bordure native */
+  text-decoration: none; /* Retire le soulignement */
+  cursor: pointer; /* Curseur interactif */
+  font-weight: 600; /* Texte fort */
+  background: #93c5fd; /* Couleur accent */
+  color: #0f172a; /* Texte sombre */
+}
+
+@media (max-width: 900px) { /* Responsive tablette */
+  .hero-kpis {
+    grid-template-columns: 1fr 1fr; /* Garde deux colonnes si possible */
+  }
+
+  .overview-alert-card {
+    align-items: flex-start; /* Évite un alignement trop compressé */
+  }
+}
+
+@media (max-width: 768px) { /* Responsive mobile */
+  .admin-ai-page {
+    padding: 20px; /* Réduit le padding externe */
+  }
+
+  .hero-card h1 {
+    font-size: 26px; /* Réduit la taille du grand titre */
+  }
+
+  .hero-kpis {
+    grid-template-columns: 1fr; /* Passe les KPI hero sur une colonne */
+  }
+
+  .module-card-top {
+    flex-direction: column; /* Empile le titre et le badge */
+  }
+}
