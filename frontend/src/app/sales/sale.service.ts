@@ -6,13 +6,15 @@ import { Sale } from '../models/sale.model'; // Modèle d'une vente
 import { SaleRequest } from '../models/sale-request.model'; // Modèle de création d'une vente
 import { PagedResponse } from '../models/paged-response.model'; // Modèle de réponse paginée
 import { SaleSearchFilters } from '../models/sale-search-filters.model'; // Modèle des filtres admin
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root' // Service disponible globalement
 })
 export class SaleService {
 
-  private readonly apiUrl = 'http://localhost:8080/api/sales'; // URL de base du contrôleur sales
+  // L'URL est externalisée pour éviter les valeurs localhost en production.
+  private readonly apiUrl = `${environment.apiBaseUrl}/sales`;
 
   constructor(private http: HttpClient) {} // Injection du client HTTP
 

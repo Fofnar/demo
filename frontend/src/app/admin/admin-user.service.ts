@@ -6,13 +6,16 @@ import { PagedResponse } from '../models/paged-response.model';
 import { UserDTO } from '../models/user-dto.model';
 import { UpdateRoleRequest } from '../models/update-role-request.model';
 import { Role } from '../models/role.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root' // Rend le service disponible dans toute l'application
 })
 export class AdminUserService {
 
-  private readonly apiUrl = 'http://localhost:8080/api/admin/users'; // URL de base du contrôleur admin users
+  // Point d'entrée du module d'administration des utilisateurs.
+  // L'URL dépend de l'environnement Angular actif.
+  private readonly apiUrl = `${environment.apiBaseUrl}/admin/users`;
 
   constructor(private http: HttpClient) {} // Injection du client HTTP Angular
 

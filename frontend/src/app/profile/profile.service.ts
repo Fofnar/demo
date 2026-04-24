@@ -3,14 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { ApiResponse } from '../models/api-response.model'; 
 import { UserDTO } from '../models/user-dto.model'; 
-import { UpdateUserRequest } from '../models/update-user-request.model'; 
+import { UpdateUserRequest } from '../models/update-user-request.model';
+import { environment } from 'src/environments/environment'; 
 
 @Injectable({
   providedIn: 'root' // Le service est disponible partout
 })
 export class ProfileService {
 
-  private readonly apiUrl = 'http://localhost:8080/api/users'; // URL de base du contrôleur user
+  // L'URL est externalisée pour éviter les valeurs localhost en production.
+  private readonly apiUrl = `${environment.apiBaseUrl}/users`; 
 
   constructor(private http: HttpClient) {} // Injection du client HTTP
 

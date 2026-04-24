@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.fof'      // Le package de base (sera préfixe des classes)
-version = '0.0.1-SNAPSHOT' // Version de mon application
+version = '0.0.1-SNAPSHOT' // Version de l'application
 
 java {
 	toolchain {

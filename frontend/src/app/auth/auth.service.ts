@@ -6,6 +6,7 @@ import { ApiResponse } from '../models/api-response.model';
 import { AuthResponse } from '../models/auth-response.model'; 
 import { RegisterRequest } from '../models/register-request.model';
 import { UserDTO } from '../models/user-dto.model';
+import { environment } from 'src/environments/environment';
 
 // Représente le payload décodé du JWT
 interface JwtPayload {
@@ -19,8 +20,9 @@ interface JwtPayload {
 })
 export class AuthService {
 
-  // URL de base du backend d'authentification
-  private readonly apiUrl = 'http://localhost:8080/api/auth';
+  // Point d'entrée du module d'authentification.
+  // L'URL est externalisée pour éviter les valeurs localhost en production.
+  private readonly apiUrl = `${environment.apiBaseUrl}/auth`;
 
   // Injection du client HTTP
   constructor(private http : HttpClient) {} 

@@ -1,19 +1,23 @@
-import { Injectable } from '@angular/core'; // Rend le service injectable dans l'application
-import { HttpClient } from '@angular/common/http'; // Permet d'effectuer des requêtes HTTP
-import { Observable } from 'rxjs'; // Représente une réponse asynchrone
-import { ApiResponse } from '../../models/api-response.model'; // Contrat standard de réponse API
-import { AIResponse } from '../../models/ai-response.model'; // Contrat global de l'analyse IA
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { environment } from 'src/environments/environment';
+import { ApiResponse } from '../../models/api-response.model';
+import { AIResponse } from '../../models/ai-response.model';
 
 @Injectable({
-  providedIn: 'root' // Service disponible partout sans déclaration supplémentaire
+  providedIn: 'root'
 })
 export class AiService {
 
-  private readonly apiUrl = 'http://localhost:8080/api/ai'; // URL de base du contrôleur IA
+  // Point d'entrée du contrôleur IA exposé par le backend Spring Boot.
+  // Le service FastAPI reste appelé uniquement par le backend.
+  private readonly apiUrl = `${environment.apiBaseUrl}/ai`;
 
-  constructor(private http: HttpClient) {} // Injection du client HTTP Angular
+  constructor(private http: HttpClient) {}
 
-  getAnalysis(): Observable<ApiResponse<AIResponse>> { // Appel de l'API principale IA
-    return this.http.get<ApiResponse<AIResponse>>(`${this.apiUrl}/analysis`); // GET /api/ai/analysis
+  getAnalysis(): Observable<ApiResponse<AIResponse>> {
+    return this.http.get<ApiResponse<AIResponse>>(`${this.apiUrl}/analysis`);
   }
 }
