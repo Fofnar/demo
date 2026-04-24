@@ -4,7 +4,33 @@
 
 The platform combines a secure Spring Boot backend, a Python/FastAPI AI service, PostgreSQL, and a modern Angular dashboard to deliver business insights such as revenue analytics, anomaly detection, forecasting, inventory monitoring, stockout prediction, and decision-oriented recommendations.
 
-> Felyxor is built with a production mindset: secure APIs, modular architecture, AI-driven analysis, Docker-based deployment, CI/CD readiness, and a SaaS-oriented roadmap.
+> Felyxor is built with a production mindset: secure APIs, modular architecture, AI-driven analysis, cloud deployment, Docker-based development, CI/CD readiness, and a SaaS-oriented roadmap.
+
+---
+
+## Live Demo
+
+Felyxor V1 is deployed and publicly available online.
+
+| Service | Link |
+|---|---|
+| Live Application | https://felyxor-frontend.onrender.com |
+| Backend API | https://felyxor-backend.onrender.com |
+| Swagger / OpenAPI | https://felyxor-backend.onrender.com/swagger-ui/index.html |
+| AI Service Health Check | https://felyxor-ai-service.onrender.com/health |
+
+### Demo Access
+
+To access the admin intelligence workspace, use:
+
+```text
+Email: fodebafofana411@gmail.com
+Password: Fodeba123
+```
+
+This admin demo account gives access to the AI intelligence modules, including sales analysis, anomaly detection, forecasting, inventory analysis, stock prediction, business health scoring, and recommendations.
+
+Visitors can also create a regular user account to test the standard user experience.
 
 ---
 
@@ -121,6 +147,37 @@ Angular Dashboard
 
 ---
 
+## Production Deployment
+
+Felyxor V1 is deployed on Render using the following architecture:
+
+```text
+Render Static Site
+Angular Frontend
+     |
+     v
+Render Web Service
+Spring Boot Backend
+     |
+     +--> Render PostgreSQL Database
+     |
+     +--> Render Web Service
+          FastAPI AI Service
+```
+
+Production setup:
+
+- Angular frontend deployed as a Render Static Site
+- Spring Boot backend deployed as a Render Web Service
+- FastAPI AI service deployed as a separate Render Web Service
+- PostgreSQL deployed as a managed Render database
+- Backend connected to PostgreSQL through environment variables
+- Backend connected to the AI service through `ML_SERVICE_URL`
+- Frontend connected to the backend through a production API base URL
+- CORS configured for the deployed frontend domain
+
+---
+
 ## Repository Structure
 
 ```text
@@ -131,7 +188,7 @@ demo/
 ├── jenkins/                # Jenkins-related configuration
 ├── gradle/                 # Gradle wrapper files
 ├── Dockerfile              # Backend Docker image
-├── docker-compose.yml      # PostgreSQL + Spring Boot backend
+├── docker-compose.yml      # PostgreSQL + Spring Boot backend for local development
 ├── Jenkinsfile             # CI/CD pipeline definition
 ├── build.gradle            # Backend dependencies and build config
 ├── requirements.txt        # Python AI service dependencies
@@ -160,12 +217,13 @@ demo/
 - pandas
 - NumPy
 - scikit-learn style analytics logic
+- Prophet
 - Forecasting and anomaly detection logic
 - Business recommendation engine
 
 ### Frontend
 
-- Angular
+- Angular 16
 - Reactive Forms
 - Route Guards
 - HTTP Interceptors
@@ -176,13 +234,15 @@ demo/
 ### Database
 
 - PostgreSQL 15
-- Persistent Docker volume
+- Managed PostgreSQL in production
+- Persistent Docker volume in local development
 - JPA-based schema evolution
 
 ### DevOps
 
 - Docker
 - Docker Compose
+- Render
 - Jenkins CI/CD
 - Gradle
 - GitHub
@@ -245,7 +305,13 @@ This structure keeps the platform readable, scalable and closer to a real SaaS p
 
 The backend is documented with **Swagger / OpenAPI**.
 
-When the backend is running locally, the API documentation is available at:
+Production Swagger:
+
+```text
+https://felyxor-backend.onrender.com/swagger-ui/index.html
+```
+
+Local Swagger:
 
 ```text
 http://localhost:8080/swagger-ui/index.html
@@ -270,9 +336,12 @@ Main configuration concepts:
 - Server port configuration
 - JWT secret from environment variables
 - AI service URL from environment variables
+- CORS allowed origins from environment variables
 - Optional Spring Security debug logs during development
 
-In Docker, the database URL uses the Docker Compose database service name because the backend container connects to PostgreSQL through the internal Docker network.
+In Docker local development, the database URL uses the Docker Compose database service name because the backend container connects to PostgreSQL through the internal Docker network.
+
+In production, Render injects the PostgreSQL connection, JWT secret, CORS origin, and AI service URL through environment variables.
 
 ---
 
@@ -285,9 +354,9 @@ The current Docker Compose setup starts:
 
 Important note:
 
-The current Docker Compose setup does **not yet containerize the ML service and frontend**.
+The current Docker Compose setup is used for local development.
 
-For now:
+For local development:
 
 - Backend runs in Docker
 - PostgreSQL runs in Docker
@@ -361,15 +430,15 @@ The AI service should be available at:
 http://localhost:8000
 ```
 
+Health check:
+
+```text
+http://localhost:8000/health
+```
+
 ---
 
 ## 3. Build and Start Backend + Database with Docker
-
-Build the Spring Boot JAR:
-
-```bash
-.\gradlew.bat clean bootJar
-```
 
 Build Docker images without cache:
 
@@ -453,6 +522,7 @@ ML_SERVICE_URL=http://localhost:8000
 SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/demo_db
 SPRING_DATASOURCE_USERNAME=demo_user
 SPRING_DATASOURCE_PASSWORD=demo_pass
+CORS_ALLOWED_ORIGINS=http://localhost:4200
 ```
 
 In production, secrets must not be hardcoded.
@@ -536,6 +606,7 @@ Current security features:
 - Centralized HTTP interceptor
 - Automatic token refresh on protected requests
 - Logout on invalid session
+- CORS configured for frontend/backend communication
 
 Admin-only areas include:
 
@@ -567,74 +638,6 @@ Planned improvements:
 
 ---
 
-## Current Deployment Status
-
-The project is currently configured for local and Docker-based development.
-
-Current Docker Compose includes:
-
-- PostgreSQL
-- Spring Boot backend
-
-Not yet included in Docker Compose:
-
-- Angular frontend container
-- FastAPI ML service container
-
-Planned deployment improvements:
-
-- Add Dockerfile for Angular frontend
-- Add Dockerfile for FastAPI ML service
-- Extend Docker Compose with `frontend` and `ml-service`
-- Prepare production environment variables
-- Add cloud deployment configuration
-- Deploy a live demo on Render or another cloud provider
-
----
-
-## Suggested Production Deployment Architecture
-
-```text
-Frontend
-  |
-  v
-Backend API
-  |
-  +--> PostgreSQL Database
-  |
-  +--> FastAPI ML Service
-```
-
-For a production-ready deployment, the recommended setup is:
-
-- Frontend deployed as a static web app
-- Backend deployed as a containerized API
-- ML service deployed as a separate API service
-- PostgreSQL deployed as a managed database
-- Environment variables configured securely
-- JWT secret stored outside source code
-- CORS configured for the production frontend domain
-
----
-
-## Render Demo Deployment Plan
-
-Before moving to the multi-tenant SaaS architecture, the priority is to deploy a clean V1 demo.
-
-The recommended Render setup is:
-
-- Angular frontend deployed as a static site
-- Spring Boot backend deployed as a web service
-- FastAPI AI service deployed as a separate web service
-- PostgreSQL deployed as a managed Render database
-- Backend connected to PostgreSQL through environment variables
-- Backend connected to the AI service through `ML_SERVICE_URL`
-- Frontend connected to the backend through a production API base URL
-
-This V1 deployment will make Felyxor accessible online and usable as a portfolio/recruiter demo before adding SaaS-specific foundations such as tenant isolation, organization accounts and billing.
-
----
-
 ## Roadmap
 
 ### Phase 1 — MVP Platform
@@ -649,13 +652,14 @@ This V1 deployment will make Felyxor accessible online and usable as a portfolio
 
 ### Phase 2 — V1 Demo Deployment
 
-- Prepare production environment variables
-- Configure Render PostgreSQL
-- Deploy FastAPI AI service
-- Deploy Spring Boot backend
-- Deploy Angular frontend
-- Connect all services together
-- Test authentication, sales, dashboard and AI intelligence modules online
+- Render PostgreSQL configured
+- FastAPI AI service deployed
+- Spring Boot backend deployed
+- Angular frontend deployed
+- Backend connected to PostgreSQL
+- Backend connected to AI service
+- Frontend connected to production backend
+- Authentication, sales, dashboard and AI modules tested online
 
 ### Phase 3 — Full Containerization
 
@@ -683,12 +687,12 @@ This V1 deployment will make Felyxor accessible online and usable as a portfolio
 
 ### Phase 6 — Production & Scale
 
-- Cloud deployment
-- Managed PostgreSQL
 - Monitoring
 - Logging
 - CI/CD deployment gates
 - Production-grade security hardening
+- Scalability improvements
+- SaaS onboarding workflow
 
 ---
 
@@ -703,7 +707,8 @@ Felyxor demonstrates the ability to design and build a real-world data product f
 - Machine learning service integration
 - Business intelligence workflows
 - Frontend dashboard development
-- Docker-based deployment
+- Cloud deployment
+- Docker-based development
 - CI/CD readiness
 - Product thinking
 
@@ -729,8 +734,22 @@ It demonstrates practical experience with:
 - Integrating ML services
 - Designing business dashboards
 - Working with Docker and CI/CD
+- Deploying fullstack applications to the cloud
 - Creating production-oriented software architecture
 - Turning raw data into decision-support features
+
+A live demo is available at:
+
+```text
+https://felyxor-frontend.onrender.com
+```
+
+Admin demo access:
+
+```text
+Email: fodebafofana411@gmail.com
+Password: Fodeba123
+```
 
 ---
 
@@ -746,12 +765,4 @@ You may obtain a copy of the license at:
 http://www.apache.org/licenses/LICENSE-2.0
 ```
 
-<<<<<<< HEAD
 Unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an **"AS IS" BASIS**, without warranties or conditions of any kind.
-=======
-<<<<<<< HEAD
-Unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an **"AS IS" BASIS**, without warranties or conditions of any kind.
-=======
-Unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an **"AS IS" BASIS**, without warranties or conditions of any kind.
->>>>>>> 15474be (Prepare Felyxor V1 for Render deployment)
->>>>>>> feature/frontend-felyxor
