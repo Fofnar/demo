@@ -19,6 +19,8 @@ import java.util.List;
  * - un commentaire business
  * - le détail des anomalies associées
  * - une projection sur 3 jours
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
  *
  * Ces Specifications sont utilisées par Spring Data JPA
  * pour générer automatiquement la clause WHERE d'une requête.
+ *
+ * @author Fodeba Fofana
  */
 public class SaleSpecification {
 

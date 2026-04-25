@@ -45,6 +45,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses; // Swagger : répon
  *
  * Les réponses sont structurées via ApiResponse afin de garder
  * une cohérence dans toute l'API.
+ *
+ * @author Fodeba Fofana
  */
 @RestController // Déclare un controller REST
 @RequestMapping("/api/sales") // Préfixe commun des routes

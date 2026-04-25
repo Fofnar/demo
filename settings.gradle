@@ -1,1 +1,2 @@
+// Définit le nom racine du projet Gradle (utilisé pour l’identification du build et des artefacts)
 rootProject.name = 'demo'

@@ -15,6 +15,8 @@ import java.util.List;
  * - produit
  * - tendance
  * - anomalies
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

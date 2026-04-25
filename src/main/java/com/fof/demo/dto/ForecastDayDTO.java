@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
  *
  * Utilisé dans le bloc "forecast_next_3_days" pour exposer
  * les valeurs prédites jour par jour au frontend ou au backend.
+ *
+ *  @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

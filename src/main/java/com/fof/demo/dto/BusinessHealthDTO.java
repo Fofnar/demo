@@ -17,6 +17,8 @@ import java.util.List;
  * - détail des sous-scores
  * - commentaires métier
  * - recommandations
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

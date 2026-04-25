@@ -8,40 +8,97 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List; // Liste de ventes
-import java.util.stream.Collectors; // Conversion en DTO
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Service // Rend la classe injectable par Spring
-@RequiredArgsConstructor // Génère le constructeur avec les champs final
-public class AIAnalysisService { // Service métier de l'analyse IA
+/**
+ * Service métier responsable de l'analyse des données de ventes via un microservice IA.
+ *
+ * <p>
+ * Ce service agit comme une passerelle entre le backend Spring Boot et
+ * un microservice externe basé sur FastAPI.
+ * </p>
+ *
+ * <p>
+ * Responsabilités principales :
+ * <ul>
+ *     <li>Récupérer les données de ventes depuis la base</li>
+ *     <li>Transformer les entités en DTO compatibles avec le service IA</li>
+ *     <li>Construire la requête d'analyse</li>
+ *     <li>Appeler le microservice IA via HTTP</li>
+ *     <li>Retourner les résultats d'analyse (prédictions, anomalies, recommandations, etc.)</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Ce service est conçu pour s'intégrer dans une architecture microservices
+ * avec séparation claire entre logique métier et traitement IA.
+ * </p>
+ *
+ * @author Fodeba Fofana
+ */
+@Service
+@RequiredArgsConstructor
+public class AIAnalysisService {
 
-    private final SaleService saleService; // Service des ventes
-    private final WebClient webClient; // Client HTTP vers le microservice FastAPI
+    /**
+     * Service permettant l'accès aux données de ventes.
+     */
+    private final SaleService saleService;
 
-    public AIResponse analyzeSales() { // Lance l'analyse IA
+    /**
+     * Client HTTP utilisé pour communiquer avec le microservice IA (FastAPI).
+     */
+    private final WebClient webClient;
 
-        List<SaleEntity> sales = saleService.findAllEntitiesInBatches(500); // Charge les ventes par lots
+    /**
+     * Lance une analyse complète des ventes via le microservice IA.
+     *
+     * <p>
+     * Étapes de traitement :
+     * <ul>
+     *     <li>Chargement des ventes par lots pour optimiser la mémoire</li>
+     *     <li>Transformation des entités en DTO adaptés à l'IA</li>
+     *     <li>Envoi des données au microservice FastAPI</li>
+     *     <li>Récupération et mapping de la réponse IA</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * En cas d'erreur (ex : microservice indisponible), une réponse vide est retournée
+     * afin d'assurer la résilience du système.
+     * </p>
+     *
+     * @return un objet {@link AIResponse} contenant les résultats d'analyse IA
+     */
+    public AIResponse analyzeSales() {
 
-        List<AISaleDTO> aiSales = sales.stream() // Transforme la liste en flux
-                .map(s -> new AISaleDTO( // Convertit chaque vente en DTO IA
-                        s.getSaleDate(), // Date de vente
-                        s.getProduct(), // Produit
-                        s.getPrice(), // Prix
-                        s.getQuantity(), // Quantité
-                        s.getStock() // Stock
+        // Chargement des ventes en batch pour éviter les problèmes de performance/mémoire
+        List<SaleEntity> sales = saleService.findAllEntitiesInBatches(500);
+
+        // Transformation des entités en DTO envoyables au microservice IA
+        List<AISaleDTO> aiSales = sales.stream()
+                .map(s -> new AISaleDTO(
+                        s.getSaleDate(),
+                        s.getProduct(),
+                        s.getPrice(),
+                        s.getQuantity(),
+                        s.getStock()
                 ))
-                .collect(Collectors.toList()); // Liste finale pour l'IA
+                .collect(Collectors.toList());
 
-        AISalesRequest request = new AISalesRequest(aiSales); // Construit le payload envoyé à FastAPI
+        // Construction de la requête IA
+        AISalesRequest request = new AISalesRequest(aiSales);
 
-        AIResponse response = webClient.post() // Prépare une requête POST
-                .uri("/api/analyze") // Endpoint du microservice IA
-                .bodyValue(request) // Envoie le corps JSON
-                .retrieve() // Exécute la requête
-                .bodyToMono(AIResponse.class) // Convertit la réponse en AIResponse
-                .onErrorReturn(new AIResponse()) // Retourne une réponse vide si FastAPI est indisponible
-                .block(); // Attend le résultat de façon synchrone
+        // Appel du microservice FastAPI
+        AIResponse response = webClient.post()
+                .uri("/api/analyze")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(AIResponse.class)
+                .onErrorReturn(new AIResponse()) // fallback en cas d'erreur
+                .block(); // appel synchrone
 
-        return response; // Renvoie la réponse IA
+        return response;
     }
 }

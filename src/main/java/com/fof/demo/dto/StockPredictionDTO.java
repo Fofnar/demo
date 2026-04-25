@@ -17,6 +17,8 @@ import java.util.List;
  * - le commentaire métier global
  * - les recommandations globales
  * - le contexte d'anomalies associé
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

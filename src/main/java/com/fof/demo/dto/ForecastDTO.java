@@ -15,6 +15,8 @@ import java.util.List;
  * - l'état de disponibilité du forecast
  * - la méthode utilisée
  * - la liste des valeurs prédites
+ *
+ *  @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

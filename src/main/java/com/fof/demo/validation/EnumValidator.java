@@ -19,6 +19,8 @@ import java.lang.annotation.*;
  *
  * Si la valeur envoyée ne correspond pas à une constante de Role,
  * la validation échouera automatiquement.
+ *
+ * @author Fodeba Fofana
  */
 @Documented
 @Constraint(validatedBy = EnumValidatorImpl.class)

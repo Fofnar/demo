@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
  * - santé business
  * - inventaire
  * - stock
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @AllArgsConstructor

@@ -17,6 +17,8 @@ import java.util.List;
  * - note exécutive
  * - recommandations détaillées
  * - contexte d'anomalies
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

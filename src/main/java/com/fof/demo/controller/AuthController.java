@@ -3,7 +3,6 @@ package com.fof.demo.controller;
 import com.fof.demo.dto.*;
 import com.fof.demo.entity.AppUser;
 import com.fof.demo.exception.BadCredentialsException;
-import com.fof.demo.exception.UserAlreadyExistsException;
 import com.fof.demo.security.JwtUtils;
 import com.fof.demo.service.AppUserService;
 import jakarta.validation.Valid;
@@ -28,6 +27,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * - le renouvellement d'un token JWT
  *
  * Toutes les routes de ce contrôleur commencent par /api/auth.
+ * @author Fodeba Fofana
  */
 @RestController
 @RequestMapping("/api/auth")
@@ -87,7 +87,7 @@ public class AuthController {
             description = "User registration data",
             required = true,
             content = @Content(
-                    schema = @Schema(implementation = AuthRequest.class),
+                    schema = @Schema(implementation = RegisterRequest.class),
                     examples = @ExampleObject(
                             name = "Register example",
                             value = """
@@ -103,7 +103,7 @@ public class AuthController {
                     )
             )
     )
-    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody @Valid AuthRequest request) {
+    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody @Valid RegisterRequest request) {
 
         // Création de l'utilisateur
         AppUser user = userService.saveUser(

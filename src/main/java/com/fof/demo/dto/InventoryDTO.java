@@ -17,6 +17,8 @@ import java.util.List;
  * - résumé métier
  * - alertes produit par produit
  * - recommandations globales
+ *
+ *  @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

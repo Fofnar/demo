@@ -1,6 +1,4 @@
 package com.fof.demo.controller;
-//Cette classe sert à tester le CRUD basique (name, age).
-
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fof.demo.dto.UserDTO;
@@ -15,21 +13,40 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest // On lance le vrai contexte Spring (application)
-@AutoConfigureMockMvc // On dit à Spring de configurer MockMvc automatiquement
+/**
+ * Tests d'intégration du contrôleur utilisateur.
+ *
+ * <p>
+ * Cette classe vérifie le bon fonctionnement des opérations principales
+ * exposées par l'API utilisateur : création, récupération, mise à jour
+ * et suppression.
+ * </p>
+ *
+ * <p>
+ * Les tests utilisent {@link MockMvc} afin de simuler des requêtes HTTP
+ * sans lancer de serveur réel.
+ * </p>
+ *
+ * @author Fodeba Fofana
+ */
+@SpringBootTest
+@AutoConfigureMockMvc
 class UserControllerTest {
 
     @Autowired
-    private MockMvc mockMvc; // Outil pour envoyer des requêtes HTTP simulées
+    private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper; // Pour transformer un objet Java en JSON
+    private ObjectMapper objectMapper;
 
+    /**
+     * Vérifie qu'un utilisateur peut être créé avec succès.
+     */
     @Test
     void testRegisterUser_Succes() throws Exception {
 
-        //Créer un utilisateur à enregistrer
-        UserDTO user = new UserDTO(null,
+        UserDTO user = new UserDTO(
+                null,
                 "alpha@gmail.com",
                 "Diallo",
                 "Alpha",
@@ -38,33 +55,36 @@ class UserControllerTest {
                 Role.USER
         );
 
-        mockMvc. perform(post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON) //précise qu’on envoie du JSON
-                        .content(objectMapper.writeValueAsString(user))) //met le corps de la requête
-                .andExpect(status().isOk()) //Code 200 OK
-                .andExpect(jsonPath("$.email").value("alpha@gmail.com")) //JSON renvoyé contient bien email = alpha@gmail.com
+        mockMvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("alpha@gmail.com"))
                 .andExpect(jsonPath("$.lastName").value("Diallo"))
                 .andExpect(jsonPath("$.firstName").value("Alpha"))
                 .andExpect(jsonPath("$.age").value(30))
                 .andExpect(jsonPath("$.phone").value("060606060000"))
                 .andExpect(jsonPath("$.role").value("USER"));
-
-
     }
 
+    /**
+     * Vérifie que la liste des utilisateurs est retournée au format JSON.
+     */
     @Test
-    //Vérifier que l’endpoint GET /api/users renvoie bien du JSON et un code 200
     void testGetAllUsers() throws Exception {
         mockMvc.perform(get("/api/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
-
+    /**
+     * Vérifie qu'un utilisateur existant peut être mis à jour.
+     */
     @Test
     void testUpdateUser() throws Exception {
-        // On crée un user d’abord
-        UserDTO user = new UserDTO(null,
+
+        UserDTO user = new UserDTO(
+                null,
                 "beta@gmail.com",
                 "Diallo",
                 "Beta",
@@ -72,19 +92,16 @@ class UserControllerTest {
                 "0606060120",
                 Role.USER
         );
-        String userJson = objectMapper.writeValueAsString(user);
 
-        // POST → crée un user
         String response = mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson))
+                        .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-        // Extraire l'ID du user créé
         UserDTO createdUser = objectMapper.readValue(response, UserDTO.class);
-
-        // ACT : mettre à jour son nom
         createdUser.setEmail("betaUpdated@gmail.com");
 
         mockMvc.perform(put("/api/users/" + createdUser.getId())
@@ -93,9 +110,13 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("betaUpdated@gmail.com"));
     }
+
+    /**
+     * Vérifie qu'un utilisateur existant peut être supprimé.
+     */
     @Test
     void testDeleteUser() throws Exception {
-        // On crée un user d’abord
+
         UserDTO user = new UserDTO(
                 null,
                 "gamma@gmail.com",
@@ -105,14 +126,16 @@ class UserControllerTest {
                 "06060600300",
                 Role.USER
         );
+
         String response = mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
-                .andReturn().getResponse().getContentAsString();
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         UserDTO createdUser = objectMapper.readValue(response, UserDTO.class);
 
-        // ACT : suppression
         mockMvc.perform(delete("/api/users/" + createdUser.getId()))
                 .andExpect(status().isOk());
     }

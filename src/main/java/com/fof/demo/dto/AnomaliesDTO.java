@@ -15,6 +15,8 @@ import java.util.List;
  * - les bornes statistiques
  * - la liste des anomalies détectées
  * - l'information indiquant si le ML est actif
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

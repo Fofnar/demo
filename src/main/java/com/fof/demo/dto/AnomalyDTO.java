@@ -20,6 +20,8 @@ import java.util.List;
  * - recommandation
  * - sources de détection
  * - score ML éventuel
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

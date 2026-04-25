@@ -18,6 +18,8 @@ import java.util.Arrays;
  *     ADMIN
  *
  * Alors seules ces valeurs seront acceptées.
+ *
+ * @author Fodeba Fofana
  */
 public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, String> {
 

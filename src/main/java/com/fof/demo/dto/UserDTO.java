@@ -9,16 +9,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//Pour:
-// toString
-// equals
-// hashCode
+/**
+ * DTO représentant les informations d'un utilisateur exposées via l'API.
+ *
+ * <p>
+ * Utilisé pour transférer les données utilisateur vers le frontend Angular
+ * sans exposer directement l'entité {@code AppUser}.
+ * </p>
+ *
+ * <p>
+ * Contient les informations publiques du profil ainsi que le rôle utilisateur.
+ * </p>
+ *
+ * @author Fodeba Fofana
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
 
-    private  Long id;
+    private Long id;
 
     @NotBlank(message = "Champ Obligatoire")
     @Email
@@ -28,7 +38,7 @@ public class UserDTO {
     private String lastName;
 
     @NotBlank(message = "Champ Obligatoire")
-    private  String firstName;
+    private String firstName;
 
     @Min(0)
     private int age;
@@ -38,5 +48,4 @@ public class UserDTO {
     private String phone;
 
     private Role role;
-
 }

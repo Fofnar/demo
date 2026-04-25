@@ -19,6 +19,8 @@ import java.util.List;
  *
  * Objectif :
  * Fournir une vue synthétique et actionnable au frontend (dashboard, pilotage métier).
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

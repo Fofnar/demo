@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
  * - de documenter l'API backend Felyxor ;
  * - d'intégrer l'authentification JWT dans Swagger ;
  * - de fournir une description claire du produit pour les développeurs et recruteurs.
+ *
+ * @author Fodeba Fofana
  */
 @Configuration
 public class OpenApiConfig {

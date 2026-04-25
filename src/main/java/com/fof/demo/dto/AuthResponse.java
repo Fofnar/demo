@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
  * Contient :
  * - accessToken (token court pour accéder à l'API)
  * - refreshToken (token long pour générer un nouveau access token)
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @AllArgsConstructor

@@ -30,6 +30,8 @@ import static com.fof.demo.specification.UserSpecification.search;
  *
  * Les méthodes de ce service sont généralement appelées
  * depuis un contrôleur réservé aux administrateurs.
+ *
+ * @author Fodeba Fofana
  */
 @Service
 @RequiredArgsConstructor

@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
  *   "date": "2025-01-01",
  *   "revenue": 3700
  * }
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

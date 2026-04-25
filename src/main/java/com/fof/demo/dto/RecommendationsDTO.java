@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
  * - le résumé exécutif
  * - le forecast associé
  * - le contexte d'anomalies
+ *
+ * @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

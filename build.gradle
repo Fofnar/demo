@@ -1,29 +1,51 @@
+/*
+ * Configuration Gradle du projet Felyxor.
+ *
+ * Ce fichier définit :
+ * - Les plugins utilisés (Spring Boot, gestion des dépendances)
+ * - La version Java (Java 17 via toolchain)
+ * - Les repositories (Maven Central)
+ * - Les dépendances backend (Spring, sécurité, JPA, validation, WebFlux)
+ * - Les outils de test (JUnit, Mockito, MockWebServer)
+ *
+ * L'application repose sur une architecture moderne :
+ * - API REST Spring Boot
+ * - Authentification sécurisée (JWT)
+ * - Accès aux données via JPA (PostgreSQL / H2)
+ * - Communication avec un microservice IA (WebClient)
+ * - Documentation API (OpenAPI / Swagger)
+ *
+ * Ce fichier garantit un environnement cohérent pour le développement,
+ * les tests et le déploiement en production.
+ *
+ * @author Fodeba Fofana
+ */
 plugins {
-	id 'java'                                   // Active le plugin Java (compilation, tests…)
-	id 'org.springframework.boot' version '3.3.13'     // Intègre Spring Boot (démarrage, autoconfiguration)
-	id 'io.spring.dependency-management' version '1.1.7' // Gère automatiquement les versions de dépendances Spring
+	id 'java'
+	id 'org.springframework.boot' version '3.3.13'
+	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'com.fof'      // Le package de base (sera préfixe des classes)
-version = '0.0.1-SNAPSHOT' // Version de l'application
+group = 'com.fof'
+version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17) // Force l’usage de Java17
+		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
 
 repositories {
-	mavenCentral() // Où Gradle va chercher les bibliothèques
+	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA + Hibernate
-	implementation 'org.springframework.boot:spring-boot-starter-web'       // Spring MVC + Tomcat embedded
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.postgresql:postgresql:42.7.3'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'        // DevTools : redémarrage automatique
-	runtimeOnly 'com.h2database:h2'                                        // Base H2 embarquée à l’exécution
-	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Librairies de test (JUnit, Mockito…)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -41,8 +63,10 @@ dependencies {
 
 	testImplementation 'org.mockito:mockito-core:5.11.0'
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+
+	testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
 }
 
 tasks.named('test') {
-	useJUnitPlatform() // Utilise JUnit5 pour les tests
+	useJUnitPlatform()
 }

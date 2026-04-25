@@ -23,6 +23,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * Les endpoints permettent à l'utilisateur authentifié :
  * - de consulter ses informations
  * - de modifier son profil
+ *
+ * @author Fodeba Fofana
  */
 @RestController
 @RequestMapping("/api/users")

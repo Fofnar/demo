@@ -27,6 +27,8 @@ import java.util.List;
  * - valider le token JWT
  * - charger l'utilisateur depuis la base
  * - poser l'authentification dans le SecurityContext
+ *
+ *
  */
 @Component
 @RequiredArgsConstructor

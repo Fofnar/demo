@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
  * DTO représentant un point de prévision.
  *
  * Utilisé dans le bloc "forecast" pour exposer la prévision jour par jour.
+ *
+ *  @author Fodeba Fofana
  */
 @Data
 @NoArgsConstructor

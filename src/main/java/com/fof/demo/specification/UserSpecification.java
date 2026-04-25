@@ -20,6 +20,8 @@ import org.springframework.data.jpa.domain.Specification;
  *                   .and(UserSpecification.search(keyword));
  *
  * Page<AppUser> users = userRepository.findAll(spec, pageable);
+ *
+ * @author Fodeba Fofana
  */
 public class UserSpecification {
 

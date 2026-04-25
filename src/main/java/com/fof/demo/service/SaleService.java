@@ -32,6 +32,8 @@ import java.util.stream.Collectors; // Permet de convertir les entités en DTO
  * - suppression
  * - recherche par filtres dynamiques
  * - pagination des résultats
+ *
+ * @author Fodeba Fofana
  */
 @Service // Rend la classe injectable par Spring
 @RequiredArgsConstructor // Génère le constructeur avec les dépendances final

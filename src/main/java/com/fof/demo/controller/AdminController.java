@@ -28,6 +28,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * Ce type de contrôleur est généralement protégé
  * par un système d'authentification (JWT) et
  * accessible uniquement aux administrateurs.
+ *
+ * @author Fodeba Fofana
  */
 @RestController
 @RequestMapping("/api/admin")
