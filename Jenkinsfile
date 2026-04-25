@@ -52,6 +52,7 @@ pipeline {
                 sh "docker run -d -p 8080:8080 --name demo-app ${IMAGE_NAME}:${IMAGE_TAG}"
             }
         }
+
         */
     }
 

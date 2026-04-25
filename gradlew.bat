@@ -1,4 +1,9 @@
 @rem
+@rem Project: Felyxor
+@rem Last updated: 2026-04-25
+@rem Description: Gradle Wrapper script (Windows) used to build and run the project with a fixed Gradle version.
+@rem
+
 @rem Copyright 2015 the original author or authors.
 @rem
 @rem Licensed under the Apache License, Version 2.0 (the "License");

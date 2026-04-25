@@ -1,3 +1,4 @@
+# Configuration des fins de ligne et types de fichiers
 /gradlew text eol=lf
 *.bat text eol=crlf
 *.jar binary

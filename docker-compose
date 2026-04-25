@@ -1,0 +1,13 @@
+# Configuration Docker Compose pour la plateforme Felyxor
+#
+# Ce fichier est volontairement laissé vide pour le moment.
+# Il sera utilisé pour orchestrer l'ensemble des services de l'application
+# dans un environnement local ou proche de la production :
+#
+# - API backend (Spring Boot)
+# - Microservice IA/ML (FastAPI)
+# - Base de données (PostgreSQL)
+# - Frontend (Angular)
+#
+# Objectif : fournir un environnement unifié pour le développement,
+# les tests et le déploiement.
