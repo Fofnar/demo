@@ -1,0 +1,46 @@
+# ===============================
+# BUILD STAGE - SPRING BOOT
+# ===============================
+FROM gradle:8.8-jdk17 AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN gradle clean bootJar --no-daemon
+
+
+# ===============================
+# RUNTIME STAGE - JAVA + PYTHON
+# ===============================
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+# Installation de Python pour exécuter le microservice IA dans le même conteneur que le backend.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 python3-venv python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Création d'un environnement Python isolé pour le service IA.
+RUN python3 -m venv /opt/venv
+
+# Installation des dépendances Python nécessaires au service FastAPI.
+COPY requirements.txt requirements.txt
+RUN /opt/venv/bin/pip install --upgrade pip \
+    && /opt/venv/bin/pip install -r requirements.txt
+
+# Copie du backend Spring Boot compilé.
+COPY --from=build /app/build/libs/*.jar app.jar
+
+# Copie du service IA.
+COPY ml ./ml
+
+# Script de démarrage unique pour lancer FastAPI puis Spring Boot.
+COPY start-render.sh start-render.sh
+RUN chmod +x start-render.sh
+
+# Render injecte dynamiquement la variable PORT.
+EXPOSE 8080
+
+ENTRYPOINT ["./start-render.sh"]
