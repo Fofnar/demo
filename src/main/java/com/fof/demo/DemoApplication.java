@@ -31,6 +31,8 @@ import org.springframework.context.annotation.Bean;
  * </p>
  *
  * @author Fodeba Fofana
+ * @project Felyxor — AI-Powered Business Intelligence Platform
+ * @version 1.0
  */
 @SpringBootApplication
 public class DemoApplication {

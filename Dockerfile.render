@@ -1,46 +1,163 @@
-# ===============================
-# BUILD STAGE - SPRING BOOT
-# ===============================
+# ==========================================================
+# Dockerfile.render — Felyxor Unified Production Container
+# ==========================================================
+#
+# Rôle :
+# Ce Dockerfile construit l’image de production principale
+# utilisée par Render pour exécuter :
+#
+# - Backend Spring Boot (Java)
+# - Service IA FastAPI (Python)
+#
+# Objectif :
+# Fusionner backend + intelligence artificielle dans un
+# seul service déployable afin de :
+#
+# - Réduire les coûts Render (1 seul service payant)
+# - Éviter le cold start de deux services distincts
+# - Simplifier l’architecture cloud V1
+# - Garantir une communication IA ultra rapide via localhost
+#
+# Architecture :
+# Angular Frontend (Render Static Site)
+#        ↓
+# Spring Boot Backend + FastAPI IA (Single Render Container)
+#        ↓
+# PostgreSQL Render
+#
+# Important :
+# - Optimisé pour MVP / portfolio / démonstration
+# - Le SaaS multi-tenant futur pourra séparer les services
+# - FastAPI n’est pas exposé publiquement
+# - Spring Boot appelle FastAPI en interne (127.0.0.1)
+#
+# Auteur : Fodeba Fofana
+# Projet : Felyxor — AI-Powered Business Intelligence Platform
+# ==========================================================
+
+
+# ==========================================================
+# BUILD STAGE — Compilation Spring Boot
+# ==========================================================
+#
+# Utilise Gradle + JDK 17 pour compiler l’application Java
+# et produire le fichier JAR exécutable.
+#
 FROM gradle:8.8-jdk17 AS build
 
+# Dossier de travail principal dans l’image de build.
 WORKDIR /app
 
+# Copie l’intégralité du projet dans le conteneur.
 COPY . .
 
+# Compile l’application Spring Boot
+# et génère le bootJar final.
 RUN gradle clean bootJar --no-daemon
 
 
-# ===============================
-# RUNTIME STAGE - JAVA + PYTHON
-# ===============================
+
+# ==========================================================
+# RUNTIME STAGE — Exécution Production
+# ==========================================================
+#
+# Utilise Java 17 léger pour exécuter :
+# - Spring Boot
+# - Python / FastAPI
+#
 FROM eclipse-temurin:17-jre
 
+# Dossier principal du runtime.
 WORKDIR /app
 
-# Installation de Python pour exécuter le microservice IA dans le même conteneur que le backend.
+
+# ==========================================================
+# Installation Python
+# ==========================================================
+#
+# Nécessaire pour exécuter le microservice IA FastAPI
+# dans le même conteneur que Spring Boot.
+#
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-venv python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# Création d'un environnement Python isolé pour le service IA.
+
+# ==========================================================
+# Environnement virtuel Python isolé
+# ==========================================================
+#
+# Permet de séparer proprement les dépendances IA
+# du système principal.
+#
 RUN python3 -m venv /opt/venv
 
-# Installation des dépendances Python nécessaires au service FastAPI.
+
+# ==========================================================
+# Installation dépendances IA
+# ==========================================================
+#
+# requirements.txt contient :
+# - FastAPI
+# - pandas
+# - scikit-learn
+# - Prophet
+# - NumPy
+# - etc.
+#
 COPY requirements.txt requirements.txt
+
 RUN /opt/venv/bin/pip install --upgrade pip \
     && /opt/venv/bin/pip install -r requirements.txt
 
-# Copie du backend Spring Boot compilé.
+
+# ==========================================================
+# Backend Spring Boot compilé
+# ==========================================================
+#
+# Copie le fichier JAR généré depuis le stage build.
+#
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Copie du service IA.
+
+# ==========================================================
+# Service IA FastAPI
+# ==========================================================
 COPY ml ./ml
 
-# Script de démarrage unique pour lancer FastAPI puis Spring Boot.
+
+# ==========================================================
+# Script de démarrage unifié
+# ==========================================================
+#
+# Lance :
+# 1. FastAPI localement
+# 2. Spring Boot
+#
+# FastAPI tourne en arrière-plan,
+# Spring Boot reste processus principal.
+#
 COPY start-render.sh start-render.sh
+
+# Rend le script exécutable.
 RUN chmod +x start-render.sh
 
-# Render injecte dynamiquement la variable PORT.
+
+# ==========================================================
+# Port exposé
+# ==========================================================
+#
+# Render fournit dynamiquement PORT
+# (souvent 10000 en production).
+#
 EXPOSE 8080
 
+
+# ==========================================================
+# Point d’entrée principal
+# ==========================================================
+#
+# Démarre automatiquement :
+# FastAPI + Spring Boot
+#
 ENTRYPOINT ["./start-render.sh"]

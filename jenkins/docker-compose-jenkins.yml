@@ -1,16 +1,85 @@
+# ==========================================================
+# Docker Compose — Jenkins Local CI Environment
+# ==========================================================
+#
+# Rôle :
+# Ce fichier déploie Jenkins en environnement Docker local
+# pour exécuter les pipelines CI du projet Felyxor.
+#
+# Objectifs :
+# - Lancer Jenkins rapidement sans installation manuelle
+# - Persister les données Jenkins (jobs, plugins, config)
+# - Donner à Jenkins accès au Docker du host
+# - Permettre la validation locale des builds Docker
+#
+# Important :
+# - Utilisé principalement pour CI locale / développement
+# - Render reste responsable du CD (déploiement production)
+# - Le montage docker.sock donne à Jenkins la capacité
+#   d’exécuter Docker directement sur la machine hôte
+#
+# Architecture :
+# Jenkins Container → Docker Host → Build Docker images
+#
+# Auteur : Fodeba Fofana
+# Projet : Felyxor — AI-Powered Business Intelligence Platform
+# ==========================================================
+
 services:
+
+  # ========================================================
+  # Service Jenkins principal
+  # ========================================================
   jenkins:
+
+    # Construit l’image Jenkins personnalisée
+    # à partir du Dockerfile.jenkins local.
     build:
+
+      # Utilise le dossier courant comme contexte de build.
       context: .
+
+      # Dockerfile personnalisé contenant Docker CLI + permissions.
       dockerfile: Dockerfile.jenkins
+
+    # Nom explicite du conteneur Jenkins
+    # pour faciliter la gestion locale.
     container_name: jenkins
+
     ports:
+
+      # Interface web Jenkins
+      # Accessible via http://localhost:8082
       - "8082:8080"
+
+      # Port agent Jenkins (JNLP)
+      # Utilisé pour agents distribués si nécessaire.
       - "50000:50000"
+
     volumes:
+
+      # Volume persistant :
+      # Sauvegarde jobs, plugins, utilisateurs et config Jenkins.
       - jenkins_home:/var/jenkins_home
+
+      # Donne accès au socket Docker du host :
+      # Jenkins peut lancer docker build / docker run
+      # directement sur la machine locale.
+      #
+      # Attention :
+      # Très pratique en dev, mais permissions puissantes.
       - /var/run/docker.sock:/var/run/docker.sock
+
+    # Redémarre automatiquement Jenkins
+    # sauf arrêt manuel explicite.
     restart: unless-stopped
 
+
+# ==========================================================
+# Volumes persistants
+# ==========================================================
 volumes:
+
+  # Stockage persistant des données Jenkins
+  # même après suppression/recréation du conteneur.
   jenkins_home:
