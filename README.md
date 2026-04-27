@@ -24,8 +24,8 @@ Felyxor V1 is deployed and publicly available online.
 To access the admin intelligence workspace, use:
 
 ```text
-Email: fodebafofana411@gmail.com
-Password: Fodeba123
+Email: demo@felyxor.com
+Password: DemoFelyxor2026!
 ```
 
 This admin demo account gives access to the AI intelligence modules, including sales analysis, anomaly detection, forecasting, inventory analysis, stock prediction, business health scoring, and recommendations.
