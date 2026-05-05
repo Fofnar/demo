@@ -377,7 +377,7 @@ Install:
 - Gradle or use the included Gradle wrapper
 - Python 3.10+
 - Node.js 18+
-- Angular CLI
+- Angular CLI 16.x
 - Docker
 - Docker Compose
 
@@ -716,29 +716,63 @@ It is built to showcase not only technical implementation, but also the ability 
 
 ---
 
-## For Recruiters
+## Project Evaluation Context
 
-This project is especially relevant for roles such as:
+This project was developed as part of the course:
 
-- Data Engineer
-- Machine Learning Engineer
-- Fullstack Developer
-- Backend Developer
-- AI Engineer
-- Data / AI Software Engineer
+**Sciences du logiciel par l’expérimentation**  
+Université Côte d’Azur — Academic year 2025–2026  
+Supervisor: Stéphane Jeannin
 
-It demonstrates practical experience with:
+---
 
-- Building APIs
-- Structuring data pipelines
-- Integrating ML services
-- Designing business dashboards
-- Working with Docker and CI/CD
-- Deploying fullstack applications to the cloud
-- Creating production-oriented software architecture
-- Turning raw data into decision-support features
+### Academic Objective
 
-A live demo is available at:
+The goal of this project is to design, implement, and evaluate a complete software system that transforms operational data into decision-support insights.
+
+The project emphasizes:
+
+- modular software architecture
+- backend / frontend separation
+- secure API design
+- integration of a machine learning service
+- cloud deployment and reproducibility
+- experimental validation approach
+
+---
+
+### Skills Demonstrated
+
+This project demonstrates practical competencies in:
+
+- Fullstack development (Angular + Spring Boot)
+- API design and standardization
+- Authentication and security (JWT, RBAC)
+- Data engineering and structured data handling
+- Integration of ML services (FastAPI)
+- Business intelligence workflows
+- Cloud deployment (Render)
+- Docker-based environments
+- CI/CD preparation (Jenkins)
+
+---
+
+### Reproducibility
+
+The project can be executed locally by following the instructions provided in this README and in the academic report.
+
+All dependencies are managed via:
+
+- `requirements.txt`
+- `package.json`
+- `build.gradle`
+- `docker-compose.yml`
+
+---
+
+### Live Demonstration
+
+A deployed version of the platform is available:
 
 ```text
 https://felyxor-frontend.onrender.com
@@ -747,8 +781,8 @@ https://felyxor-frontend.onrender.com
 Admin demo access:
 
 ```text
-Email: fodebafofana411@gmail.com
-Password: Fodeba123
+Email: demo@felyxor.com
+Password: DemoFelyxor2026!
 ```
 
 ---
